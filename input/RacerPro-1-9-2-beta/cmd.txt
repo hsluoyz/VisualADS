@@ -1,0 +1,1 @@
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output.txt

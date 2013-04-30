@@ -1,0 +1,23 @@
+
+
+[2013-03-13] changed by [ly]:
+ADObject.cpp/h [ok]
+ADDomain.cpp/h [ok]
+
+ADDirectorySearch.cpp/h [ok]
+ADUser.cpp/h [ok]
+ADGroup.cpp/h [ok]
+
+VisualADSView.cpp/h
+PropertiesViewBar.cpp/h
+
+
+ADGroup的domain需要处理
+CMyShape的m_pView需要处理
+
+
+[2013-03-13] changed by [tq]:
+ADComputer
+ADOU
+ADShareFoulder
+ADACE

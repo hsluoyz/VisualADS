@@ -1,0 +1,9 @@
+ly KIRA\just for test3
+ly level2 KIRA\just for test3
+level2 PTU KIRA\component
+level1 qx \WIN2008R2\sandbox
+lyz level1 WIN2003-SP2-1\1
+level2 PTU WIN2003-SP2-1\1
+level3 PTU WIN2003-SP2-1\1
+lyz PTU WIN2003-SP2-1\1
+yanhz LACUS\party_class

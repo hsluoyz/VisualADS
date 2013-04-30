@@ -1,0 +1,8 @@
+(retrieve (?A ?B) (?A ?B has_Policy_R_Conflict))
+(retrieve (?A ?B) (?A ?B has_Policy_X_Conflict))
+(retrieve (?A ?B) (?A ?B has_Policy_W_Conflict))
+(retrieve (?A ?B) (?A ?B has_Policy_RX_Conflict))
+(retrieve (?A ?B) (?A ?B has_Policy_RW_Conflict))
+(retrieve (?A ?B) (?A ?B has_Policy_XW_Conflict))
+
+(retrieve (?A ?B) (?A ?B has_Subject_Overlap))

@@ -1,0 +1,33 @@
+(instance Einstein Abstract)
+
+(instance R Action)
+(instance X Action)
+(instance W Action)
+
+(related R Einstein is_Action_R)
+(related X Einstein is_Action_X)
+(related W Einstein is_Action_W)
+
+(instance Permit Permission)
+(instance Deny Permission)
+(related Permit Deny has_Permission_Overlap)
+(related Deny Permit has_Permission_Overlap)
+
+(instance NRDC1001 Subject)
+(instance ly Subject)
+(related NRDC1001 ly has_subSubject)
+(related NRDC1001 ly has_subSubjectOrigin)
+
+(instance just+for+test3 Resource)
+
+(instance just+for+test3-0 Policy)
+(related just+for+test3-0 ly has_Subject)
+(related just+for+test3-0 just+for+test3 has_Resource)
+(related just+for+test3-0 W has_Action)
+(related just+for+test3-0 Deny has_Permission)
+
+(instance just+for+test3-1 Policy)
+(related just+for+test3-1 NRDC1001 has_Subject)
+(related just+for+test3-1 just+for+test3 has_Resource)
+(related just+for+test3-1 W has_Action)
+(related just+for+test3-1 Permit has_Permission)

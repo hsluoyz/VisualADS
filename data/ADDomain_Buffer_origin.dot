@@ -1,0 +1,496 @@
+digraph G
+{
+rankdir=LR;
+splines=false;
+fontname="Microsoft YaHei Bold";
+node [fontname="Microsoft YaHei Bold"];
+edge [fontname="Microsoft YaHei Bold"];
+subgraph "cluster_DC=tech,DC=adtest,DC=net"
+{
+"CN=111,DC=tech,DC=adtest,DC=net" [label="111", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=SystemMailbox{4C62D237-E1D4-457F-9B3A-59C91BA15EEB},CN=Microsoft Exchange System Objects,DC=tech,DC=adtest,DC=net" [label="SystemMailbox{4C62D237-E1D4-457F-9B3A-59C91BA15EEB}", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" [label="Everyone", shape=hexagon, width=2, color=red, fontsize=10];
+subgraph "cluster_OU=Domain Controllers,DC=tech,DC=adtest,DC=net"
+{
+subgraph "cluster_CN=KIRA,OU=Domain Controllers,DC=tech,DC=adtest,DC=net"
+{
+"FI=just for test3,MA=KIRA" [label="just for test3", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=KIRA.LOG,MA=KIRA" [label="KIRA.LOG", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=just for test2,MA=KIRA" [label="just for test2", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=just for test,MA=KIRA" [label="just for test", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=deny,MA=KIRA" [label="deny", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=bike,MA=KIRA" [label="bike", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=FinanceShare,MA=KIRA" [label="FinanceShare", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=component,MA=KIRA" [label="component", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=netTest,MA=KIRA" [label="netTest", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=walk,MA=KIRA" [label="walk", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=car,MA=KIRA" [label="car", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=RacerPro,MA=KIRA" [label="RacerPro", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=SYSVOL,MA=KIRA" [label="SYSVOL", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=Address,MA=KIRA" [label="Address", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=NETLOGON,MA=KIRA" [label="NETLOGON", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="KIRA";
+}
+label="Domain Controllers";
+}
+subgraph "cluster_OU=KLBNT,DC=tech,DC=adtest,DC=net"
+{
+"CN=XiaoMing,OU=KLBNT,DC=tech,DC=adtest,DC=net" [label="XiaoMing", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=GroupA,OU=KLBNT,DC=tech,DC=adtest,DC=net" [label="GroupA", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=GroupB,OU=KLBNT,DC=tech,DC=adtest,DC=net" [label="GroupB", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=GroupC,OU=KLBNT,DC=tech,DC=adtest,DC=net" [label="GroupC", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=GroupD,OU=KLBNT,DC=tech,DC=adtest,DC=net" [label="GroupD", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=GroupE,OU=KLBNT,DC=tech,DC=adtest,DC=net" [label="GroupE", shape=hexagon, width=2, color=red, fontsize=10];
+label="KLBNT";
+}
+subgraph "cluster_OU=NRDC1001,DC=tech,DC=adtest,DC=net"
+{
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="lyz", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="lxy", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=by,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="by", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=hjs,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="hjs", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="ly", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=yc,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="yc", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="qx", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=tq,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="tq", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="level1", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="level2", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=level3,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="level3", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="PTU", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [label="kkk", shape=hexagon, width=2, color=red, fontsize=10];
+label="NRDC1001";
+}
+subgraph "cluster_OU=Stars,DC=tech,DC=adtest,DC=net"
+{
+"CN=local1,OU=Stars,DC=tech,DC=adtest,DC=net" [label="local1", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=foreign,OU=Stars,DC=tech,DC=adtest,DC=net" [label="foreign", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" [label="aaa", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=bbb,OU=Stars,DC=tech,DC=adtest,DC=net" [label="bbb", shape=hexagon, width=2, color=red, fontsize=10];
+label="Stars";
+}
+subgraph "cluster_CN=Computers,DC=tech,DC=adtest,DC=net"
+{
+subgraph "cluster_CN=ATHRUN,CN=Computers,DC=tech,DC=adtest,DC=net"
+{
+"FI=walk,MA=ATHRUN" [label="walk", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=car,MA=ATHRUN" [label="car", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="ATHRUN";
+}
+subgraph "cluster_CN=WIN2008R2,CN=Computers,DC=tech,DC=adtest,DC=net"
+{
+"FI=123,MA=WIN2008R2" [label="123", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=sandbox,MA=WIN2008R2" [label="sandbox", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WIN2008R2";
+}
+"CN=ubuntu10,CN=Computers,DC=tech,DC=adtest,DC=net" [label="ubuntu10", shape=box, width=2, color=red, fontsize=10];
+"CN=LIKEWISE,CN=Computers,DC=tech,DC=adtest,DC=net" [label="LIKEWISE", shape=box, width=2, color=red, fontsize=10];
+subgraph "cluster_CN=WIN2003-SP2-1,CN=Computers,DC=tech,DC=adtest,DC=net"
+{
+"FI=1,MA=WIN2003-SP2-1" [label="1", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=SQL2005_www.jb51.net,MA=WIN2003-SP2-1" [label="SQL2005_www.jb51.net", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=temp,MA=WIN2003-SP2-1" [label="temp", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WIN2003-SP2-1";
+}
+subgraph "cluster_CN=WIN2003-SP2-2,CN=Computers,DC=tech,DC=adtest,DC=net"
+{
+"FI=1,MA=WIN2003-SP2-2" [label="1", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=wmpub,MA=WIN2003-SP2-2" [label="wmpub", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WIN2003-SP2-2";
+}
+label="Computers";
+}
+subgraph "cluster_CN=Users,DC=tech,DC=adtest,DC=net"
+{
+"CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [label="Administrator", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=Guest,CN=Users,DC=tech,DC=adtest,DC=net" [label="Guest", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=krbtgt,CN=Users,DC=tech,DC=adtest,DC=net" [label="krbtgt", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=Acronis61065553F05D7,CN=Users,DC=tech,DC=adtest,DC=net" [label="Acronis61065553F05D7", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=IUSR_KIRA,CN=Users,DC=tech,DC=adtest,DC=net" [label="IUSR_KIRA", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=IWAM_KIRA,CN=Users,DC=tech,DC=adtest,DC=net" [label="IWAM_KIRA", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=SALES$,CN=Users,DC=tech,DC=adtest,DC=net" [label="SALES$", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=Domain Computers,CN=Users,DC=tech,DC=adtest,DC=net" [label="Domain\nComputers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Controllers,CN=Users,DC=tech,DC=adtest,DC=net" [label="Domain\nControllers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Schema Admins,CN=Users,DC=tech,DC=adtest,DC=net" [label="Schema Admins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Enterprise Admins,CN=Users,DC=tech,DC=adtest,DC=net" [label="Enterprise\nAdmins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Cert Publishers,CN=Users,DC=tech,DC=adtest,DC=net" [label="Cert Publishers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Admins,CN=Users,DC=tech,DC=adtest,DC=net" [label="Domain Admins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Users,CN=Users,DC=tech,DC=adtest,DC=net" [label="Domain Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Guests,CN=Users,DC=tech,DC=adtest,DC=net" [label="Domain Guests", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Group Policy Creator Owners,CN=Users,DC=tech,DC=adtest,DC=net" [label="Group Policy\nCreator Owners", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=RAS and IAS Servers,CN=Users,DC=tech,DC=adtest,DC=net" [label="RAS and IAS\nServers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=DnsAdmins,CN=Users,DC=tech,DC=adtest,DC=net" [label="DnsAdmins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=DnsUpdateProxy,CN=Users,DC=tech,DC=adtest,DC=net" [label="DnsUpdateProxy", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=__vmware__,CN=Users,DC=tech,DC=adtest,DC=net" [label="__vmware__", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Win $ Acronis Remote Users,CN=Users,DC=tech,DC=adtest,DC=net" [label="Win $ Acronis\nRemote Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=IIS_WPG,CN=Users,DC=tech,DC=adtest,DC=net" [label="IIS_WPG", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Exchange Domain Servers,CN=Users,DC=tech,DC=adtest,DC=net" [label="Exchange\nDomain Servers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Exchange Enterprise Servers,CN=Users,DC=tech,DC=adtest,DC=net" [label="Exchange\nEnterprise Servers", shape=hexagon, width=2, color=red, fontsize=10];
+label="Users";
+}
+subgraph "cluster_CN=Builtin,DC=tech,DC=adtest,DC=net"
+{
+"CN=Administrators,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Administrators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Users,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Guests,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Guests", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Print Operators,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Print Operators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Backup Operators,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Backup\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Replicator,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Replicator", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Remote Desktop Users,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Remote\nDesktop Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Network Configuration Operators,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Network Configuration\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Performance Monitor Users,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Performance\nMonitor Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Performance Log Users,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Performance\nLog Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Distributed COM Users,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Distributed\nCOM Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Server Operators,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Server\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Account Operators,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Account\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Pre-Windows 2000 Compatible Access,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Pre-Windows 2000\nCompatible Access", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Incoming Forest Trust Builders,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Incoming Forest\nTrust Builders", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Windows Authorization Access Group,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Windows Authorization\nAccess Group", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Terminal Server License Servers,CN=Builtin,DC=tech,DC=adtest,DC=net" [label="Terminal Server\nLicense Servers", shape=hexagon, width=2, color=red, fontsize=10];
+label="Builtin";
+}
+label="tech.adtest.net";
+}
+"CN=GroupA,OU=KLBNT,DC=tech,DC=adtest,DC=net" -> "CN=GroupB,OU=KLBNT,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=GroupB,OU=KLBNT,DC=tech,DC=adtest,DC=net" -> "CN=GroupC,OU=KLBNT,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=GroupC,OU=KLBNT,DC=tech,DC=adtest,DC=net" -> "CN=XiaoMing,OU=KLBNT,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=GroupD,OU=KLBNT,DC=tech,DC=adtest,DC=net" -> "CN=GroupE,OU=KLBNT,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=GroupE,OU=KLBNT,DC=tech,DC=adtest,DC=net" -> "CN=XiaoMing,OU=KLBNT,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=yc,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=hjs,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level3,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=by,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=level3,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=tq,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=yc,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=hjs,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=by,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=foreign,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=foreign,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=tq,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=foreign,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=by,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=bbb,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=tq,OU=NRDC1001,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=bbb,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=111,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=bbb,OU=Stars,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Schema Admins,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Enterprise Admins,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Domain Admins,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Group Policy Creator Owners,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Win $ Acronis Remote Users,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Domain Admins,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Win $ Acronis Remote Users,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Enterprise Admins,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Win $ Acronis Remote Users,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=IIS_WPG,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=IWAM_KIRA,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Exchange Enterprise Servers,CN=Users,DC=tech,DC=adtest,DC=net" -> "CN=Exchange Domain Servers,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Administrators,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Users,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=Domain Users,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Guests,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=Domain Guests,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Guests,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=IUSR_KIRA,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Guests,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=Guest,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Backup Operators,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=Acronis61065553F05D7,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=Pre-Windows 2000 Compatible Access,CN=Builtin,DC=tech,DC=adtest,DC=net" -> "CN=Exchange Domain Servers,CN=Users,DC=tech,DC=adtest,DC=net" [color=black];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=just for test3,MA=KIRA" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=just for test3,MA=KIRA" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=just for test3,MA=KIRA" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=just for test2,MA=KIRA" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=just for test2,MA=KIRA" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=bbb,OU=Stars,DC=tech,DC=adtest,DC=net" -> "FI=just for test,MA=KIRA" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=just for test,MA=KIRA" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=just for test,MA=KIRA" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=deny,MA=KIRA" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=deny,MA=KIRA" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=component,MA=KIRA" [label="Share-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=component,MA=KIRA" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=netTest,MA=KIRA" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=walk,MA=KIRA" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level3,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=KIRA" [label="NTFS-Permit:R", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=Address,MA=KIRA" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=walk,MA=ATHRUN" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=walk,MA=ATHRUN" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=walk,MA=ATHRUN" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=walk,MA=ATHRUN" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=walk,MA=ATHRUN" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level3,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=ATHRUN" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=ATHRUN" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=ATHRUN" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=123,MA=WIN2008R2" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=123,MA=WIN2008R2" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=123,MA=WIN2008R2" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=sandbox,MA=WIN2008R2" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=sandbox,MA=WIN2008R2" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=sandbox,MA=WIN2008R2" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=level3,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=SQL2005_www.jb51.net,MA=WIN2003-SP2-1" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=SQL2005_www.jb51.net,MA=WIN2003-SP2-1" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=SQL2005_www.jb51.net,MA=WIN2003-SP2-1" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=SQL2005_www.jb51.net,MA=WIN2003-SP2-1" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=SQL2005_www.jb51.net,MA=WIN2003-SP2-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=temp,MA=WIN2003-SP2-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-2" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=PTU,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=wmpub,MA=WIN2003-SP2-2" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=tech,DC=adtest,DC=net" -> "FI=wmpub,MA=WIN2003-SP2-2" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+subgraph "cluster_DC=sales,DC=adtest,DC=net"
+{
+"CN=Everyone,DC=sales,DC=adtest,DC=net" [label="Everyone", shape=hexagon, width=2, color=red, fontsize=10];
+subgraph "cluster_OU=Domain Controllers,DC=sales,DC=adtest,DC=net"
+{
+subgraph "cluster_CN=LACUS,OU=Domain Controllers,DC=sales,DC=adtest,DC=net"
+{
+"FI=chaoge,MA=LACUS" [label="chaoge", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=party_class,MA=LACUS" [label="party_class", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=2,MA=LACUS" [label="2", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=salary_report,MA=LACUS" [label="salary_report", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=bike,MA=LACUS" [label="bike", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=ChinaSports,MA=LACUS" [label="ChinaSports", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=world of goo,MA=LACUS" [label="world of goo", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=AmericaSports,MA=LACUS" [label="AmericaSports", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=core_file,MA=LACUS" [label="core_file", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=example,MA=LACUS" [label="example", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=car,MA=LACUS" [label="car", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=SYSVOL,MA=LACUS" [label="SYSVOL", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=NETLOGON,MA=LACUS" [label="NETLOGON", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="LACUS";
+}
+label="Domain Controllers";
+}
+subgraph "cluster_OU=301,DC=sales,DC=adtest,DC=net"
+{
+"CN=yangl,OU=301,DC=sales,DC=adtest,DC=net" [label="yangl", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=yujian,OU=301,DC=sales,DC=adtest,DC=net" [label="yujian", shape=ellipse, width=1.5, color=black, fontsize=10];
+label="301";
+}
+subgraph "cluster_OU=BIT,DC=sales,DC=adtest,DC=net"
+{
+"CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net" [label="yanhz", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=student1,OU=BIT,DC=sales,DC=adtest,DC=net" [label="student1", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=student2,OU=BIT,DC=sales,DC=adtest,DC=net" [label="student2", shape=ellipse, width=1.5, color=black, fontsize=10];
+label="BIT";
+}
+subgraph "cluster_OU=NBA,DC=sales,DC=adtest,DC=net"
+{
+"CN=Kobe,OU=NBA,DC=sales,DC=adtest,DC=net" [label="Kobe", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=James,OU=NBA,DC=sales,DC=adtest,DC=net" [label="James", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" [label="ballplayer", shape=hexagon, width=2, color=red, fontsize=10];
+label="NBA";
+}
+subgraph "cluster_OU=CBA,DC=sales,DC=adtest,DC=net"
+{
+"CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" [label="YaoMing", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" [label="YiJianlian", shape=ellipse, width=1.5, color=black, fontsize=10];
+label="CBA";
+}
+subgraph "cluster_OU=buaa,DC=sales,DC=adtest,DC=net"
+{
+"CN=lyz,OU=buaa,DC=sales,DC=adtest,DC=net" [label="lyz", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=gamers,OU=buaa,DC=sales,DC=adtest,DC=net" [label="gamers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=study,OU=buaa,DC=sales,DC=adtest,DC=net" [label="study", shape=hexagon, width=2, color=red, fontsize=10];
+label="buaa";
+}
+subgraph "cluster_CN=Computers,DC=sales,DC=adtest,DC=net"
+{
+subgraph "cluster_CN=WINXP-SP3-1,CN=Computers,DC=sales,DC=adtest,DC=net"
+{
+"FI=Documents and Settings,MA=WINXP-SP3-1" [label="Documents\nand Settings", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=Program Files,MA=WINXP-SP3-1" [label="Program Files", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WINXP-SP3-1";
+}
+subgraph "cluster_CN=WIN7-SP1-1,CN=Computers,DC=sales,DC=adtest,DC=net"
+{
+"FI=Personal Work,MA=192.168.1.213" [label="Personal Work", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=temp,MA=192.168.1.213" [label="temp", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WIN7-SP1-1";
+}
+subgraph "cluster_CN=WIN2008R2-SP1-1,CN=Computers,DC=sales,DC=adtest,DC=net"
+{
+"FI=TFTP-Root,MA=WIN2008R2-SP1-1" [label="TFTP-Root", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=usr,MA=WIN2008R2-SP1-1" [label="usr", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WIN2008R2-SP1-1";
+}
+subgraph "cluster_CN=WIN2003-SP2-1-,CN=Computers,DC=sales,DC=adtest,DC=net"
+{
+"FI=1,MA=WIN2003-SP2-1-" [label="1", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=2,MA=WIN2003-SP2-1-" [label="2", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=EnvSet,MA=WIN2003-SP2-1-" [label="EnvSet", shape=ellipse, width=1.5, color=blue, fontsize=10];
+"FI=temp,MA=WIN2003-SP2-1-" [label="temp", shape=ellipse, width=1.5, color=blue, fontsize=10];
+color=red;
+label="WIN2003-SP2-1";
+}
+label="Computers";
+}
+subgraph "cluster_CN=Users,DC=sales,DC=adtest,DC=net"
+{
+"CN=Administrator,CN=Users,DC=sales,DC=adtest,DC=net" [label="Administrator", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=Guest,CN=Users,DC=sales,DC=adtest,DC=net" [label="Guest", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=SUPPORT_388945a0,CN=Users,DC=sales,DC=adtest,DC=net" [label="SUPPORT_388945a0", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=krbtgt,CN=Users,DC=sales,DC=adtest,DC=net" [label="krbtgt", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=TECH$,CN=Users,DC=sales,DC=adtest,DC=net" [label="TECH$", shape=ellipse, width=1.5, color=black, fontsize=10];
+"CN=HelpServicesGroup,CN=Users,DC=sales,DC=adtest,DC=net" [label="HelpServicesGroup", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=TelnetClients,CN=Users,DC=sales,DC=adtest,DC=net" [label="TelnetClients", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Computers,CN=Users,DC=sales,DC=adtest,DC=net" [label="Domain\nComputers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Controllers,CN=Users,DC=sales,DC=adtest,DC=net" [label="Domain\nControllers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Schema Admins,CN=Users,DC=sales,DC=adtest,DC=net" [label="Schema Admins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Enterprise Admins,CN=Users,DC=sales,DC=adtest,DC=net" [label="Enterprise\nAdmins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Cert Publishers,CN=Users,DC=sales,DC=adtest,DC=net" [label="Cert Publishers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Admins,CN=Users,DC=sales,DC=adtest,DC=net" [label="Domain Admins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Users,CN=Users,DC=sales,DC=adtest,DC=net" [label="Domain Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Domain Guests,CN=Users,DC=sales,DC=adtest,DC=net" [label="Domain Guests", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Group Policy Creator Owners,CN=Users,DC=sales,DC=adtest,DC=net" [label="Group Policy\nCreator Owners", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=RAS and IAS Servers,CN=Users,DC=sales,DC=adtest,DC=net" [label="RAS and IAS\nServers", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=DnsAdmins,CN=Users,DC=sales,DC=adtest,DC=net" [label="DnsAdmins", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=DnsUpdateProxy,CN=Users,DC=sales,DC=adtest,DC=net" [label="DnsUpdateProxy", shape=hexagon, width=2, color=red, fontsize=10];
+label="Users";
+}
+subgraph "cluster_CN=Builtin,DC=sales,DC=adtest,DC=net"
+{
+"CN=Administrators,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Administrators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Users,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Guests,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Guests", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Print Operators,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Print Operators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Backup Operators,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Backup\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Replicator,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Replicator", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Remote Desktop Users,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Remote\nDesktop Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Network Configuration Operators,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Network Configuration\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Performance Monitor Users,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Performance\nMonitor Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Performance Log Users,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Performance\nLog Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Distributed COM Users,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Distributed\nCOM Users", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Server Operators,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Server\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Account Operators,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Account\nOperators", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Pre-Windows 2000 Compatible Access,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Pre-Windows 2000\nCompatible Access", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Incoming Forest Trust Builders,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Incoming Forest\nTrust Builders", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Windows Authorization Access Group,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Windows Authorization\nAccess Group", shape=hexagon, width=2, color=red, fontsize=10];
+"CN=Terminal Server License Servers,CN=Builtin,DC=sales,DC=adtest,DC=net" [label="Terminal Server\nLicense Servers", shape=hexagon, width=2, color=red, fontsize=10];
+label="Builtin";
+}
+label="sales.adtest.net";
+}
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "CN=James,OU=NBA,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "CN=Kobe,OU=NBA,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=gamers,OU=buaa,DC=sales,DC=adtest,DC=net" -> "CN=lyz,OU=buaa,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=gamers,OU=buaa,DC=sales,DC=adtest,DC=net" -> "CN=student2,OU=BIT,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=gamers,OU=buaa,DC=sales,DC=adtest,DC=net" -> "CN=student1,OU=BIT,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=HelpServicesGroup,CN=Users,DC=sales,DC=adtest,DC=net" -> "CN=SUPPORT_388945a0,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Schema Admins,CN=Users,DC=sales,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Enterprise Admins,CN=Users,DC=sales,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Domain Admins,CN=Users,DC=sales,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Group Policy Creator Owners,CN=Users,DC=sales,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Administrators,CN=Builtin,DC=sales,DC=adtest,DC=net" -> "CN=Domain Admins,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Administrators,CN=Builtin,DC=sales,DC=adtest,DC=net" -> "CN=Enterprise Admins,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Administrators,CN=Builtin,DC=sales,DC=adtest,DC=net" -> "CN=Administrator,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Users,CN=Builtin,DC=sales,DC=adtest,DC=net" -> "CN=Domain Users,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Guests,CN=Builtin,DC=sales,DC=adtest,DC=net" -> "CN=Domain Guests,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Guests,CN=Builtin,DC=sales,DC=adtest,DC=net" -> "CN=Guest,CN=Users,DC=sales,DC=adtest,DC=net" [color=black];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=chaoge,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net" -> "FI=party_class,MA=LACUS" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=party_class,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=yangl,OU=301,DC=sales,DC=adtest,DC=net" -> "FI=party_class,MA=LACUS" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=party_class,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net" -> "FI=party_class,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=hjs,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=2,MA=LACUS" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=2,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=2,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=gamers,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=salary_report,MA=LACUS" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=study,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=salary_report,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net" -> "FI=salary_report,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=salary_report,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=foreign,OU=Stars,DC=tech,DC=adtest,DC=net" -> "FI=bike,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=bike,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=bike,MA=LACUS" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=by,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=bike,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=bike,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=ChinaSports,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=ChinaSports,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=ChinaSports,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=Kobe,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=ChinaSports,MA=LACUS" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=ChinaSports,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=study,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=gamers,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=world of goo,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=AmericaSports,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=AmericaSports,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=James,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=AmericaSports,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=Kobe,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=AmericaSports,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=AmericaSports,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=AmericaSports,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=student1,OU=BIT,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=student2,OU=BIT,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Deny:RX", fontsize=10, color=red, style=bold];
+"CN=yangl,OU=301,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=lyz,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=yujian,OU=301,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=core_file,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=example,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=example,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=yangl,OU=301,DC=sales,DC=adtest,DC=net" -> "FI=example,MA=LACUS" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=foreign,OU=Stars,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=LACUS" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=LACUS" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=bbb,OU=Stars,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=LACUS" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=aaa,OU=Stars,DC=tech,DC=adtest,DC=net" -> "FI=car,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=car,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=SYSVOL,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=NETLOGON,MA=LACUS" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=Documents and Settings,MA=WINXP-SP3-1" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=Documents and Settings,MA=WINXP-SP3-1" [label="NTFS-Permit:", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=Documents and Settings,MA=WINXP-SP3-1" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=Documents and Settings,MA=WINXP-SP3-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=Documents and Settings,MA=WINXP-SP3-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=Program Files,MA=WINXP-SP3-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=James,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=Program Files,MA=WINXP-SP3-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=TFTP-Root,MA=WIN2008R2-SP1-1" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=TFTP-Root,MA=WIN2008R2-SP1-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=TFTP-Root,MA=WIN2008R2-SP1-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=usr,MA=WIN2008R2-SP1-1" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=usr,MA=WIN2008R2-SP1-1" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=usr,MA=WIN2008R2-SP1-1" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=kkk,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=usr,MA=WIN2008R2-SP1-1" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1-" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1-" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1-" [label="NTFS-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=lyz,OU=buaa,DC=sales,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1-" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Kobe,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=1,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=2,MA=WIN2003-SP2-1-" [label="NTFS-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=2,MA=WIN2003-SP2-1-" [label="Share-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=2,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=Kobe,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=2,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=ballplayer,OU=NBA,DC=sales,DC=adtest,DC=net" -> "FI=EnvSet,MA=WIN2003-SP2-1-" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=EnvSet,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YaoMing,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=EnvSet,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net" -> "FI=EnvSet,MA=WIN2003-SP2-1-" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+"CN=by,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=temp,MA=WIN2003-SP2-1-" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=lxy,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=temp,MA=WIN2003-SP2-1-" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=qx,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=temp,MA=WIN2003-SP2-1-" [label="NTFS-Deny:RWX", fontsize=10, color=red, style=bold];
+"CN=Everyone,DC=sales,DC=adtest,DC=net" -> "FI=temp,MA=WIN2003-SP2-1-" [label="Share-Permit:RX", fontsize=10, color=blue, style=bold];
+"CN=level2,OU=NRDC1001,DC=tech,DC=adtest,DC=net" -> "FI=temp,MA=WIN2003-SP2-1-" [label="Share-Permit:RWX", fontsize=10, color=blue, style=bold];
+}

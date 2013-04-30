@@ -1,0 +1,312 @@
+
+An error condition has been signalled: creating a passive socket on any interface port 8080
+                                       resulted
+                                       in
+                                       error
+                                       (code
+                                       10022):
+                                       Unknown error.
+;;; RacerPro Version 1.9.2 2007-10-24-beta
+;;; =====================================================================================================
+;;; Found license file
+;;;  C:\Users\Administrator\Desktop\VisualADS-20130417-ly\input\RacerPro-1-9-2-beta\license1.racerlicense
+;;; This copy of RacerPro is licensed to:
+;;; 
+;;; kang Alan Liu
+;;; Huangshi Institute of Technology
+;;; R&D
+;;; 16 Guilinbei Road
+;;; 435003, Huangshi City, Hubei Province
+;;; CN
+;;; 
+;;; Initial license generated on November 06 2011, 22:12 for 1.9.0.
+;;; Desktop, Educational, on X86 Win32.
+;;; This license is valid up to version 2.0.999.
+;;; This license is valid until May 01 2012, 05:59.
+;;; 
+;;; Current system date/time is: April 19 2013, 12:42 
+;;; 
+;;; *** THIS LICENSE HAS EXPIRED! SWITCHING TO DEMO MODE! ***
+;;; 
+;;; =====================================================================================================
+lisp-implementation-type:       International Allegro CL Enterprise Edition
+lisp-implementation-version:    8.1 [Windows] (Oct 25, 2007 20:53)
+machine-type:                   x86
+machine-version:                x86
+software-type:                  Microsoft Windows 2000/XP/Vista/Server 2003
+software-version:               Generic
+short-site-name:                AKISN0W-PC
+prestop:                        nil
+cl-version-type: :final
+cl-generation-number: 7
+*features*: :allegro-cl-enterprise, :process-pooling,
+            :only-runtime-evaluation, :multiprocess-queries,
+            :owl-datatype-support, :aserve, :allegrograph-2.2.1,
+            :allegrograph2, :allegrograph, :numeric-literal-change,
+            :optimizations-all, :do-not-add-sanity-code, :disable-aver,
+            :jlinker, :aclrpc, :allegrocache, :|YACC Release 0.98|,
+            :abduction, :wilbur2, :racer-server, :racer, :licgen,
+            :|Prolog Release 1.0.4|, :acldns, :io-timeout, :ipv6,
+            :acl-socket, :hiper-socket, :runtime-standard,
+            :standard-runtime, :allegro-cl-runtime, :multiprocessing,
+            :flavors, :little-endian, :gsgc, :clos, :verify-stack,
+            :verify-car-cdr, :dynload, :dlwin, :x86, :mswindows,
+            :microsoft, :microsoft-32, :encapsulating-efs,
+            :relative-package-names, :module-versions, :ieee,
+            :ieee-floating-point, :conforming-ieee, :ics, :common-lisp,
+            :ansi-cl, :draft-ansi-cl-2, :x3j13, :allegro, :excl,
+            :franz-inc, :allegro-version>=, :allegro-version=,
+            :new-environments, :symbol-value-vector, :os-threads,
+            :process7, :dynload-acl-library, :allegro-v8.1, :tlsvalues,
+            :tlsbnp, :ssl-support.
+*modules*: "efft-936-base", "ef-936", "defdecl", "who", "nocompiler",
+           "loop", "iordefs", "iodefs", "agraph", "list2", "streamm",
+           "defsubst", "datetime", "ole-dev", "olecomp", "ole",
+           "shellguids", "ffcompat", "jlinker", "osi", "locale",
+           "fileutil", "foreign", "foreign-functions", "winapi",
+           "aclrpc", "streamp", "acache", "dom1", "sax-lxml",
+           "ef-e-anynl", "efmacs", "sax", "regexp2", "yacc",
+           "regexp2-s", "quicktab", "ef-e-cr", "prolog",
+           "efft-latin1-base", "efft-void", "efft-utf8-base",
+           "streamc", "mcombin", "aserve", "acldns", "seq2",
+           "proc2common", "process", "uri", "sock-s", "socket", "sock",
+           "defsystem", "defsys", "defsys-s", "srecord", "runtime",
+           "proc2-s", "tpl-proc", "tpl-debug", "defftype", "pe",
+           "debug", "efft-1252-base", "ef-1252", "regexp", "rsa",
+           "excl", "foreign-s", "pprint", "toplevel", "cond", "frame",
+           "iqframe", "ics", "ef-utf8", "ef-void", "ef-latin1",
+           "ef-e-crcrlf", "ef-e-crlf", "ef-crcrlf", "ef-crlf",
+           "fastseq".
+*current-case-mode*: :case-sensitive-lower
+*print-case*: :upcase
+*dumplisp-generation-tick*: 1
+*default-pathname-defaults*: #P"C:\\Users\\Administrator\\Desktop\\VisualADS-20130417-ly\\input\\RacerPro-1-9-2-beta\\"
+*require-search-list*: :first, #P"sys:;code;.fasl",
+                       #P"sys:;private;.fasl",
+                       #P"sys:;private;crypto;.fasl",
+                       #P"sys:;clos;.fasl", #P"sys:;sys;.fasl",
+                       #P"sys:;winapi;.fasl", #P"sys:;ole;.fasl",
+                       (:lib-bundle #P"sys:;code;.fasl"),
+                       (:lib-bundle #P"sys:;private;.fasl"),
+                       (:lib-bundle #P"sys:;private;crypto;.fasl"),
+                       (:lib-bundle #P"sys:;clos;.fasl"),
+                       (:lib-bundle #P"sys:;sys;.fasl"),
+                       (:lib-bundle #P"sys:;winapi;.fasl"),
+                       (:lib-bundle #P"sys:;ole;.fasl").
+*autoload-search-list*: :first, #P"sys:;code;.fasl",
+                        #P"sys:;private;.fasl",
+                        #P"sys:;private;crypto;.fasl",
+                        #P"sys:;clos;.fasl", #P"sys:;sys;.fasl",
+                        #P"sys:;winapi;.fasl", #P"sys:;ole;.fasl",
+                        (:lib-bundle #P"sys:;code;.fasl"),
+                        (:lib-bundle #P"sys:;private;.fasl"),
+                        (:lib-bundle #P"sys:;private;crypto;.fasl"),
+                        (:lib-bundle #P"sys:;clos;.fasl"),
+                        (:lib-bundle #P"sys:;sys;.fasl"),
+                        (:lib-bundle #P"sys:;winapi;.fasl"),
+                        (:lib-bundle #P"sys:;ole;.fasl").
+*load-search-list*: #P"", #P(:type "fasl"), #P(:type "cl"),
+                    #P(:type "lisp").
+.loaded-shared-libraries.: #S(excl::shlib :name #P"acli817.dll"
+                                          :handle 1669660672
+                                          :prelinked t
+                                          :mode 0
+                                          :acldll t
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"user32.dll"
+                                          :handle 2001076224
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"gdi32.dll"
+                                          :handle 1985675264
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"kernel32.dll"
+                                          :handle 2000158720
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"comctl32.dll"
+                                          :handle 1905000448
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"comdlg32.dll"
+                                          :handle 1980170240
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"winmm.dll"
+                                          :handle 1972174848
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"advapi32.dll"
+                                          :handle 1975189504
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"shell32.dll"
+                                          :handle 1986002944
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"ws2_32.dll"
+                                          :handle 1977548800
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"version.dll"
+                                          :handle 1960443904
+                                          :prelinked :system
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"msvcrt.dll"
+                                          :handle 2005336064
+                                          :prelinked t
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil),
+                           #S(excl::shlib :name #P"psapi.dll"
+                                          :handle 2004156416
+                                          :prelinked t
+                                          :mode 0
+                                          :acldll nil
+                                          :orig-name nil
+                                          :system-library nil).
+*locale*: #<locale "Chinese (Simplified)_People's Republic of China" [(:e-crlf
+                                                                       :936-base)]
+            @ #x20ef3e6a>
+Command line arguments:
+
+   "C:\\Users\\Administrator\\Desktop\\VisualADS-20130417-ly\\input\\RacerPro-1-9-2-beta\\RacerPro.exe"
+   "-I"
+   "C:\\Users\\Administrator\\Desktop\\VisualADS-20130417-ly\\input\\RacerPro-1-9-2-beta\\RacerPro.dxl"
+   "--" "-log" "a.txt" "-debug"
+The processor affinity mask is 15
+Licensee: [TC10704] Racer Systems
+The stored home location is C:\Users\Administrator\Desktop\VisualADS-20130417-ly\input\RacerPro-1-9-2-beta\.
+The scheduler has been started in this image.
+Current optimization qualities: ((safety 1) (space 1) (speed 1)
+                                 (compilation-speed 1) (debug 2)) 
+**** Package violations:
+****  function:     excl::check-for-duplicate-definitions-in-file
+****  function:     (setf file-write-date)
+****  function:     (setf excl:file-access-date)
+****  function:     package-nicknames
+Current compiler patches:
+ fb001-01: "Fix same-register-multiply problem."
+Current lisp patches:
+ fa004-01: "Fix setting of user-defined discriminating functions."
+ fa003-01: "Fix broken pipe error (shows up as nonexistent tag error)."
+ fa002-01: "Fix tilde expansion on Windows."
+ fa001-01: "Restore error signaling behavior when octets-to-string runs out of data."
+Current bundle-version-stamp patches:
+ hash-01: "v1: Fix remhash return value."
+Current lisp-buildtime-bundle-version-stamp patches:
+ hash-01: "v1: Fix remhash return value."
+Current system patches:
+ regexp2-s-01: "v1: Compiler macros for quote-re, split-re, and replace-re."
+ prolog-01: "update Allegro Prolog to version 1.0.4."
+ uri-01: "v1: don't canonicalize away path of / if there are a query or fragment."
+ sock-01: "v1: Fix to print-object methods for 'file' sockets"
+ debug-01: "v1: Fix debug of fully-specified keyword argument."
+ aclstart-01: "v1: restore -H processing."
+ misc-01: "v1: stubs for quote-re, split-re, and replace-re compiler macros."
+ hash-01: "v1: Fix remhash return value."
+Current lisp-with-bundle-update patches:
+ hash-01: "v1: Fix remhash return value."
+Object file signatures: _ACLID_lisp_build_404
+OLE:        3.16
+foreign:    $Revision: 1.189 $
+WinAPI:     2.16.2.1
+process:    $Revision: 1.141 $
+ffdyn:      $Revision: 2.44 $
+Presto fasl set:
+Evaluation stack:
+
+ ->(si::..runtime-operation . :unknown-args)
+   (tpl:do-command "zoom" :from-read-eval-print-loop nil :count t :all
+                   t)
+   ((flet print-debug-info zoom)
+      #<file-simple-stream #P"a.txt" for output pos 13986 @ #x21dd2c02>)
+   (print-debug-info #1=#<errno-stream-error @ #x21dd3daa>)
+   ((:internal toplevel 1) #1#)
+   (signal #1#)
+   (error errno-stream-error :stream nil :action
+          #2="creating a passive socket on any interface port 8080 "
+          :code 10022 :string "Unknown error")
+   (stream::.errno-stream-error #2# nil 10022)
+   (socket::make-socket-stream-internet
+      #<standard-class socket:socket-stream-internet-passive> :type
+      :hiper :connect :passive :address-family :internet :local-port
+      8080 :local-host nil :eol #\Newline :reuse-address t)
+   (si::..runtime-operation . :unknown-args)
+   (socket:make-socket :connect :passive :local-port 8080 :local-host
+                       nil :reuse-address t :type :hiper)
+   (net.aserve:start :port 8080)
+   (enable-racer-server 8080 :console-logging-p t)
+   (toplevel)
+   (stream::eval-as-progn #7=((toplevel) (bye)))
+   (let*
+      ((#3=#:g1149 (cons 'error #8=#'(lambda (c) (bye 1 "~a" c))))
+       (#4=#:g1150
+        (cons 'warning
+              #9=#'(lambda (c) (declare (ignore c)) (muffle-warning))))
+       (#5=#:g1147 (list #3# #4#))
+       (#6=#:g1148
+        (cons #5# (stream::fast stream::*handler-clusters*)))
+       (stream::*handler-clusters* #6#))
+      (declare
+       (dynamic-extent #5# #6# #3# #4# stream::*handler-clusters*))
+      . #7#)
+   (unwind-protect
+      . #10=((handler-bind ((error #8#) (warning #9#)) . #7#)))
+   (let nil
+        . #11=((add-signal-handler 2 #'signal-handler)
+               (unwind-protect . #10#)))
+   (labels
+      . #12=(((signal-handler (number &optional ignore)
+               (declare (ignore ignore))
+               (when *debug* (break "got signal # ~d" number))
+               (bye 1 "received signal number ~d." number))
+              (bye (&optional (code 0) format-string &rest args)
+               (when (= code 0) (exit code :quiet t :no-unwind t))
+               (when *debug* (apply #'break format-string args))
+               (format t "~%") (exit code :quiet t :no-unwind t)))
+             . #11#))
+   (block application-top-level (labels . #12# . #12#))
+   (application-top-level)
+   (si::..runtime-operation)
+   (si::..runtime-operation . :unknown-args)
+   (tpl:start-interactive-top-level
+      #<terminal-simple-stream [initial terminal io] fd 0/1 @
+        #x203614ba>
+      application-top-level nil)
+   (stream::start-lisp-execution t)
+
+(to see any ghost frames, the disassembler must be loaded)

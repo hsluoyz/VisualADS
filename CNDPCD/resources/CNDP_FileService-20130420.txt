@@ -1,0 +1,115 @@
+tech.adtest.net{
+Authorization:
+tech.adtest.net\ly:KIRA\just for test3:RX:deny
+tech.adtest.net\level2:KIRA\just for test3:RWX:deny
+tech.adtest.net\ly:KIRA\just for test3:RWX:permit
+tech.adtest.net\qx:KIRA\just for test2:RX:deny
+tech.adtest.net\ly:KIRA\just for test2:RX:permit
+tech.adtest.net\bbb:KIRA\just for test:RWX:deny
+tech.adtest.net\lyz:KIRA\just for test:RX:permit
+tech.adtest.net\Everyone:KIRA\just for test:RX:permit
+tech.adtest.net\lyz:KIRA\deny:RWX:deny
+tech.adtest.net\qx:KIRA\deny:RWX:permit
+tech.adtest.net\level2:KIRA\component:RX:deny
+tech.adtest.net\PTU:KIRA\component:RX:permit
+tech.adtest.net\lyz:KIRA\netTest:RWX:permit
+tech.adtest.net\level1:KIRA\walk:RWX:permit
+tech.adtest.net\level3:KIRA\car:R:permit
+tech.adtest.net\Everyone:KIRA\Address:RX:permit
+Inheritance:
+<GroupA>ChildGroup:<GroupB>ChildUser:<?>
+<GroupB>ChildGroup:<GroupC>ChildUser:<?>
+<GroupC>ChildGroup:<?>ChildUser:<XiaoMing>
+<GroupD>ChildGroup:<GroupE>ChildUser:<?>
+<GroupE>ChildGroup:<?>ChildUser:<XiaoMing>
+<level1>ChildGroup:<?>ChildUser:<qx><lyz>
+<level2>ChildGroup:<?>ChildUser:<yc><ly><hjs>
+<level3>ChildGroup:<?>ChildUser:<by><lxy>
+<PTU>ChildGroup:<?>ChildUser:<ly><lxy><lyz>
+<kkk>ChildGroup:<?>ChildUser:<tq><yc><ly><hjs><by><lyz>
+<foreign>ChildGroup:<level2>ChildUser:<tq><qx>
+<aaa>ChildGroup:<level2><level1>ChildUser:<ly><by><lyz>
+<bbb>ChildGroup:<?>ChildUser:<tq><111><Administrator>
+<Schema Admins>ChildGroup:<?>ChildUser:<Administrator>
+<Enterprise Admins>ChildGroup:<?>ChildUser:<Administrator>
+<Domain Admins>ChildGroup:<?>ChildUser:<Administrator>
+<Group Policy Creator Owners>ChildGroup:<?>ChildUser:<Administrator>
+<Win $ Acronis Remote Users>ChildGroup:<Domain Admins><Enterprise Admins>ChildUser:<Administrator>
+<IIS_WPG>ChildGroup:<?>ChildUser:<IWAM_KIRA>
+<Exchange Enterprise Servers>ChildGroup:<Exchange Domain Servers>ChildUser:<?>
+<Administrators>ChildGroup:<?>ChildUser:<Administrator>
+<Users>ChildGroup:<Domain Users>ChildUser:<?>
+<Guests>ChildGroup:<Domain Guests>ChildUser:<IUSR_KIRA><Guest>
+<Backup Operators>ChildGroup:<?>ChildUser:<Acronis61065553F05D7>
+<Pre-Windows 2000 Compatible Access>ChildGroup:<Exchange Domain Servers>ChildUser:<?>
+}
+sales.adtest.net{
+Authorization:
+sales.adtest.net\Everyone:LACUS\chaoge:RX:permit
+sales.adtest.net\yanhz:LACUS\party_class:RX:deny
+tech.adtest.net\ly:LACUS\party_class:RWX:permit
+sales.adtest.net\yangl:LACUS\party_class:RWX:deny
+sales.adtest.net\Everyone:LACUS\party_class:RX:permit
+sales.adtest.net\yanhz:LACUS\party_class:RWX:permit
+tech.adtest.net\hjs:LACUS\2:RX:deny
+tech.adtest.net\kkk:LACUS\2:RX:permit
+sales.adtest.net\Everyone:LACUS\2:RX:permit
+sales.adtest.net\gamers:LACUS\salary_report:RX:deny
+sales.adtest.net\study:LACUS\salary_report:RWX:deny
+sales.adtest.net\yanhz:LACUS\salary_report:RX:permit
+sales.adtest.net\Everyone:LACUS\salary_report:RX:permit
+tech.adtest.net\foreign:LACUS\bike:RWX:deny
+tech.adtest.net\level1:LACUS\bike:RX:permit
+tech.adtest.net\level1:LACUS\bike:RWX:deny
+tech.adtest.net\by:LACUS\bike:RWX:permit
+sales.adtest.net\Everyone:LACUS\bike:RX:permit
+sales.adtest.net\ballplayer:LACUS\ChinaSports:RX:permit
+sales.adtest.net\YaoMing:LACUS\ChinaSports:RWX:permit
+sales.adtest.net\YiJianlian:LACUS\ChinaSports:RWX:permit
+sales.adtest.net\Kobe:LACUS\ChinaSports:RWX:deny
+sales.adtest.net\Everyone:LACUS\ChinaSports:RX:permit
+sales.adtest.net\lyz:LACUS\world of goo:RX:deny
+tech.adtest.net\ly:LACUS\world of goo:RWX:permit
+tech.adtest.net\lyz:LACUS\world of goo:RWX:permit
+sales.adtest.net\study:LACUS\world of goo:RWX:deny
+sales.adtest.net\Everyone:LACUS\world of goo:RX:permit
+sales.adtest.net\gamers:LACUS\world of goo:RWX:permit
+tech.adtest.net\lyz:LACUS\world of goo:RWX:permit
+sales.adtest.net\YiJianlian:LACUS\AmericaSports:RWX:deny
+sales.adtest.net\ballplayer:LACUS\AmericaSports:RX:permit
+sales.adtest.net\James:LACUS\AmericaSports:RWX:permit
+sales.adtest.net\Kobe:LACUS\AmericaSports:RWX:permit
+sales.adtest.net\YaoMing:LACUS\AmericaSports:RX:permit
+sales.adtest.net\Everyone:LACUS\AmericaSports:RX:permit
+tech.adtest.net\lyz:LACUS\core_file:RWX:deny
+sales.adtest.net\student1:LACUS\core_file:RWX:deny
+sales.adtest.net\student2:LACUS\core_file:RX:deny
+sales.adtest.net\yangl:LACUS\core_file:RWX:deny
+sales.adtest.net\lyz:LACUS\core_file:RX:permit
+sales.adtest.net\yanhz:LACUS\core_file:RWX:permit
+sales.adtest.net\yujian:LACUS\core_file:RWX:permit
+tech.adtest.net\ly:LACUS\core_file:RWX:deny
+sales.adtest.net\Everyone:LACUS\core_file:RX:permit
+tech.adtest.net\lxy:LACUS\core_file:RWX:permit
+sales.adtest.net\Everyone:LACUS\example:RX:permit
+tech.adtest.net\ly:LACUS\example:RWX:permit
+sales.adtest.net\yangl:LACUS\example:RWX:permit
+tech.adtest.net\foreign:LACUS\car:RWX:deny
+tech.adtest.net\aaa:LACUS\car:RX:permit
+tech.adtest.net\bbb:LACUS\car:RWX:deny
+tech.adtest.net\aaa:LACUS\car:RX:permit
+sales.adtest.net\Everyone:LACUS\car:RX:permit
+sales.adtest.net\Everyone:LACUS\SYSVOL:RX:permit
+sales.adtest.net\Everyone:LACUS\NETLOGON:RX:permit
+Inheritance:
+<ballplayer>ChildGroup:<?>ChildUser:<YiJianlian><YaoMing><James><Kobe>
+<gamers>ChildGroup:<?>ChildUser:<lyz><student2><student1>
+<HelpServicesGroup>ChildGroup:<?>ChildUser:<SUPPORT_388945a0>
+<Schema Admins>ChildGroup:<?>ChildUser:<Administrator>
+<Enterprise Admins>ChildGroup:<?>ChildUser:<Administrator>
+<Domain Admins>ChildGroup:<?>ChildUser:<Administrator>
+<Group Policy Creator Owners>ChildGroup:<?>ChildUser:<Administrator>
+<Administrators>ChildGroup:<Domain Admins><Enterprise Admins>ChildUser:<Administrator>
+<Users>ChildGroup:<Domain Users>ChildUser:<?>
+<Guests>ChildGroup:<Domain Guests>ChildUser:<Guest>
+}

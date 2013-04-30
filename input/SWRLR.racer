@@ -1,0 +1,83 @@
+(firerule (?sA Subject) ((related ?sA ?sA has_Subject_Overlap)))
+(firerule (?rA Resource) ((related ?rA ?rA has_Resource_Overlap)))
+
+(firerule (and ($?sA $?sC has_subSubject) ($?sB $?sC has_subSubject)) ((related $?sA $?sB has_commonSubSubject)))
+(firerule (?sA ?sB has_commonSubSubject) ((related ?sB ?sA has_commonSubSubject)))
+(firerule (?sA ?sB has_subSubject) ((related ?sA ?sB has_Subject_Overlap)))
+(firerule (?sA ?sB has_Subject_Overlap) ((related ?sB ?sA has_Subject_Overlap)))
+
+(firerule (?rA ?rB has_subResource) ((related ?rA ?rB has_Resource_Overlap)))
+(firerule (?rA ?rB has_Resource_Overlap) ((related ?rB ?rA has_Resource_Overlap)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_R) (?aB Einstein is_Action_R))
+((related ?poA ?poB has_Policy_R_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_X) (?aB Einstein is_Action_X))
+((related ?poA ?poB has_Policy_X_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_W) (?aB Einstein is_Action_W))
+((related ?poA ?poB has_Policy_W_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_commonSubSubject) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_R) (?aB Einstein is_Action_R))
+((related ?poA ?poB has_Policy_R_Conflict2)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_commonSubSubject) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_X) (?aB Einstein is_Action_X))
+((related ?poA ?poB has_Policy_X_Conflict2)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_commonSubSubject) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_W) (?aB Einstein is_Action_W))
+((related ?poA ?poB has_Policy_W_Conflict2)))
+
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_R) (?aB Einstein is_Action_X))
+((related ?poA ?poB has_Policy_RX_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_R) (?aB Einstein is_Action_W))
+((related ?poA ?poB has_Policy_RW_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_X) (?aB Einstein is_Action_W))
+((related ?poA ?poB has_Policy_XW_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_X) (?aB Einstein is_Action_R))
+((related ?poA ?poB has_Policy_RX_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_W) (?aB Einstein is_Action_R))
+((related ?poA ?poB has_Policy_RW_Conflict)))
+
+(firerule (and (?poA ?sA has_Subject) (?poA ?rA has_Resource) (?poA ?aA has_Action) (?poA ?pA has_Permission)
+(?poB ?sB has_Subject) (?poB ?rB has_Resource) (?poB ?aB has_Action) (?poB ?pB has_Permission)
+(?sA ?sB has_Subject_Overlap) (?rA ?rB has_Resource_Overlap) (?pA ?pB has_Permission_Overlap)
+(?aA Einstein is_Action_W) (?aB Einstein is_Action_X))
+((related ?poA ?poB has_Policy_XW_Conflict)))

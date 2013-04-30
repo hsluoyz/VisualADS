@@ -1,0 +1,35 @@
+(in-knowledge-base PCDTBox PCDABox)
+
+(in-tbox PCDTBox)
+(signature
+ :atomic-concepts 
+(Policy Subject Resource Action Permission Abstract)
+ :roles 
+((has_Subject :domain Policy :range Subject)
+(has_Resource :domain Policy :range Resource)
+(has_Action :domain Policy :range Action)
+(has_Permission :domain Policy :range Permission)
+
+(has_subSubject :transitive t :domain Subject :range Subject)
+(has_subSubjectOrigin :domain Subject :range Subject)
+(has_subResource :domain Resource :range Resource)
+(has_commonSubSubject :domain Subject :range Subject)
+(has_Subject_Overlap :domain Subject :range Subject)
+(has_Resource_Overlap :domain Resource :range Resource)
+(has_Permission_Overlap :domain Permission :range Permission)
+
+(is_Action_R :domain Action :range Abstract)
+(is_Action_X :domain Action :range Abstract)
+(is_Action_W :domain Action :range Abstract)
+(is_Permission_Permit :domain Permission :range Abstract)
+(is_Permission_Deny :domain Permission :range Abstract)
+
+(has_Policy_R_Conflict :domain Policy :range Policy)
+(has_Policy_X_Conflict :domain Policy :range Policy)
+(has_Policy_W_Conflict :domain Policy :range Policy)
+(has_Policy_R_Conflict2 :domain Policy :range Policy)
+(has_Policy_X_Conflict2 :domain Policy :range Policy)
+(has_Policy_W_Conflict2 :domain Policy :range Policy)
+(has_Policy_RX_Conflict :domain Policy :range Policy)
+(has_Policy_RW_Conflict :domain Policy :range Policy)
+(has_Policy_XW_Conflict :domain Policy :range Policy)))

@@ -1,0 +1,183 @@
+policy1 and policy3 exsit 包含冲突
+冲突对象：
+policy1 policy3
+冲突位置：
+policy1_tech.adtest.net\ly与policy3_tech.adtest.net\ly在对文件夹tech.adtest.net\KIRA\just for test3的RX活动中发生冲突
+冲突原因：
+policy1的角色tech.adtest.net\ly与policy3的角色tech.adtest.net\ly相同
+policy1的活动RX与policy3的活动RWX存在包含关系(RX)
+policy1的活动RX包含于policy3的活动
+
+policy2 and policy3 exsit 包含冲突
+冲突对象：
+policy2 policy3
+冲突位置：
+policy2_tech.adtest.net\level2与policy3_tech.adtest.net\ly在对文件夹tech.adtest.net\KIRA\just for test3的RWX活动中发生冲突
+冲突原因：
+policy3的角色tech.adtest.net\ly继承了policy2的角色tech.adtest.net\level2
+policy2的活动RWX与policy3的活动RWX存在包含关系(RWX)
+policy2的活动RWX与policy3的活动相同
+
+policy11 and policy12 exsit 相关冲突
+冲突对象：
+policy11 policy12
+冲突位置:
+policy11_tech.adtest.net\level2与policy12_tech.adtest.net\PTU在对文件夹tech.adtest.net\KIRA\component的RX活动中发生冲突
+冲突原因：
+policy11的组tech.adtest.net\level2与policy12的组tech.adtest.net\PTU存在相同的用户
+policy11的活动RX与policy12的活动RX存在交集(RX)
+
+policy28 and policy30 exsit 包含冲突
+冲突对象：
+policy28 policy30
+冲突位置：
+policy28_tech.adtest.net\level1与policy30_tech.adtest.net\qx在对文件夹tech.adtest.net\WIN2008R2\sandbox的RX活动中发生冲突
+冲突原因：
+policy30的角色tech.adtest.net\qx继承了policy28的角色tech.adtest.net\level1
+policy28的活动RX与policy30的活动RX存在包含关系(RX)
+policy28的活动RX与policy30的活动相同
+
+policy31 and policy36 exsit 包含冲突
+冲突对象：
+policy31 policy36
+冲突位置：
+policy31_tech.adtest.net\level1与policy36_tech.adtest.net\lyz在对文件夹tech.adtest.net\WIN2003-SP2-1\1的RWX活动中发生冲突
+冲突原因：
+policy36的角色tech.adtest.net\lyz继承了policy31的角色tech.adtest.net\level1
+policy31的活动RWX与policy36的活动RWX存在包含关系(RWX)
+policy31的活动RWX与policy36的活动相同
+
+policy32 and policy34 exsit 相关冲突
+冲突对象：
+policy32 policy34
+冲突位置:
+policy32_tech.adtest.net\level2与policy34_tech.adtest.net\PTU在对文件夹tech.adtest.net\WIN2003-SP2-1\1的RX活动中发生冲突
+冲突原因：
+policy32的组tech.adtest.net\level2与policy34的组tech.adtest.net\PTU存在相同的用户
+policy32的活动RX与policy34的活动RWX存在交集(RX)
+
+policy33 and policy34 exsit 相关冲突
+冲突对象：
+policy33 policy34
+冲突位置:
+policy33_tech.adtest.net\level3与policy34_tech.adtest.net\PTU在对文件夹tech.adtest.net\WIN2003-SP2-1\1的RX活动中发生冲突
+冲突原因：
+policy33的组tech.adtest.net\level3与policy34的组tech.adtest.net\PTU存在相同的用户
+policy33的活动RX与policy34的活动RWX存在交集(RX)
+
+policy34 and policy36 exsit 包含冲突
+冲突对象：
+policy34 policy36
+冲突位置：
+policy34_tech.adtest.net\PTU与policy36_tech.adtest.net\lyz在对文件夹tech.adtest.net\WIN2003-SP2-1\1的RWX活动中发生冲突
+冲突原因：
+policy36的角色tech.adtest.net\lyz继承了policy34的角色tech.adtest.net\PTU
+policy34的活动RWX与policy36的活动RWX存在包含关系(RWX)
+policy34的活动RWX与policy36的活动相同
+
+policy47 and policy51 exsit 包含冲突
+冲突对象：
+policy47 policy51
+冲突位置：
+policy47_sales.adtest.net\yanhz与policy51_sales.adtest.net\yanhz在对文件夹sales.adtest.net\LACUS\party_class的RX活动中发生冲突
+冲突原因：
+policy47的角色sales.adtest.net\yanhz与policy51的角色sales.adtest.net\yanhz相同
+policy47的活动RX与policy51的活动RWX存在包含关系(RX)
+policy47的活动RX包含于policy51的活动
+
+policy52 and policy53 exsit 包含冲突
+冲突对象：
+policy52 policy53
+冲突位置：
+policy52_tech.adtest.net\hjs与policy53_tech.adtest.net\kkk在对文件夹sales.adtest.net\LACUS\2的RX活动中发生冲突
+冲突原因：
+policy52的角色tech.adtest.net\hjs继承了policy53的角色tech.adtest.net\kkk
+policy52的活动RX与policy53的活动RX存在包含关系(RX)
+policy52的活动RX与policy53的活动相同
+
+policy59 and policy60 exsit 相关冲突
+冲突对象：
+policy59 policy60
+冲突位置:
+policy59_tech.adtest.net\foreign与policy60_tech.adtest.net\level1在对文件夹sales.adtest.net\LACUS\bike的RX活动中发生冲突
+冲突原因：
+policy59的组tech.adtest.net\foreign与policy60的组tech.adtest.net\level1存在相同的用户
+policy59的活动RWX与policy60的活动RX存在交集(RX)
+
+policy60 and policy61 exsit 包含冲突
+冲突对象：
+policy60 policy61
+冲突位置：
+policy60_tech.adtest.net\level1与policy61_tech.adtest.net\level1在对文件夹sales.adtest.net\LACUS\bike的RX活动中发生冲突
+冲突原因：
+policy60的角色tech.adtest.net\level1与policy61的角色tech.adtest.net\level1相同
+policy60的活动RX与policy61的活动RWX存在包含关系(RX)
+policy60的活动RX包含于policy61的活动
+
+policy64 and policy67 exsit 相关冲突
+冲突对象：
+policy64 policy67
+冲突位置:
+policy64_sales.adtest.net\ballplayer与policy67_sales.adtest.net\Kobe在对文件夹sales.adtest.net\LACUS\ChinaSports的RX活动中发生冲突
+冲突原因：
+policy67的角色sales.adtest.net\Kobe继承了policy64的角色sales.adtest.net\ballplayer
+policy64的活动RX与policy67的活动RWX存在交集(RX)
+
+policy69 and policy74 exsit 包含冲突
+冲突对象：
+policy69 policy74
+冲突位置：
+policy69_sales.adtest.net\lyz与policy74_sales.adtest.net\gamers在对文件夹sales.adtest.net\LACUS\world of goo的RX活动中发生冲突
+冲突原因：
+policy69的角色sales.adtest.net\lyz继承了policy74的角色sales.adtest.net\gamers
+policy69的活动RX与policy74的活动RWX存在包含关系(RX)
+policy69的活动RX包含于policy74的活动
+
+policy76 and policy77 exsit 相关冲突
+冲突对象：
+policy76 policy77
+冲突位置:
+policy76_sales.adtest.net\YiJianlian与policy77_sales.adtest.net\ballplayer在对文件夹sales.adtest.net\LACUS\AmericaSports的RX活动中发生冲突
+冲突原因：
+policy76的角色sales.adtest.net\YiJianlian继承了policy77的角色sales.adtest.net\ballplayer
+policy76的活动RWX与policy77的活动RX存在交集(RX)
+
+policy95 and policy96 exsit 相关冲突
+冲突对象：
+policy95 policy96
+冲突位置:
+policy95_tech.adtest.net\foreign与policy96_tech.adtest.net\aaa在对文件夹sales.adtest.net\LACUS\car的RX活动中发生冲突
+冲突原因：
+policy95的组tech.adtest.net\foreign与policy96的组tech.adtest.net\aaa存在相同的用户
+policy95的活动RWX与policy96的活动RX存在交集(RX)
+
+policy95 and policy98 exsit 相关冲突
+冲突对象：
+policy95 policy98
+冲突位置:
+policy95_tech.adtest.net\foreign与policy98_tech.adtest.net\aaa在对文件夹sales.adtest.net\LACUS\car的RX活动中发生冲突
+冲突原因：
+policy95的组tech.adtest.net\foreign与policy98的组tech.adtest.net\aaa存在相同的用户
+policy95的活动RWX与policy98的活动RX存在交集(RX)
+
+policy106 and policy107 exsit 包含冲突
+冲突对象：
+policy106 policy107
+冲突位置：
+policy106_sales.adtest.net\ballplayer与policy107_sales.adtest.net\ballplayer在对文件夹sales.adtest.net\WIN7-SP1-1\temp的RX活动中发生冲突
+冲突原因：
+policy106的角色sales.adtest.net\ballplayer与policy107的角色sales.adtest.net\ballplayer相同
+policy106的活动RWX与policy107的活动RX存在包含关系(RX)
+policy106的活动RWX包含policy107的活动
+
+policy111 and policy112 exsit 包含冲突
+冲突对象：
+policy111 policy112
+冲突位置：
+policy111_tech.adtest.net\level1与policy112_tech.adtest.net\qx在对文件夹sales.adtest.net\WIN2008R2-SP1-1\usr的RWX活动中发生冲突
+冲突原因：
+policy112的角色tech.adtest.net\qx继承了policy111的角色tech.adtest.net\level1
+policy111的活动RWX与policy112的活动RWX存在包含关系(RWX)
+policy111的活动RWX与policy112的活动相同
+
+

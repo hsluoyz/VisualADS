@@ -1,0 +1,74 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: VisualADS - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B1.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Fp"Debug/VisualADS.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\Administrator\Desktop\VisualADS\DLRacerInterface.cpp"
+"C:\Users\Administrator\Desktop\VisualADS\MyMessageBox.cpp"
+"C:\Users\Administrator\Desktop\VisualADS\VisualADS.cpp"
+"C:\Users\Administrator\Desktop\VisualADS\VisualADSDoc.cpp"
+]
+Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B1.tmp" 
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B2.tmp" with contents
+[
+version.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/VisualADS.pdb" /debug /machine:I386 /out:"Debug/VisualADS.exe" /pdbtype:sept 
+.\Debug\ADCNDPGenerator.obj
+.\Debug\ADComputer.obj
+.\Debug\ADDirectorySearch.obj
+.\Debug\ADDomain.obj
+.\Debug\ADDotReader.obj
+.\Debug\ADE.obj
+.\Debug\ADGraphGenerator.obj
+.\Debug\ADGroup.obj
+.\Debug\ADObject.obj
+.\Debug\ADOU.OBJ
+.\Debug\ADPermissionSearch.obj
+.\Debug\ADShareFolder.obj
+.\Debug\ADUser.obj
+.\Debug\ADWMISearch.obj
+.\Debug\CPing.obj
+.\Debug\DLInterface.obj
+.\Debug\DLRacerInterface.obj
+.\Debug\FOHyperLink.obj
+.\Debug\FOPGDIPlusHelper.obj
+.\Debug\FOPGDIPlusProxy.obj
+.\Debug\Hook.obj
+.\Debug\MainFrm.obj
+.\Debug\MyMessageBox.obj
+.\Debug\MyRibbonEdit.obj
+.\Debug\MyShape.obj
+.\Debug\OutputBar.obj
+.\Debug\PropertiesViewBar.obj
+.\Debug\SplashWindow.obj
+.\Debug\StdAfx.obj
+.\Debug\VisualADS.obj
+.\Debug\VisualADSAboutDlg.obj
+.\Debug\VisualADSDoc.obj
+.\Debug\VisualADSView.obj
+.\Debug\WorkspaceBar.obj
+.\Debug\WorkspaceBar2.obj
+.\Debug\VisualADS.res
+]
+Creating command line "link.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B2.tmp"
+<h3>Output Window</h3>
+Compiling...
+Skipping... (no relevant changes detected)
+DLRacerInterface.cpp
+MyMessageBox.cpp
+VisualADS.cpp
+VisualADSDoc.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+VisualADS.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

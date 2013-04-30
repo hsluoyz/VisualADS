@@ -1,0 +1,10 @@
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output1.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output2.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output3.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output4.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output5.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output6.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output7.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output8.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output9.txt
+RacerPro.exe +c -- -f ontology.racer -q query.racer -o output10.txt
