@@ -24,6 +24,7 @@ using namespace std;
 //#define CFrameWnd CBCGPFrameWnd
 
 class ADDomain;
+class CSocketManager;
 
 class CMainFrame : public CBCGPFrameWnd
 {
@@ -63,7 +64,15 @@ public:
 	CString m_initPassword2;
 	CString m_initRacerIP;
 
+	HWND m_hWndJava;
+	int iToken;
+	int iLastToken;
+	int iTry;
+
 	BOOL m_bSelfStartRacer;
+	CSocketManager *m_pCurServer;
+	CString m_strServerIP;
+	CString m_strPort;
 
 	CBCGPRibbonPanel *m_pPanelLogOn;
 	CBCGPRibbonEdit* m_pEditDCName;
@@ -105,14 +114,18 @@ public:  // control bar embedded members
 	CPropertiesBar m_wndPropGrid;
 
 	CString m_strInputDir;
-	CString m_strPolicyDirectory;
+	CString m_strPolicyDir;
 	CString m_strExePath;
 	
 public:
+	int initUI_Chinese();
+	int initUI_English();
 	//DWORD FindProcessByName(CString& strFileName);
 	//HWND GetProcessMainWnd(DWORD dwProcessId);
 	HWND GetGlobalHandleByTitle(CString strTitle);
+	void executeWithHide(CString strPathName);
 
+	CString itos(int i);
 	BOOL FolderExist(CString strPath);
 	void initInputDir();
 	void initPolicyDir();
@@ -120,6 +133,12 @@ public:
 	void initCNDPFilePathName();
 	BOOL getLanguage();
 	void setLanguage(BOOL bChineseOrEnglish);
+	BOOL deleteFile(CString strFilePathName);
+	void setCNDPCDVisible(BOOL bVisible);
+
+	BOOL startServer();
+	void stopServer();
+	void updateServer();
 
 // Generated message map functions
 public:
@@ -127,6 +146,9 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnClose();
+	afx_msg void OnMove(int x, int y);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
 	//}}AFX_MSG
 	afx_msg void OnAppLook(UINT id);
 	afx_msg void OnUpdateAppLook(CCmdUI* pCmdUI);
@@ -149,11 +171,13 @@ public:
 	afx_msg void OnBtnLogOn();
 	afx_msg void OnBtnCNDPGenerate();
 	afx_msg void OnBtnStartCNDPCD();
+	afx_msg void OnBtnStopCNDPCD();
 	afx_msg void OnBtnLoad();
 	afx_msg void OnBtnAddDomain();
 	afx_msg void OnBtnRemoveDomain();
 	afx_msg void OnBtnStartRacer();
 	afx_msg void OnBtnDetect();
+	afx_msg void OnBtnSocket();
 	afx_msg void OnBtnClear();
 	afx_msg void On_SocketEvent();
 
@@ -182,10 +206,12 @@ public:
 	afx_msg LRESULT On_ProgressBar_Start(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT On_ProgressBar_Stop(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT On_Canvas_Invalidate(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT On_Output_Update_Connection(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 
 	CString i18n(CString strText);
-	BOOL CreateRibbonBar ();
+	BOOL CreateRibbonBar_Chinese ();
+	BOOL CreateRibbonBar_English();
 	void ShowOptions (int nPage);
 
 	UINT	m_nAppLook;
@@ -218,6 +244,7 @@ DWORD WINAPI LogOnThread(LPVOID lpParameter);
 DWORD WINAPI LoadThread(LPVOID lpParameter);
 DWORD WINAPI DetectThread(LPVOID lpParameter);
 DWORD WINAPI LogOnSearchThread(LPVOID lpParameter);
+DWORD WINAPI CNDPCDThread(LPVOID lpParameter);
 
 /////////////////////////////////////////////////////////////////////////////
 

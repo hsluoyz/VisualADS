@@ -21,6 +21,7 @@ using namespace std;
 //these two methods are mostly used for "Start RacerPro Engine" button, they just connect to RacerPro instead of doing any detection stuff.
 DLInterface::DLInterface()
 {
+	bChineseOrEnglish = Global_GetLanguage();
 	m_iMixOrShareOrNTFS = 2; //just to differentiate the Share and NTFS detection, used in queryAllConflicts function.
 	initInputDir(); //initiate the directory
 	m_strReportPathFile = m_strInputDir + _T("Report.txt");
@@ -59,6 +60,7 @@ DLInterface::DLInterface()
 
 DLInterface::DLInterface(CString strRacerIP)
 {
+	bChineseOrEnglish = Global_GetLanguage();
 	m_iMixOrShareOrNTFS = 2;
 	initInputDir();
 	m_strReportPathFile = m_strInputDir + _T("Report.txt");
@@ -76,6 +78,7 @@ DLInterface::DLInterface(CString strRacerIP)
 //these two methods actually provide the detecting functionality.
 DLInterface::DLInterface(vector<ADDomain*> npDomains, int iMixOrShareOrNTFS)
 {
+	bChineseOrEnglish = Global_GetLanguage();
 	m_npDomains = npDomains;
 	m_iMixOrShareOrNTFS = iMixOrShareOrNTFS; //Share or NTFS detection , the same method, only literal difference.
 	initInputDir();
@@ -115,6 +118,7 @@ DLInterface::DLInterface(vector<ADDomain*> npDomains, int iMixOrShareOrNTFS)
 
 DLInterface::DLInterface(vector<ADDomain*> npDomains, CString strRacerIP, int iMixOrShareOrNTFS)
 {
+	bChineseOrEnglish = Global_GetLanguage();
 	m_npDomains = npDomains;
 	m_iMixOrShareOrNTFS = iMixOrShareOrNTFS;
 	initInputDir();
@@ -139,6 +143,7 @@ DLInterface::DLInterface(vector<ADDomain*> npDomains, CString strRacerIP, int iM
 
 DLInterface::DLInterface(vector<ADDomain*> npDomains, BOOL iMixOrShareOrNTFS, BOOL bFileInterface)
 {
+	bChineseOrEnglish = Global_GetLanguage();
 	if (!bFileInterface)
 	{
 		return;
@@ -1512,7 +1517,14 @@ CString DLInterface::ACE2Permission(ADACE *aDACE)
 	}
 	else if (aDACE->allowed == 0)
 	{
-		return "不";
+		if (bChineseOrEnglish)
+		{
+			return "不";
+		}
+		else
+		{
+			return " do not";
+		}
 	}
 	else
 	{
@@ -1523,17 +1535,38 @@ CString DLInterface::ACE2Permission(ADACE *aDACE)
 
 CString DLInterface::user2Description(ADUser *user)
 {
-	return "[用户::" + user->cn + "]";
+	if (bChineseOrEnglish)
+	{
+		return "[用户::" + user->cn + "]";
+	}
+	else
+	{
+		return "[USER::" + user->cn + "]";
+	}
 }
 
 CString DLInterface::group2Description(ADGroup *group)
 {
-	return "[组::" + group->cn + "]";
+	if (bChineseOrEnglish)
+	{
+		return "[组::" + group->cn + "]";
+	}
+	else
+	{
+		return "[GROUP::" + group->cn + "]";
+	}
 }
 
 CString DLInterface::shareFolder2Description(ADShareFolder *shareFolder)
 {
-	return "[文件夹::" + shareFolder->cn + "]";
+	if (bChineseOrEnglish)
+	{
+		return "[文件夹::" + shareFolder->cn + "]";
+	}
+	else
+	{
+		return "[RESOURCE::" + shareFolder->cn + "]";
+	}
 }
 
 CString DLInterface::getUserOrGroupDNNameFromACE(ADACE *ace)
@@ -1663,20 +1696,41 @@ BOOL DLInterface::checkGroupOrUserByDN(CString strDN)
 CString DLInterface::dl2Description(CString strDL)
 {
 	BOOL bGroup = checkGroupOrUserByDN(dlName2dnName(strDL));
-	if (bGroup)
+	if (bChineseOrEnglish)
 	{
-		return "[组::" + dn2cn(dlName2dnName(strDL)) + "]";
+		if (bGroup)
+		{
+			return "[组::" + dn2cn(dlName2dnName(strDL)) + "]";
+		}
+		else
+		{
+			return "[用户::" + dn2cn(dlName2dnName(strDL)) + "]";
+		}
 	}
 	else
 	{
-		return "[用户::" + dn2cn(dlName2dnName(strDL)) + "]";
+		if (bGroup)
+		{
+			return "[GROUP::" + dn2cn(dlName2dnName(strDL)) + "]";
+		}
+		else
+		{
+			return "[USER::" + dn2cn(dlName2dnName(strDL)) + "]";
+		}
 	}
 }
 
 CString DLInterface::getConflictReasonFromIdentical(CString strNode)
 {
 	CString strContent;
-	strContent = "冲突原因：两条策略具有同样的主体" + strNode + "。";
+	if (bChineseOrEnglish)
+	{
+		strContent = "冲突原因：两条策略具有同样的主体" + strNode + "。";
+	}
+	else
+	{
+		strContent = "Conflict Reason: Both policies share the same subject: " + strNode + ".";
+	}
 	return strContent;
 }
 
@@ -1688,16 +1742,34 @@ CString DLInterface::getConflictReasonFromStrings(vector<CString> nstrNodes)
 		return "getConflictReasonFromStrings Error";
 	}
 	CString strContent;
-	strContent = "冲突原因：";
-	for (int i = nstrNodes.size() - 1; i > 0; i --)
+	if (bChineseOrEnglish)
 	{
-		if (i != 1)
+		strContent = "冲突原因：";
+		for (int i = nstrNodes.size() - 1; i > 0; i --)
 		{
-			strContent += (nstrNodes[i] + "继承" + nstrNodes[i - 1] + "，");
+			if (i != 1)
+			{
+				strContent += (nstrNodes[i] + "继承" + nstrNodes[i - 1] + "，");
+			}
+			else
+			{
+				strContent += (nstrNodes[i] + "继承" + nstrNodes[i - 1] + "。");
+			}
 		}
-		else
+	}
+	else
+	{
+		strContent = "Conflict Reason: ";
+		for (int i = nstrNodes.size() - 1; i > 0; i --)
 		{
-			strContent += (nstrNodes[i] + "继承" + nstrNodes[i - 1] + "。");
+			if (i != 1)
+			{
+				strContent += (nstrNodes[i] + " inherits " + nstrNodes[i - 1] + ", ");
+			}
+			else
+			{
+				strContent += (nstrNodes[i] + " inherits " + nstrNodes[i - 1] + ".");
+			}
 		}
 	}
 	return strContent;
@@ -1726,15 +1798,30 @@ void DLInterface::queryOneKindOfConflict(ADDomain *domain, CString strActionType
 			CString strFile = getShareFolderDescriptionFromACE(resultACEs[i]);
 			
 			CString strContent;
-			strContent += (strObjectI + "与" + strObjectJ + "在操作" + strFile + "发生" + strActionWord + "继承冲突：");
-			strContent += (strObjectI + "对" + strFile + ACE2Permission(resultACEs[i]) + "具有" + ACE2Action(resultACEs[i]) + "权限，而");
-			strContent += (strObjectJ + "对" + strFile + ACE2Permission(resultACEs[j]) + "具有" + ACE2Action(resultACEs[j]) + "权限。");
-			iConflictNo ++;
-			Output_ReportList(itos(iConflictNo), strContent);
-			CString strTemp = _T("第");
-			strTemp += (itos(iConflictNo) + _T("条策略冲突："));
-			addToReport(strTemp);
-			addToReport(strContent);
+			if (bChineseOrEnglish)
+			{
+				strContent += (strObjectI + "与" + strObjectJ + "在操作" + strFile + "发生" + strActionWord + "继承冲突：");
+				strContent += (strObjectI + "对" + strFile + ACE2Permission(resultACEs[i]) + "具有" + ACE2Action(resultACEs[i]) + "权限，而");
+				strContent += (strObjectJ + "对" + strFile + ACE2Permission(resultACEs[j]) + "具有" + ACE2Action(resultACEs[j]) + "权限。");
+				iConflictNo ++;
+				Output_ReportList(itos(iConflictNo), strContent);
+				CString strTemp = _T("第");
+				strTemp += (itos(iConflictNo) + _T("条策略冲突："));
+				addToReport(strTemp);
+				addToReport(strContent);
+			}
+			else
+			{
+				strContent += (strObjectI + " and " + strObjectJ + " have " + strActionWord + " Inheritance Conflict for access to " + strFile + ":");
+				strContent += (strObjectI + ACE2Permission(resultACEs[i]) + " have the " + ACE2Action(resultACEs[i]) + " permission, while ");
+				strContent += (strObjectJ + ACE2Permission(resultACEs[j]) + " have the " + ACE2Action(resultACEs[j]) + " permission.");
+				iConflictNo ++;
+				Output_ReportList(itos(iConflictNo), strContent);
+				CString strTemp = _T("No. ");
+				strTemp += (itos(iConflictNo) + _T(" Policy Conflict: "));
+				addToReport(strTemp);
+				addToReport(strContent);
+			}
 
 			///////////////////////////////////////冲突原因查询显示///////////////////////////////////////
 			if (getUserOrGroupDNNameFromACE(resultACEs[i]) == getUserOrGroupDNNameFromACE(resultACEs[j]))
@@ -1831,15 +1918,33 @@ void DLInterface::queryOneKindOfConflict2(ADDomain *domain, CString strActionTyp
 			CString strFile = getShareFolderDescriptionFromACE(resultACEs[i]);
 			
 			CString strContent;
-			strContent += (strObjectI + "与" + strObjectJ + "在操作" + strFile + "发生" + strActionWord + "职责分离冲突：");
-			strContent += (strObjectI + "对" + strFile + ACE2Permission(resultACEs[i]) + "具有" + ACE2Action(resultACEs[i]) + "权限，而");
-			strContent += (strObjectJ + "对" + strFile + ACE2Permission(resultACEs[j]) + "具有" + ACE2Action(resultACEs[j]) + "权限。");
-			iConflictNo ++;
-			Output_ReportList(itos(iConflictNo), strContent);
-			CString strTemp = _T("第");
-			strTemp += (itos(iConflictNo) + _T("条策略冲突："));
-			addToReport(strTemp);
-			addToReport(strContent);
+			if (bChineseOrEnglish)
+			{
+				strContent += (strObjectI + "与" + strObjectJ + "在操作" + strFile + "发生" + strActionWord + "职责分离冲突：");
+				strContent += (strObjectI + "对" + strFile + ACE2Permission(resultACEs[i]) + "具有" + ACE2Action(resultACEs[i]) + "权限，而");
+				strContent += (strObjectJ + "对" + strFile + ACE2Permission(resultACEs[j]) + "具有" + ACE2Action(resultACEs[j]) + "权限。");
+				
+				iConflictNo ++;
+				Output_ReportList(itos(iConflictNo), strContent);
+				CString strTemp = _T("第");
+				strTemp += (itos(iConflictNo) + _T("条策略冲突："));
+				addToReport(strTemp);
+				addToReport(strContent);
+			}
+			else
+			{
+				strContent += (strObjectI + " and " + strObjectJ + " have " + strActionWord + " Separation of Duty Conflict for access to " + strFile + ":");
+				strContent += (strObjectI + ACE2Permission(resultACEs[i]) + " have the " + ACE2Action(resultACEs[i]) + " permission, while ");
+				strContent += (strObjectJ + ACE2Permission(resultACEs[j]) + " have the " + ACE2Action(resultACEs[j]) + " permission.");
+				
+				iConflictNo ++;
+				Output_ReportList(itos(iConflictNo), strContent);
+				CString strTemp = _T("No. ");
+				strTemp += (itos(iConflictNo) + _T(" Policy Conflict: "));
+				addToReport(strTemp);
+				addToReport(strContent);
+			}
+			
 			
 			CString strCommonChildDN = queryCommonInstanceForTwo(getUserOrGroupDNNameFromACE(resultACEs[i]), 
 				getUserOrGroupDNNameFromACE(resultACEs[j]), "has_subSubject");
@@ -1920,55 +2025,122 @@ void DLInterface::queryOneKindOfConflict2(ADDomain *domain, CString strActionTyp
 void DLInterface::queryAllConflicts(vector<ADDomain*> npDomains, int &iConflictNo)
 {
 	//int iConflictNo = 0;
-	for (int i = 0; i < npDomains.size(); i ++)
+	if (bChineseOrEnglish)
 	{
-		iConflictNo = 0;
-		if (m_iMixOrShareOrNTFS == 2)
+		for (int i = 0; i < npDomains.size(); i ++)
 		{
-			queryOneKindOfConflict(npDomains[i], "R", "[Mix-读]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict(npDomains[i], "X", "[Mix-执行]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict(npDomains[i], "W", "[Mix-写]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "R", "[Mix-读]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "X", "[Mix-执行]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "W", "[Mix-写]", iConflictNo, m_iMixOrShareOrNTFS);
-			
-			CString strContent;
-			strContent += ("域" + npDomains[i]->dNSName + "一共检测出" + itos(iConflictNo) + "处混合策略冲突！");
-			Output_ReportList(itos(iConflictNo), strContent);
-			addToReport(strContent);
-		}
-		else if (m_iMixOrShareOrNTFS == 1)
-		{
-			queryOneKindOfConflict(npDomains[i], "R", "[Share-读]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict(npDomains[i], "X", "[Share-执行]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict(npDomains[i], "W", "[Share-写]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "R", "[Share-读]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "X", "[Share-执行]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "W", "[Share-写]", iConflictNo, m_iMixOrShareOrNTFS);
+			iConflictNo = 0;
+			if (m_iMixOrShareOrNTFS == 2)
+			{
+				queryOneKindOfConflict(npDomains[i], "R", "[Mix-读]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "X", "[Mix-执行]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "W", "[Mix-写]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "R", "[Mix-读]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "X", "[Mix-执行]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "W", "[Mix-写]", iConflictNo, m_iMixOrShareOrNTFS);
+				
+				CString strContent;
+				strContent += ("域" + npDomains[i]->dNSName + "一共检测出" + itos(iConflictNo) + "处混合策略冲突！");
+				Output_ReportList(itos(iConflictNo), strContent);
+				addToReport(strContent);
+			}
+			else if (m_iMixOrShareOrNTFS == 1)
+			{
+				queryOneKindOfConflict(npDomains[i], "R", "[Share-读]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "X", "[Share-执行]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "W", "[Share-写]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "R", "[Share-读]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "X", "[Share-执行]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "W", "[Share-写]", iConflictNo, m_iMixOrShareOrNTFS);
 
-			CString strContent;
-			strContent += ("域" + npDomains[i]->dNSName + "一共检测出" + itos(iConflictNo) + "处Share策略冲突！");
-			Output_ReportList(itos(iConflictNo), strContent);
-			addToReport(strContent);
-		}
-		else if (m_iMixOrShareOrNTFS == 0)
-		{
-			queryOneKindOfConflict(npDomains[i], "R", "[NTFS-读]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict(npDomains[i], "X", "[NTFS-执行]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict(npDomains[i], "W", "[NTFS-写]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "R", "[NTFS-读]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "X", "[NTFS-执行]", iConflictNo, m_iMixOrShareOrNTFS);
-			queryOneKindOfConflict2(npDomains[i], "W", "[NTFS-写]", iConflictNo, m_iMixOrShareOrNTFS);
+				CString strContent;
+				strContent += ("域" + npDomains[i]->dNSName + "一共检测出" + itos(iConflictNo) + "处Share策略冲突！");
+				Output_ReportList(itos(iConflictNo), strContent);
+				addToReport(strContent);
+			}
+			else if (m_iMixOrShareOrNTFS == 0)
+			{
+				queryOneKindOfConflict(npDomains[i], "R", "[NTFS-读]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "X", "[NTFS-执行]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "W", "[NTFS-写]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "R", "[NTFS-读]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "X", "[NTFS-执行]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "W", "[NTFS-写]", iConflictNo, m_iMixOrShareOrNTFS);
 
-			CString strContent;
-			strContent += ("域" + npDomains[i]->dNSName + "一共检测出" + itos(iConflictNo) + "处NTFS策略冲突！");
-			Output_ReportList(itos(iConflictNo), strContent);
-			addToReport(strContent);
+				CString strContent;
+				strContent += ("域" + npDomains[i]->dNSName + "一共检测出" + itos(iConflictNo) + "处NTFS策略冲突！");
+				Output_ReportList(itos(iConflictNo), strContent);
+				addToReport(strContent);
+			}
+			else
+			{
+				MyMessageBox_Error(_T("queryAllConflicts"));
+			}
+			/*
+			else
+			{
+				//queryOneKindOfConflict3(domain, "R", "[Share-NTFS间-读]", iConflictNo);
+				//queryOneKindOfConflict3(domain, "X", "[Share-NTFS间-执行]", iConflictNo);
+				//queryOneKindOfConflict3(domain, "W", "[Share-NTFS间-写]", iConflictNo);
+
+				CString strContent;
+				strContent += ("一共检测出" + itos(iConflictNo) + "处Share-NTFS间策略冲突");
+				Output_ReportList(itos(iConflictNo ++), strContent);
+			}
+			*/
 		}
-		else
+	}
+	else
+	{
+		for (int i = 0; i < npDomains.size(); i ++)
 		{
-			MyMessageBox_Error(_T("queryAllConflicts"));
-		}
+			iConflictNo = 0;
+			if (m_iMixOrShareOrNTFS == 2)
+			{
+				queryOneKindOfConflict(npDomains[i], "R", "[Mix-Read]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "X", "[Mix-Execute]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "W", "[Mix-Write]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "R", "[Mix-Read]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "X", "[Mix-Execute]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "W", "[Mix-Write]", iConflictNo, m_iMixOrShareOrNTFS);
+				
+				CString strContent;
+				strContent += ("VisualADS has detected " + itos(iConflictNo) + " Mix Policy Conflicts in domain: " + npDomains[i]->dNSName);
+				Output_ReportList(itos(iConflictNo), strContent);
+				addToReport(strContent);
+			}
+			else if (m_iMixOrShareOrNTFS == 1)
+			{
+				queryOneKindOfConflict(npDomains[i], "R", "[Share-Read]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "X", "[Share-Execute]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "W", "[Share-Write]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "R", "[Share-Read]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "X", "[Share-Execute]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "W", "[Share-Write]", iConflictNo, m_iMixOrShareOrNTFS);
+
+				CString strContent;
+				strContent += ("VisualADS has detected " + itos(iConflictNo) + " Share Policy Conflicts in domain: " + npDomains[i]->dNSName);
+				Output_ReportList(itos(iConflictNo), strContent);
+				addToReport(strContent);
+			}
+			else if (m_iMixOrShareOrNTFS == 0)
+			{
+				queryOneKindOfConflict(npDomains[i], "R", "[NTFS-Read]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "X", "[NTFS-Execute]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict(npDomains[i], "W", "[NTFS-Write]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "R", "[NTFS-Read]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "X", "[NTFS-Execute]", iConflictNo, m_iMixOrShareOrNTFS);
+				queryOneKindOfConflict2(npDomains[i], "W", "[NTFS-Write]", iConflictNo, m_iMixOrShareOrNTFS);
+
+				CString strContent;
+				strContent += ("VisualADS has detected " + itos(iConflictNo) + " NTFS Policy Conflicts in domain: " + npDomains[i]->dNSName);
+				Output_ReportList(itos(iConflictNo), strContent);
+				addToReport(strContent);
+			}
+			else
+			{
+				MyMessageBox_Error(_T("queryAllConflicts"));
+			}
 		/*
 		else
 		{
@@ -1981,6 +2153,7 @@ void DLInterface::queryAllConflicts(vector<ADDomain*> npDomains, int &iConflictN
 			Output_ReportList(itos(iConflictNo ++), strContent);
 		}
 		*/
+		}
 	}
 
 	writeReportFile();

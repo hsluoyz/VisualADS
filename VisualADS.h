@@ -23,8 +23,15 @@ class CVisualADSApp : public CWinApp,
 					  public CBCGPWorkspace
 {
 public:
+	CString m_strInputDir;
+
+
 	CVisualADSApp();
 	void showAboutDlg();
+
+	BOOL FolderExist(CString strPath);
+	void initInputDir();
+	BOOL getLanguage();
 
 	// Override from CBCGPWorkspace
 	virtual void PreLoadState ();

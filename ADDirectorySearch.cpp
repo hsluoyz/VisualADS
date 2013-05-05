@@ -282,49 +282,98 @@ ADACE* ADACE::duplicateToZero()
 CString ADACE::toString()
 {
 	CString strResult;
-	if (allowed)
+	if (Global_GetLanguage())
 	{
-		strResult += _T("允许");
+		if (allowed)
+		{
+			strResult += _T("允许");
+		}
+		else
+		{
+			strResult += _T("禁止");
+		}
+		
+		if (name == _T("Everyone"))
+		{
+			strResult += (name + _T("的"));
+		}
+		else
+		{
+			strResult += (refDomain + _T("\\") + name + _T("的"));
+		}
+		
+		if (r)
+		{
+			strResult += _T("R");
+		}
+		if (w)
+		{
+			strResult += _T("W");
+		}
+		if (x)
+		{
+			strResult += _T("X");
+		}
+		
+		strResult += _T("的");
+		
+		if (type == 0)
+		{
+			strResult += _T("NTFS");
+		}
+		else if (type == 1)
+		{
+			strResult += _T("Share");
+		}
+		
+		strResult += _T("权限");
 	}
 	else
 	{
-		strResult += _T("禁止");
+		if (allowed)
+		{
+			strResult += _T("Permit ");
+		}
+		else
+		{
+			strResult += _T("Deny ");
+		}
+		
+		if (name == _T("Everyone"))
+		{
+			strResult += (name + _T("' "));
+		}
+		else
+		{
+			strResult += (refDomain + _T("\\") + name + _T("' "));
+		}
+		
+		if (r)
+		{
+			strResult += _T("R");
+		}
+		if (w)
+		{
+			strResult += _T("W");
+		}
+		if (x)
+		{
+			strResult += _T("X");
+		}
+		
+		strResult += _T("-");
+		
+		if (type == 0)
+		{
+			strResult += _T("NTFS");
+		}
+		else if (type == 1)
+		{
+			strResult += _T("Share");
+		}
+		
+		strResult += _T(" permission");
 	}
-	
-	if (name == _T("Everyone"))
-	{
-		strResult += (name + _T("的"));
-	}
-	else
-	{
-		strResult += (refDomain + _T("\\") + name + _T("的"));
-	}
-	
-	if (r)
-	{
-		strResult += _T("R");
-	}
-	if (w)
-	{
-		strResult += _T("W");
-	}
-	if (x)
-	{
-		strResult += _T("X");
-	}
-	
-	strResult += _T("的");
-	
-	if (type == 0)
-	{
-		strResult += _T("NTFS");
-	}
-	else if (type == 1)
-	{
-		strResult += _T("Share");
-	}
-	
-	strResult += _T("权限");
 	
 	return strResult;
 }

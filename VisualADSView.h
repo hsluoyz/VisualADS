@@ -104,6 +104,7 @@ protected:
 protected:
 	//{{AFX_MSG(CVisualADSView)
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	//}}AFX_MSG
 	afx_msg void OnContextMenu(CWnd*, CPoint point);
 	afx_msg void OnFilePrintPreview();

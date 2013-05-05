@@ -31,6 +31,10 @@ public class ConflictAnalysis {
 
 	private PolicyDAO policyDAO = new PolicyDAO();
 
+	public PolicyDAO getPolicyDAO() {
+		return policyDAO;
+	}
+
 	// private Frame frame = new Frame();
 	public int judge_Relation_Policy(CndPolicy policy1, CndPolicy policy2) {
 		// TODO 判断策略关系
@@ -118,188 +122,7 @@ public class ConflictAnalysis {
 	}
 
 	public String conflict_Analysis(Frame frame, String dataBase) {
-		CndPolicy policy1 = null, policy2 = null;
-		Result result = new Result();
-		int numberOfPolicy = policyDAO.getPolicyAmount();
-		StringBuffer strTotal = new StringBuffer();
-		int policyAmount = numberOfPolicy;
-		int conflictAmount = 0;
-		int unralation = 0;
-		int syntaxConflict = 0;
-		int inclusiveConflict = 0;
-		int partialConflict = 0;
-
-		for (int i = 1; i < numberOfPolicy; i++) {
-			for (int j = i + 1; j <= numberOfPolicy; j++) {
-				policy1 = policyDAO.getOnePolicy(i);
-				policy2 = policyDAO.getOnePolicy(j);
-				String str = null;
-				String str_Policy1 = "policy" + policy1.getPolicyId();
-				String str_Policy2 = "policy" + policy2.getPolicyId();
-				if (!(policy1.getMeasure().equals(policy2.getMeasure()))) {
-					if (judge_Relation_Policy(policy1, policy2, dataBase) == 0) {
-						str = "无冲突";
-						unralation++;
-					} else {
-						/*
-						 * if (judge_Relation_Policy(policy1, policy2, dataBase)
-						 * == 1) { str = "语法冲突"; StringBuffer strSyntax = new
-						 * StringBuffer(); strSyntax.append("\n");
-						 * strSyntax.append("冲突对象："); strSyntax.append("\n");
-						 * strSyntax.append(str_Policy1 + " " + str_Policy2);
-						 * strSyntax.append("\n"); strSyntax.append("冲突位置：");
-						 * strSyntax.append("\n");
-						 * strSyntax.append("all policy elements");
-						 * strSyntax.append("\n"); strSyntax.append("冲突原因：");
-						 * strSyntax.append("\n");
-						 * strSyntax.append("systax conflict"); str = str +
-						 * strSyntax.toString(); syntaxConflict++; }
-						 */
-						if (judge_Relation_Policy(policy1, policy2, dataBase) == 2) {
-							str = "包含冲突";
-							StringBuffer strSyntax = new StringBuffer();
-							strSyntax.append("\n");
-							strSyntax.append("冲突对象：");
-							strSyntax.append("\n");
-							strSyntax.append(str_Policy1 + " " + str_Policy2);
-							strSyntax.append("\n");
-							strSyntax.append("冲突位置：");
-							strSyntax.append("\n");
-							strSyntax.append(str_Policy1 + "_"
-									+ policy1.getRole() + "与" + str_Policy2
-									+ "_" + policy2.getRole() + "在对文件夹"
-									+ policy1.getOrganization() + "\\"
-									+ policy1.getContext() + "\\"
-									+ policy1.getView() + "的" + this.fileActPos
-									+ "活动中发生冲突");
-							strSyntax.append("\n");
-							strSyntax.append("冲突原因：");
-							strSyntax.append("\n");
-							if (0 == this.getFileRoleInc()) {
-								strSyntax.append(str_Policy2 + "的角色"
-										+ policy2.getRole() + "继承了"
-										+ str_Policy1 + "的角色"
-										+ policy1.getRole());
-							} else if (1 == this.getFileRoleInc()) {
-								strSyntax.append(str_Policy1 + "的角色"
-										+ policy1.getRole() + "继承了"
-										+ str_Policy2 + "的角色"
-										+ policy2.getRole());
-							} else if (3 == this.getFileRoleInc()) {
-								
-							} else {
-								strSyntax.append(str_Policy1 + "的角色"
-										+ policy1.getRole() + "与" + str_Policy2
-										+ "的角色" + policy2.getRole() + "相同");
-							}
-							strSyntax.append("\n");
-							strSyntax.append(str_Policy1 + "的活动"
-									+ policy1.getActivity() + "与" + str_Policy2
-									+ "的活动" + policy2.getActivity() + "存在包含关系"
-									+ "(" + this.fileActPos + ")");
-							strSyntax.append("\n");
-							if (0 == this.getFileActInc()) {
-								strSyntax.append(str_Policy1 + "的活动"
-										+ policy1.getActivity() + "包含"
-										+ str_Policy2 + "的活动");
-							} else if (1 == this.getFileActInc()) {
-								strSyntax.append(str_Policy1 + "的活动"
-										+ policy1.getActivity() + "包含于"
-										+ str_Policy2 + "的活动");
-							} else if (3 == this.getFileActInc()) {
-
-							} else {
-								strSyntax.append(str_Policy1 + "的活动"
-										+ policy1.getActivity() + "与"
-										+ str_Policy2 + "的活动相同");
-							}
-
-							strSyntax.append("\n");
-							str = str + strSyntax.toString();
-
-							inclusiveConflict++;
-						}
-						if (judge_Relation_Policy(policy1, policy2, dataBase) == 3) {
-							str = "相关冲突";
-							partialConflict++;
-							StringBuffer strTemp = new StringBuffer();
-							strTemp.append("\n");
-							strTemp.append("冲突对象：");
-							strTemp.append("\n");
-							strTemp.append(str_Policy1 + " " + str_Policy2);
-							strTemp.append("\n");
-							strTemp.append("冲突位置:");
-							strTemp.append("\n");
-							strTemp.append(str_Policy1 + "_"
-									+ policy1.getRole() + "与" + str_Policy2
-									+ "_" + policy2.getRole() + "在对文件夹"
-									+ policy1.getOrganization() + "\\"
-									+ policy1.getContext() + "\\"
-									+ policy1.getView() + "的" + this.fileActPos
-									+ "活动中发生冲突");
-							strTemp.append("\n");
-							strTemp.append("冲突原因：");
-							strTemp.append("\n");
-							if (0 == this.getFileRoleInc()) {
-								strTemp.append(str_Policy2 + "的角色"
-										+ policy2.getRole() + "继承了"
-										+ str_Policy1 + "的角色"
-										+ policy1.getRole());
-							} else if (1 == this.getFileRoleInc()) {
-								strTemp.append(str_Policy1 + "的角色"
-										+ policy1.getRole() + "继承了"
-										+ str_Policy2 + "的角色"
-										+ policy2.getRole());
-							} else if (3 == this.getFileRoleInc()) {
-								strTemp.append(str_Policy1 + "的组"
-										+ policy1.getRole() + "与" + str_Policy2
-										+ "的组" + policy2.getRole() + "存在相同的用户");
-							} else {
-								strTemp.append(str_Policy1 + "的角色"
-										+ policy1.getRole() + "与" + str_Policy2
-										+ "的角色" + policy2.getRole() + "相同");
-							}
-							strTemp.append("\n");
-							strTemp.append(str_Policy1 + "的活动"
-									+ policy1.getActivity() + "与" + str_Policy2
-									+ "的活动" + policy2.getActivity() + "存在交集"
-									+ "(" + this.fileActPos + ")");
-							strTemp.append("\n");
-							// strTemp.append("\n");
-
-							str = str + strTemp.toString();
-
-						}
-						StringBuffer strBuffer = new StringBuffer();
-						strBuffer.append(str_Policy1);
-						strBuffer.append(" and ");
-						strBuffer.append(str_Policy2);
-						strBuffer.append(" exsit ");
-						strBuffer.append(str);
-						// frame.getJTextArea().setText(strBuffer.toString());
-						System.out.println(strBuffer.toString());
-
-						strTotal.append(strBuffer.toString());
-						strTotal.append("\n");
-					}
-				}
-			}
-		}
-		conflictAmount = syntaxConflict + inclusiveConflict + partialConflict;
-		result.setPolicyAmount(policyAmount);
-		result.setConflictAmount(conflictAmount);
-		result.setUnrelation(unralation);
-		// result.setSyntaxconflict(syntaxConflict);
-		result.setInclusivematch(inclusiveConflict);
-		result.setPartialmatch(partialConflict);
-		// 如果策略数量相同则不添加新数据
-		if (!policyDAO.getPolicyAmountList().contains(policyAmount)) {
-			policyDAO.addResult(result);
-		}
-
-		frame.getMessageArea().setText(strTotal.toString());
-
-		return strTotal.toString();
+		return new ShowConflictThread(frame, dataBase, this).start();
 	}
 
 	public String conflict_Analysis(Frame frame) {
@@ -438,7 +261,7 @@ public class ConflictAnalysis {
 		return strTotal.toString();
 
 	}
-	
+
 	public String conflict_Analysis_English(Frame frame, String dataBase) {
 		CndPolicy policy1 = null, policy2 = null;
 		Result result = new Result();
@@ -488,12 +311,13 @@ public class ConflictAnalysis {
 							strSyntax.append("Conflict Position：");
 							strSyntax.append("\n");
 							strSyntax.append(str_Policy1 + "_"
-									+ policy1.getRole() + " have conflict with " + str_Policy2
+									+ policy1.getRole()
+									+ " have conflict with " + str_Policy2
 									+ "_" + policy2.getRole() + " to folder "
 									+ policy1.getOrganization() + "\\"
 									+ policy1.getContext() + "\\"
-									+ policy1.getView() + " with action of " + this.fileActPos
-									+ "");
+									+ policy1.getView() + " with action of "
+									+ this.fileActPos + "");
 							strSyntax.append("\n");
 							strSyntax.append("Conflict Reason：");
 							strSyntax.append("\n");
@@ -508,17 +332,20 @@ public class ConflictAnalysis {
 										+ str_Policy2 + "'s role"
 										+ policy2.getRole());
 							} else if (3 == this.getFileRoleInc()) {
-								
+
 							} else {
 								strSyntax.append(str_Policy1 + "'s role "
-										+ policy1.getRole() + " is the same with " + str_Policy2
+										+ policy1.getRole()
+										+ " is the same with " + str_Policy2
 										+ "'s role " + policy2.getRole() + "");
 							}
 							strSyntax.append("\n");
 							strSyntax.append(str_Policy1 + "'s activity "
-									+ policy1.getActivity() + " and " + str_Policy2
-									+ " 's activity " + policy2.getActivity() + " have contain relation "
-									+ "(" + this.fileActPos + ")");
+									+ policy1.getActivity() + " and "
+									+ str_Policy2 + " 's activity "
+									+ policy2.getActivity()
+									+ " have contain relation " + "("
+									+ this.fileActPos + ")");
 							strSyntax.append("\n");
 							if (0 == this.getFileActInc()) {
 								strSyntax.append(str_Policy1 + "'s activity "
@@ -526,14 +353,16 @@ public class ConflictAnalysis {
 										+ str_Policy2 + "'s activity");
 							} else if (1 == this.getFileActInc()) {
 								strSyntax.append(str_Policy1 + "'s activity "
-										+ policy1.getActivity() + "is contained within "
-										+ str_Policy2 + "'s activity");
+										+ policy1.getActivity()
+										+ "is contained within " + str_Policy2
+										+ "'s activity");
 							} else if (3 == this.getFileActInc()) {
 
 							} else {
 								strSyntax.append(str_Policy1 + "'s activity "
-										+ policy1.getActivity() + " is the same with "
-										+ str_Policy2 + "'s activity");
+										+ policy1.getActivity()
+										+ " is the same with " + str_Policy2
+										+ "'s activity");
 							}
 
 							strSyntax.append("\n");
@@ -553,12 +382,13 @@ public class ConflictAnalysis {
 							strTemp.append("Conflict Position:");
 							strTemp.append("\n");
 							strTemp.append(str_Policy1 + "_"
-									+ policy1.getRole() + " have conflict with " + str_Policy2
+									+ policy1.getRole()
+									+ " have conflict with " + str_Policy2
 									+ "_" + policy2.getRole() + " to folder "
 									+ policy1.getOrganization() + "\\"
 									+ policy1.getContext() + "\\"
-									+ policy1.getView() + " with action of " + this.fileActPos
-									+ "");
+									+ policy1.getView() + " with action of "
+									+ this.fileActPos + "");
 							strTemp.append("\n");
 							strTemp.append("Conflict Reason：");
 							strTemp.append("\n");
@@ -574,18 +404,23 @@ public class ConflictAnalysis {
 										+ policy2.getRole());
 							} else if (3 == this.getFileRoleInc()) {
 								strTemp.append(str_Policy1 + "'s group "
-										+ policy1.getRole() + " and " + str_Policy2
-										+ "'s group " + policy2.getRole() + " have the same user");
+										+ policy1.getRole() + " and "
+										+ str_Policy2 + "'s group "
+										+ policy2.getRole()
+										+ " have the same user");
 							} else {
 								strTemp.append(str_Policy1 + "'s role "
-										+ policy1.getRole() + " is the same with " + str_Policy2
+										+ policy1.getRole()
+										+ " is the same with " + str_Policy2
 										+ "'s role " + policy2.getRole() + "");
 							}
 							strTemp.append("\n");
 							strTemp.append(str_Policy1 + "'s activity "
-									+ policy1.getActivity() + " and " + str_Policy2
-									+ "'s activity " + policy2.getActivity() + " have contain relation "
-									+ "(" + this.fileActPos + ")");
+									+ policy1.getActivity() + " and "
+									+ str_Policy2 + "'s activity "
+									+ policy2.getActivity()
+									+ " have contain relation " + "("
+									+ this.fileActPos + ")");
 							strTemp.append("\n");
 							// strTemp.append("\n");
 
@@ -809,6 +644,232 @@ public class ConflictAnalysis {
 
 	public int getFileActInc() {
 		return fileActInc;
+	}
+
+}
+
+class ShowConflictThread implements Runnable {
+	private Thread runner;
+	private ConflictAnalysis conAna;
+	private String dataBase;
+	private Frame frame;
+	private String s;
+
+	public ShowConflictThread(Frame frame, String dataBase,
+			ConflictAnalysis conAna) {
+		// TODO Auto-generated constructor stub
+		this.dataBase = dataBase;
+		this.conAna = conAna;
+		this.frame = frame;
+	}
+
+	public String start() {
+		// TODO Auto-generated method stub
+		runner = new Thread(this);
+		runner.start();
+		return s;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		String analysisInfo = "Start to detect the conflict...";
+		this.frame.getMessageArea().setText(analysisInfo + "\n");
+		CndPolicy policy1 = null, policy2 = null;
+		Result result = new Result();
+		int numberOfPolicy = conAna.getPolicyDAO().getPolicyAmount();
+		StringBuffer strTotal = new StringBuffer();
+		int policyAmount = numberOfPolicy;
+		int conflictAmount = 0;
+		int unralation = 0;
+		int syntaxConflict = 0;
+		int inclusiveConflict = 0;
+		int partialConflict = 0;
+
+		for (int i = 1; i < numberOfPolicy; i++) {
+			for (int j = i + 1; j <= numberOfPolicy; j++) {
+				policy1 = conAna.getPolicyDAO().getOnePolicy(i);
+				policy2 = conAna.getPolicyDAO().getOnePolicy(j);
+				String str = null;
+				String str_Policy1 = "policy" + policy1.getPolicyId();
+				String str_Policy2 = "policy" + policy2.getPolicyId();
+				if (!(policy1.getMeasure().equals(policy2.getMeasure()))) {
+					if (conAna
+							.judge_Relation_Policy(policy1, policy2, dataBase) == 0) {
+						str = "无冲突";
+						unralation++;
+					} else {
+						/*
+						 * if (judge_Relation_Policy(policy1, policy2, dataBase)
+						 * == 1) { str = "语法冲突"; StringBuffer strSyntax = new
+						 * StringBuffer(); strSyntax.append("\n");
+						 * strSyntax.append("冲突对象："); strSyntax.append("\n");
+						 * strSyntax.append(str_Policy1 + " " + str_Policy2);
+						 * strSyntax.append("\n"); strSyntax.append("冲突位置：");
+						 * strSyntax.append("\n");
+						 * strSyntax.append("all policy elements");
+						 * strSyntax.append("\n"); strSyntax.append("冲突原因：");
+						 * strSyntax.append("\n");
+						 * strSyntax.append("systax conflict"); str = str +
+						 * strSyntax.toString(); syntaxConflict++; }
+						 */
+						if (conAna.judge_Relation_Policy(policy1, policy2,
+								dataBase) == 2) {
+							str = "包含冲突";
+							StringBuffer strSyntax = new StringBuffer();
+							strSyntax.append("\n");
+							strSyntax.append("冲突对象：");
+							strSyntax.append("\n");
+							strSyntax.append(str_Policy1 + " " + str_Policy2);
+							strSyntax.append("\n");
+							strSyntax.append("冲突位置：");
+							strSyntax.append("\n");
+							strSyntax.append(str_Policy1 + "_"
+									+ policy1.getRole() + "与" + str_Policy2
+									+ "_" + policy2.getRole() + "在对文件夹"
+									+ policy1.getOrganization() + "\\"
+									+ policy1.getContext() + "\\"
+									+ policy1.getView() + "的"
+									+ conAna.getFileActPos() + "活动中发生冲突");
+							strSyntax.append("\n");
+							strSyntax.append("冲突原因：");
+							strSyntax.append("\n");
+							if (0 == conAna.getFileRoleInc()) {
+								strSyntax.append(str_Policy2 + "的角色"
+										+ policy2.getRole() + "继承了"
+										+ str_Policy1 + "的角色"
+										+ policy1.getRole());
+							} else if (1 == conAna.getFileRoleInc()) {
+								strSyntax.append(str_Policy1 + "的角色"
+										+ policy1.getRole() + "继承了"
+										+ str_Policy2 + "的角色"
+										+ policy2.getRole());
+							} else if (3 == conAna.getFileRoleInc()) {
+
+							} else {
+								strSyntax.append(str_Policy1 + "的角色"
+										+ policy1.getRole() + "与" + str_Policy2
+										+ "的角色" + policy2.getRole() + "相同");
+							}
+							strSyntax.append("\n");
+							strSyntax.append(str_Policy1 + "的活动"
+									+ policy1.getActivity() + "与" + str_Policy2
+									+ "的活动" + policy2.getActivity() + "存在包含关系"
+									+ "(" + conAna.getFileActPos() + ")");
+							strSyntax.append("\n");
+							if (0 == conAna.getFileActInc()) {
+								strSyntax.append(str_Policy1 + "的活动"
+										+ policy1.getActivity() + "包含"
+										+ str_Policy2 + "的活动");
+							} else if (1 == conAna.getFileActInc()) {
+								strSyntax.append(str_Policy1 + "的活动"
+										+ policy1.getActivity() + "包含于"
+										+ str_Policy2 + "的活动");
+							} else if (3 == conAna.getFileActInc()) {
+
+							} else {
+								strSyntax.append(str_Policy1 + "的活动"
+										+ policy1.getActivity() + "与"
+										+ str_Policy2 + "的活动相同");
+							}
+
+							strSyntax.append("\n");
+							str = strSyntax.toString();
+
+							analysisInfo = str;
+							this.frame.getMessageArea().append(
+									analysisInfo + "\n");
+
+							inclusiveConflict++;
+						}
+						if (conAna.judge_Relation_Policy(policy1, policy2,
+								dataBase) == 3) {
+							str = "相关冲突";
+							partialConflict++;
+							StringBuffer strTemp = new StringBuffer();
+							strTemp.append("\n");
+							strTemp.append("冲突对象：");
+							strTemp.append("\n");
+							strTemp.append(str_Policy1 + " " + str_Policy2);
+							strTemp.append("\n");
+							strTemp.append("冲突位置:");
+							strTemp.append("\n");
+							strTemp.append(str_Policy1 + "_"
+									+ policy1.getRole() + "与" + str_Policy2
+									+ "_" + policy2.getRole() + "在对文件夹"
+									+ policy1.getOrganization() + "\\"
+									+ policy1.getContext() + "\\"
+									+ policy1.getView() + "的"
+									+ conAna.getFileActPos() + "活动中发生冲突");
+							strTemp.append("\n");
+							strTemp.append("冲突原因：");
+							strTemp.append("\n");
+							if (0 == conAna.getFileRoleInc()) {
+								strTemp.append(str_Policy2 + "的角色"
+										+ policy2.getRole() + "继承了"
+										+ str_Policy1 + "的角色"
+										+ policy1.getRole());
+							} else if (1 == conAna.getFileRoleInc()) {
+								strTemp.append(str_Policy1 + "的角色"
+										+ policy1.getRole() + "继承了"
+										+ str_Policy2 + "的角色"
+										+ policy2.getRole());
+							} else if (3 == conAna.getFileRoleInc()) {
+								strTemp.append(str_Policy1 + "的组"
+										+ policy1.getRole() + "与" + str_Policy2
+										+ "的组" + policy2.getRole() + "存在相同的用户");
+							} else {
+								strTemp.append(str_Policy1 + "的角色"
+										+ policy1.getRole() + "与" + str_Policy2
+										+ "的角色" + policy2.getRole() + "相同");
+							}
+							strTemp.append("\n");
+							strTemp.append(str_Policy1 + "的活动"
+									+ policy1.getActivity() + "与" + str_Policy2
+									+ "的活动" + policy2.getActivity() + "存在交集"
+									+ "(" + conAna.getFileActPos() + ")");
+							strTemp.append("\n");
+							// strTemp.append("\n");
+
+							str = strTemp.toString();
+
+							analysisInfo = str;
+							this.frame.getMessageArea().append(
+									analysisInfo + "\n");
+
+						}
+						StringBuffer strBuffer = new StringBuffer();
+						strBuffer.append(str_Policy1);
+						strBuffer.append(" and ");
+						strBuffer.append(str_Policy2);
+						strBuffer.append(" exsit ");
+						strBuffer.append(str);
+						// frame.getJTextArea().setText(strBuffer.toString());
+						System.out.println(strBuffer.toString());
+
+						strTotal.append(strBuffer.toString());
+						strTotal.append("\n");
+					}
+				}
+			}
+		}
+		conflictAmount = syntaxConflict + inclusiveConflict + partialConflict;
+		result.setPolicyAmount(policyAmount);
+		result.setConflictAmount(conflictAmount);
+		result.setUnrelation(unralation);
+		// result.setSyntaxconflict(syntaxConflict);
+		result.setInclusivematch(inclusiveConflict);
+		result.setPartialmatch(partialConflict);
+		// 如果策略数量相同则不添加新数据
+		if (!conAna.getPolicyDAO().getPolicyAmountList().contains(policyAmount)) {
+			conAna.getPolicyDAO().addResult(result);
+		}
+
+		
+		//frame.getMessageArea().setText(strTotal.toString());
+
+		this.s = strTotal.toString();
+
 	}
 
 }

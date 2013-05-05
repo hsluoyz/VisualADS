@@ -22,6 +22,7 @@ public:
 
 // Attributes
 public:
+	BOOL bChineseOrEnglish;
 	CBCGPProp* m_pBasicInfo;
 	CBCGPProp* m_pExtensiveInfo;
 	CBCGPProp* m_pFatherInfo;

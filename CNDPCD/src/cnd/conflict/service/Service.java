@@ -18,6 +18,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
@@ -33,6 +34,7 @@ import cnd.conflict.detect.ConflictAnalysis;
 import cnd.conflict.detect.RelationGraph;
 import cnd.conflict.detect.Report;
 import cnd.conflict.entity.CndPolicy;
+import cnd.conflict.frame.Cndpcd;
 import cnd.conflict.frame.Frame;
 import cnd.conflict.frame.PolicyEditor;
 import cnd.conflict.frame.ResultAnalysisFrame;
@@ -56,12 +58,11 @@ public class Service {
 	// JFileChooser
 	private JFileChooser filechooser = new JFileChooser();
 
-	
 	private RelationGraph relationGraph = RelationGraph.getInstance(frame);
 
 	private ConflictAnalysis conflictAnalysis = ConflictAnalysis.getInstance();
 
-	private PolicyDAO policyDAO = new PolicyDAO();
+	PolicyDAO policyDAO = new PolicyDAO();
 	private PolicyEditor policyEditor;
 
 	private Report notepadSample = Report.getInstance();
@@ -71,6 +72,15 @@ public class Service {
 	// 类中需要定义的域中信息
 	private String[] domainNames = new String[20];
 
+	
+	public static Frame getFrame() {
+		return frame;
+	}
+
+	public PolicyDAO getPolicyDAO() {
+		return policyDAO;
+	}
+
 	public String[] getDomainNames() {
 		return domainNames;
 	}
@@ -78,7 +88,7 @@ public class Service {
 	/**
 	 * 私有构造器
 	 */
-	private Service(Frame frame) {
+	protected Service(Frame frame) {
 		Service.frame = frame;
 	}
 
@@ -92,7 +102,7 @@ public class Service {
 		if (service == null) {
 			service = new Service(frame);
 		}
-		
+
 		return service;
 	}
 
@@ -133,278 +143,57 @@ public class Service {
 
 	// 策略解析时将文件内容信息存入数据库
 	public void policyAnalysis(Frame frame) {
+		String analysisInfo;
 		if ("fileservices" == dataBaseConn.getUrl_database()) {
-			FileInputStream fis = null;
-			InputStreamReader isr = null;
-			// activity 表
-			this.policyDAO.addActivity("R", "FileServices");
-			this.policyDAO.addActivity("W", "FileServices");
-			this.policyDAO.addActivity("X", "FileServices");
-			// measure表
-			this.policyDAO.addMeasure("permit", "deny");
-			this.policyDAO.addMeasure("deny", "permit");
-			// semantic_activity表
-			this.policyDAO.addActivitySemantic("R", "Read");
-			this.policyDAO.addActivitySemantic("W", "Write");
-			this.policyDAO.addActivitySemantic("X", "Execute");
-			// System.out.println("********************");
-			// sematic_meature表
-			this.policyDAO.addMeasureSemantic("permint", "", 0);
-			this.policyDAO.addMeasureSemantic("deny", "", 0);
-			// System.out.println("********************");
-			BufferedReader br = null; // 用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
+			//开启文件读取线程
+			new FileReadThread(this).start();
+		}
+
+	}
+
+	public String initPolicyDir() {
+		String curDir = null;
+		String filePath = System.getProperty("user.dir");
+		if (isFileExist(filePath + "/resources")) {
+			curDir = filePath + "/resources/";
+		} else {
+			// 获得JAR包所在路径
+			filePath = new Cndpcd().getClass().getProtectionDomain()
+					.getCodeSource().getLocation().getFile();
 			try {
-				// 实现了数据库切换的话每个数据库中的表就是已经建立好的
-				String str = "";
-				// System.out.println("********************");
-				//fis = new FileInputStream("./resources/CNDP_FileService.txt");// FileInputStream
-				//fis = new FileInputStream("K:/javatest/CNDPCD-20130314/bin/CNDP_FileService.txt");
-				//akisn0w
-				//fis = new FileInputStream("C:/Users/Administrator/Desktop/VisualADS/policy/CNDP.txt");
-				fis = new FileInputStream("C:/Users/Administrator/Desktop/VisualADS/CNDPCD/resources/CNDP_FileService.txt");
-				// 从文件系统中的某个文件中获取字节
-				// 如果不是第一次读取相关类型文件则单纯把数据库中的表清空即可
-
-				isr = new InputStreamReader(fis);// InputStreamReader
-				// 是字节流通向字符流的桥梁,
-				br = new BufferedReader(isr);// 从字符输入流中读取文件中的内容,封装了一个new
-				// InputStreamReader的对象
-
-				int authPFlag = 0;
-				int inhePFlag = 0;
-
-				Set<String> contextSet = new HashSet<String>();
-				Set<String> viewSet = new HashSet<String>();
-				Set<String> semantic_viewSet = new HashSet<String>();
-				Set<String> semantic_contextSet = new HashSet<String>();
-
-				Set<String> roleSet = new HashSet<String>();
-
-				String domainName = null;
-
-				int domainNum = 0;
-
-				while ((str = br.readLine()) != null) {
-					// 遇到“{”即进入一个域的相关策略处理 遇到“}”结束对这个域的处理
-					// 关键字 Authorization: Inheritance: ChildGroup: ChildUser:
-					// NULL Everyone 分隔号::
-					// 保留域名
-
-					if (str.endsWith("{")) {
-						domainName = str.substring(0, str.length() - 1);
-						// System.out.println(domainName);
-					}
-					if (str.equals("}")) {
-						// 一个域信息的处理结束
-						// 将一个域的域名保存在数组中
-						this.domainNames[domainNum] = domainName;
-						domainNum++;
-						domainName = null;
-						authPFlag = 0;
-						inhePFlag = 0;
-					}
-
-					if (inhePFlag == 1) {
-						// 将继承策略插入到对应的表中
-						String[] s = str.split(":");
-						// role表两个元素
-						String roleParentElement = s[0].substring(1, s[0]
-								.indexOf("ChildGroup") - 1);
-
-						if (roleSet.isEmpty()) {
-							roleSet.add(domainName + "\\" + roleParentElement);
-							this.policyDAO.addRoleSemantic(domainName + "\\"
-									+ roleParentElement, "Group");
-						}
-						if (!roleSet.contains(domainName + "\\"
-								+ roleParentElement)) {
-							roleSet.add(domainName + "\\" + roleParentElement);
-							this.policyDAO.addRoleSemantic(domainName + "\\"
-									+ roleParentElement, "Group");
-						}
-
-						String roleElement = null;
-						// semanticrole表两个元素
-						// String role_RoleSemanticTable = null;
-						// String semantic_RoleSemanticTable = null;
-						String sChildGroup = s[1].substring(0, s[1]
-								.indexOf("ChildUser"));
-						String[] childGroup = sChildGroup.split(">");
-						for (int i = 0; i < childGroup.length; i++) {
-							System.out.println("*" + childGroup[i] + "*");
-
-						}
-						for (int i = 0; i < childGroup.length; i++) {
-							if (!(childGroup[i].contains("?"))) {
-								roleElement = childGroup[i].substring(1,
-										childGroup[i].length());
-
-								System.out.println("----" + roleElement);
-
-								this.policyDAO.addRole(roleElement, domainName
-										+ "\\" + roleParentElement);
-								if (roleSet.isEmpty()) {
-									roleSet
-											.add(domainName + "\\"
-													+ roleElement);
-									this.policyDAO.addRoleSemantic(domainName
-											+ "\\" + roleElement, "Group");
-								}
-								if (!roleSet.contains(domainName + "\\"
-										+ roleElement)) {
-									roleSet
-											.add(domainName + "\\"
-													+ roleElement);
-									this.policyDAO.addRoleSemantic(domainName
-											+ "\\" + roleElement, "Group");
-								}
-							}
-						}
-						String[] childUser = s[2].split(">");
-						for (int j = 0; j < childUser.length; j++) {
-							if (!(childUser[j].contains("?"))) {
-								roleElement = childUser[j];
-								roleElement = childUser[j].substring(1,
-										childUser[j].length());
-
-								System.out.println("----" + roleElement);
-
-								this.policyDAO.addRole(roleElement, domainName
-										+ "\\" + roleParentElement);
-								if (roleSet.isEmpty()) {
-									roleSet
-											.add(domainName + "\\"
-													+ roleElement);
-									this.policyDAO.addRoleSemantic(domainName
-											+ "\\" + roleElement, "User");
-								}
-								if (!roleSet.contains(domainName + "\\"
-										+ roleElement)) {
-									roleSet
-											.add(domainName + "\\"
-													+ roleElement);
-									this.policyDAO.addRoleSemantic(domainName
-											+ "\\" + roleElement, "User");
-								}
-							}
-						}
-					}
-
-					if (str.equals("Inheritance:")) {
-						authPFlag = 0;
-						inhePFlag = 1;
-						// System.out.println("授权策略");
-					}
-					if (authPFlag == 1) {
-						// 将授权策略插入到对应的表中
-						// tech.adtest.net\ly:KIRA\just for test3:RX:deny
-						// s[0]是用户所属的域 S[1]用户名 s[2]主机名 s[3]文件夹名 s[4]活动名 s[5]措施
-						String[] s = str.split(":|\\\\");
-						// 列出每条策略的每个元组内容
-						/*
-						 * for(int i = 0; i< s.length; i++){
-						 * System.out.println(s[i]); }
-						 */
-						// 策略表(policy)的插入
-						CndPolicy cndPolicy = new CndPolicy();
-						try {
-							cndPolicy.setType(0);
-							cndPolicy.setContext(s[2]);
-							cndPolicy.setRole(s[0] + "\\" + s[1]);
-							// System.out.println("S[0]=" + s[0] + "\n");
-							cndPolicy.setView(s[3]);
-							cndPolicy.setActivity(s[4]);
-							cndPolicy.setMeasure(s[5]);
-							cndPolicy.setOrganization(domainName);
-							// System.out.println(domainName);
-
-						} catch (NullPointerException ex) {
-							ex.printStackTrace();
-						}
-						policyDAO.addPolicy(cndPolicy);
-						// context表的插入
-						if (contextSet.isEmpty()) {
-							contextSet.add(domainName + "\\" + s[2]);
-							this.policyDAO.addContext(s[2], domainName);
-							// System.out.println("*********view表***********"+s[2]);
-						}
-						if (!contextSet.contains(domainName + "\\" + s[2])) {
-							this.policyDAO.addContext(s[2], domainName);
-							contextSet.add(domainName + "\\" + s[2]);
-							// System.out.println("**********view表**********"+s[2]);
-						}
-						// view表的插入
-						if (viewSet.isEmpty()) {
-							viewSet.add(domainName + "\\" + s[2] + "\\" + s[3]);
-							this.policyDAO.addView(s[3], domainName + "\\"
-									+ s[2]);
-							// System.out.println("*********view表***********"+s[2]);
-						}
-						if (!viewSet.contains(s[2] + "\\" + s[3])) {
-							this.policyDAO.addView(s[3], domainName + "\\"
-									+ s[2]);
-							viewSet.add(domainName + "\\" + s[2] + "\\" + s[3]);
-							// System.out.println("**********view表**********"+s[2]);
-						}
-						// 语义表的插入
-						// semaitic_role表 继承策略中体现
-
-						// semantic_view表 文件夹是以主机+文件夹名来标识的
-						if (semantic_viewSet.isEmpty()) {
-							semantic_viewSet.add(domainName + "\\" + s[2]
-									+ "\\" + s[3]);
-							this.policyDAO.addViewSemantic(domainName + "\\"
-									+ s[2] + "\\" + s[3], "File");
-							// System.out.println("*********semantic_view表***********"+s[2]);
-						}
-						if (!semantic_viewSet.contains(domainName + "\\" + s[2]
-								+ "\\" + s[3])) {
-							this.policyDAO.addViewSemantic(domainName + "\\"
-									+ s[2] + "\\" + s[3], "File");
-							semantic_viewSet.add(domainName + "\\" + s[2]
-									+ "\\" + s[3]);
-							// System.out.println("**********semantic_view表**********"+s[2]);
-						}
-						// sematic_context表
-						if (semantic_contextSet.isEmpty()) {
-							semantic_contextSet.add(domainName + "\\" + s[2]);
-							this.policyDAO.addContextSemantic(domainName + "\\"
-									+ s[2], "host");
-							// System.out.println("**********sematic_context表**********"+s[1]);
-						}
-						if (!semantic_contextSet.contains(domainName + "\\"
-								+ s[2])) {
-							this.policyDAO.addContextSemantic(domainName + "\\"
-									+ s[2], "host");
-							semantic_contextSet.add(domainName + "\\" + s[2]);
-							// System.out.println("**********sematic_context表**********"+s[1]);
-						}
-					}
-					if (str.equals("Authorization:")) {
-						authPFlag = 1;
-						inhePFlag = 0;
-						// System.out.println("授权策略");
-					}
-				}
-			} catch (FileNotFoundException e) {
-				System.out.println("找不到指定文件");
-			} catch (IOException e) {
-				System.out.println("读取文件失败");
-			} finally {
+				filePath = java.net.URLDecoder.decode(filePath, "UTF-8");
+			} catch (java.io.UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			java.io.File jarFile = new java.io.File(filePath);
+			java.io.File parent = jarFile.getParentFile();
+			java.io.File grandPa = parent.getParentFile();
+			if (grandPa != null) {
+				filePath = grandPa.getAbsolutePath();
 				try {
-					br.close();
-					isr.close();
-					fis.close();
-					// 关闭的时候最好按照先后顺序关闭最后开的先关闭所以先关s,再关n,最后关m
-				} catch (IOException e) {
+					filePath = java.net.URLDecoder.decode(filePath, "UTF-8");
+				} catch (java.io.UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
 			}
 
+			if (isFileExist(filePath + "/policy")) {
+				curDir = filePath + "/policy/";
+			} else {
+				JOptionPane.showMessageDialog(null, "initPolicyDir Error",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+		return curDir;
+	}
 
-		String analysisInfo = "policy analysis success!";
-		frame.getMessageArea().setText(analysisInfo);
+	private boolean isFileExist(String filePath) {
+		File f = new File(filePath);
+		if (f.exists()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void initJTable(Frame frame) {
@@ -513,11 +302,14 @@ public class Service {
 		DefaultTreeModel model = new DefaultTreeModel(root);
 		tree.setModel(model);
 		try {
-			//BufferedReader br = new BufferedReader(new FileReader(new File(
-			//		"K:/javatest/CNDPCD-20130314/resources/CNDPolicy.owl")));
-			//akisn0w
 			BufferedReader br = new BufferedReader(new FileReader(new File(
-					"C:/Users/Administrator/Desktop/VisualADS/CNDPCD/resources/CNDPolicy.owl")));
+					"K:/javatest/CNDPCD-20130314/resources/CNDPolicy.owl")));
+			// akisn0w
+			/*
+			 * BufferedReader br = new BufferedReader(new FileReader(new File(
+			 * "C:/Users/Administrator/Desktop/VisualADS/CNDPCD/resources/CNDPolicy.owl"
+			 * )));
+			 */
 			String str = null;
 			StringBuffer strBuffer = new StringBuffer();
 			try {
@@ -762,6 +554,11 @@ public class Service {
 		if (cmd.equals("连接样例数据库") || cmd.equals("Connect Sample Database")) {
 			dataBaseConn.closeConn();
 			dataBaseConn.setUrl_database("policy");
+			if (cmd.equals("Connect Sample Database")) {
+				frame.getMessageArea().setText("Sample database connected");
+			} else {
+				frame.getMessageArea().setText("已连接到样例数据库");
+			}
 			System.out.println(dataBaseConn.getUrl_database());
 		}
 		if (cmd.equals("检测文件访问控制策略") || cmd.equals("Detect File Policies")) {
@@ -769,6 +566,12 @@ public class Service {
 			dataBaseConn.setUrl_database("fileservices");
 			// 清空数据库中表的数据
 			policyDAO.deleteAllTable();
+			if (cmd.equals("Detect File Policies")) {
+				frame.getMessageArea()
+						.setText("FileService database connected");
+			} else {
+				frame.getMessageArea().setText("已连接到文件服务数据库");
+			}
 			System.out.println(dataBaseConn.getUrl_database());
 		}
 		// 策略解析
@@ -800,14 +603,14 @@ public class Service {
 		if (cmd.equals("冲突检测") || cmd.equals("Detect Conflicts")) {
 			if (frame == null || frame.getLanguage() == 1) {
 				if ("fileservices" == dataBaseConn.getUrl_database()) {
-					conflictAnalysis.conflict_Analysis(frame , "fileservices");
+					conflictAnalysis.conflict_Analysis(frame, "fileservices");
 				} else {
 					conflictAnalysis.conflict_Analysis(frame);
 				}
-			}
-			else {
+			} else {
 				if ("fileservices" == dataBaseConn.getUrl_database()) {
-					conflictAnalysis.conflict_Analysis_English(frame , "fileservices");
+					conflictAnalysis.conflict_Analysis_English(frame,
+							"fileservices");
 				} else {
 					conflictAnalysis.conflict_Analysis_English(frame);
 				}
@@ -845,3 +648,324 @@ public class Service {
 	}
 
 }
+
+/**
+ * 文件读取线程
+ */
+class FileReadThread implements Runnable {
+	
+	private Thread runner;
+	private Service service;
+
+	public FileReadThread(Service service) {
+       this.service = service;
+	}
+
+	public void start() {
+		// TODO Auto-generated method stub
+		runner = new Thread(this);
+		runner.start();
+	}
+
+	@Override
+	public void run() {
+		String analysisInfo = "Policy file is analyzing...";
+		service.getFrame().getMessageArea().setText(analysisInfo + "\n");
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
+		// activity 表
+		service.getPolicyDAO().addActivity("R", "FileServices");
+		service.getPolicyDAO().addActivity("W", "FileServices");
+		service.getPolicyDAO().addActivity("X", "FileServices");
+		// measure表
+		service.getPolicyDAO().addMeasure("permit", "deny");
+		service.getPolicyDAO().addMeasure("deny", "permit");
+		// semantic_activity表
+		service.getPolicyDAO().addActivitySemantic("R", "Read");
+		service.getPolicyDAO().addActivitySemantic("W", "Write");
+		service.getPolicyDAO().addActivitySemantic("X", "Execute");
+		// System.out.println("********************");
+		// sematic_meature表
+		service.getPolicyDAO().addMeasureSemantic("permint", "", 0);
+		service.getPolicyDAO().addMeasureSemantic("deny", "", 0);
+		// System.out.println("********************");
+		BufferedReader br = null; // 用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
+		try {
+			// 实现了数据库切换的话每个数据库中的表就是已经建立好的
+			String str = "";
+			// System.out.println("********************");
+			// fis = new
+			// FileInputStream("./resources/CNDP_FileService.txt");//
+			// FileInputStream
+			// fis = new
+			// FileInputStream("K:/javatest/CNDPCD-20130314/bin/CNDP_FileService.txt");
+			// akisn0w
+			// fis = new
+			// FileInputStream("C:/Users/Administrator/Desktop/VisualADS/policy/CNDP.txt");
+			// fis = new
+			// FileInputStream("C:/Users/Administrator/Desktop/VisualADS/CNDPCD/resources/CNDP_FileService.txt");
+			// 从文件系统中的某个文件中获取字节
+			// 如果不是第一次读取相关类型文件则单纯把数据库中的表清空即可
+
+			// 设置相对路径 判断改软件是从哪个环境下运行的 JAR包、eclipse
+			String PFilePath = service.initPolicyDir() + "CNDP_FileService.txt";
+			fis = new FileInputStream(PFilePath);
+
+			isr = new InputStreamReader(fis);// InputStreamReader
+			// 是字节流通向字符流的桥梁,
+			br = new BufferedReader(isr);// 从字符输入流中读取文件中的内容,封装了一个new
+			// InputStreamReader的对象
+
+			int authPFlag = 0;
+			int inhePFlag = 0;
+
+			Set<String> contextSet = new HashSet<String>();
+			Set<String> viewSet = new HashSet<String>();
+			Set<String> semantic_viewSet = new HashSet<String>();
+			Set<String> semantic_contextSet = new HashSet<String>();
+
+			Set<String> roleSet = new HashSet<String>();
+
+			String domainName = null;
+
+			int domainNum = 0;
+
+			while ((str = br.readLine()) != null) {
+				// 遇到“{”即进入一个域的相关策略处理 遇到“}”结束对这个域的处理
+				// 关键字 Authorization: Inheritance: ChildGroup: ChildUser:
+				// NULL Everyone 分隔号::
+				// 保留域名
+
+				if (str.endsWith("{")) {
+					domainName = str.substring(0, str.length() - 1);
+					analysisInfo = "Starting parsing domain: " + domainName;
+					service.getFrame().getMessageArea().append(analysisInfo + "\n");
+					// frame.getMessageArea().setText(analysisInfo);
+					// System.out.println(domainName);
+				}
+				if (str.equals("}")) {
+					// 一个域信息的处理结束
+					// 将一个域的域名保存在数组中
+					analysisInfo = "Finished parsing domain: " + domainName;
+					service.getFrame().getMessageArea().append(analysisInfo + "\n");
+					// frame.getMessageArea().setText(analysisInfo);
+					service.getDomainNames()[domainNum] = domainName;
+					domainNum++;
+					domainName = null;
+					authPFlag = 0;
+					inhePFlag = 0;
+				}
+
+				if (inhePFlag == 1) {
+					// 将继承策略插入到对应的表中
+					
+					String[] s = str.split(":");
+					// role表两个元素
+					String roleParentElement = s[0].substring(1, s[0]
+							.indexOf("ChildGroup") - 1);
+
+					if (roleSet.isEmpty()) {
+						roleSet.add(domainName + "\\" + roleParentElement);
+						service.getPolicyDAO().addRoleSemantic(domainName + "\\"
+								+ roleParentElement, "Group");
+					}
+					if (!roleSet.contains(domainName + "\\"
+							+ roleParentElement)) {
+						roleSet.add(domainName + "\\" + roleParentElement);
+						service.getPolicyDAO().addRoleSemantic(domainName + "\\"
+								+ roleParentElement, "Group");
+					}
+
+					String roleElement = null;
+					// semanticrole表两个元素
+					// String role_RoleSemanticTable = null;
+					// String semantic_RoleSemanticTable = null;
+					String sChildGroup = s[1].substring(0, s[1]
+							.indexOf("ChildUser"));
+					String[] childGroup = sChildGroup.split(">");
+					for (int i = 0; i < childGroup.length; i++) {
+						System.out.println("*" + childGroup[i] + "*");
+
+					}
+					for (int i = 0; i < childGroup.length; i++) {
+						if (!(childGroup[i].contains("?"))) {
+							roleElement = childGroup[i].substring(1,
+									childGroup[i].length());
+
+							System.out.println("----" + roleElement);
+
+							service.getPolicyDAO().addRole(roleElement, domainName
+									+ "\\" + roleParentElement);
+							if (roleSet.isEmpty()) {
+								roleSet
+										.add(domainName + "\\"
+												+ roleElement);
+								service.getPolicyDAO().addRoleSemantic(domainName
+										+ "\\" + roleElement, "Group");
+							}
+							if (!roleSet.contains(domainName + "\\"
+									+ roleElement)) {
+								roleSet
+										.add(domainName + "\\"
+												+ roleElement);
+								service.getPolicyDAO().addRoleSemantic(domainName
+										+ "\\" + roleElement, "Group");
+							}
+						}
+					}
+					String[] childUser = s[2].split(">");
+					for (int j = 0; j < childUser.length; j++) {
+						if (!(childUser[j].contains("?"))) {
+							roleElement = childUser[j];
+							roleElement = childUser[j].substring(1,
+									childUser[j].length());
+
+							System.out.println("----" + roleElement);
+
+							service.getPolicyDAO().addRole(roleElement, domainName
+									+ "\\" + roleParentElement);
+							if (roleSet.isEmpty()) {
+								roleSet
+										.add(domainName + "\\"
+												+ roleElement);
+								service.getPolicyDAO().addRoleSemantic(domainName
+										+ "\\" + roleElement, "User");
+							}
+							if (!roleSet.contains(domainName + "\\"
+									+ roleElement)) {
+								roleSet
+										.add(domainName + "\\"
+												+ roleElement);
+								service.getPolicyDAO().addRoleSemantic(domainName
+										+ "\\" + roleElement, "User");
+							}
+						}
+					}
+				}
+
+				if (str.equals("Inheritance:")) {
+					authPFlag = 0;
+					inhePFlag = 1;
+					analysisInfo = "Parsing the inheritance policy...";
+					service.getFrame().getMessageArea().append(analysisInfo + "\n");
+					// System.out.println("授权策略");
+				}
+				if (authPFlag == 1) {
+					// 将授权策略插入到对应的表中
+					// tech.adtest.net\ly:KIRA\just for test3:RX:deny
+					// s[0]是用户所属的域 S[1]用户名 s[2]主机名 s[3]文件夹名 s[4]活动名 s[5]措施
+					String[] s = str.split(":|\\\\");
+					// 列出每条策略的每个元组内容
+					/*
+					 * for(int i = 0; i< s.length; i++){
+					 * System.out.println(s[i]); }
+					 */
+					// 策略表(policy)的插入
+					CndPolicy cndPolicy = new CndPolicy();
+					try {
+						cndPolicy.setType(0);
+						cndPolicy.setContext(s[2]);
+						cndPolicy.setRole(s[0] + "\\" + s[1]);
+						// System.out.println("S[0]=" + s[0] + "\n");
+						cndPolicy.setView(s[3]);
+						cndPolicy.setActivity(s[4]);
+						cndPolicy.setMeasure(s[5]);
+						cndPolicy.setOrganization(domainName);
+						// System.out.println(domainName);
+
+					} catch (NullPointerException ex) {
+						ex.printStackTrace();
+					}
+					service.getPolicyDAO().addPolicy(cndPolicy);
+					// context表的插入
+					if (contextSet.isEmpty()) {
+						contextSet.add(domainName + "\\" + s[2]);
+						service.getPolicyDAO().addContext(s[2], domainName);
+						// System.out.println("*********view表***********"+s[2]);
+					}
+					if (!contextSet.contains(domainName + "\\" + s[2])) {
+						service.getPolicyDAO().addContext(s[2], domainName);
+						contextSet.add(domainName + "\\" + s[2]);
+						// System.out.println("**********view表**********"+s[2]);
+					}
+					// view表的插入
+					if (viewSet.isEmpty()) {
+						viewSet.add(domainName + "\\" + s[2] + "\\" + s[3]);
+						service.getPolicyDAO().addView(s[3], domainName + "\\"
+								+ s[2]);
+						// System.out.println("*********view表***********"+s[2]);
+					}
+					if (!viewSet.contains(s[2] + "\\" + s[3])) {
+						service.getPolicyDAO().addView(s[3], domainName + "\\"
+								+ s[2]);
+						viewSet.add(domainName + "\\" + s[2] + "\\" + s[3]);
+						// System.out.println("**********view表**********"+s[2]);
+					}
+					// 语义表的插入
+					// semaitic_role表 继承策略中体现
+
+					// semantic_view表 文件夹是以主机+文件夹名来标识的
+					if (semantic_viewSet.isEmpty()) {
+						semantic_viewSet.add(domainName + "\\" + s[2]
+								+ "\\" + s[3]);
+						service.getPolicyDAO().addViewSemantic(domainName + "\\"
+								+ s[2] + "\\" + s[3], "File");
+						// System.out.println("*********semantic_view表***********"+s[2]);
+					}
+					if (!semantic_viewSet.contains(domainName + "\\" + s[2]
+							+ "\\" + s[3])) {
+						service.getPolicyDAO().addViewSemantic(domainName + "\\"
+								+ s[2] + "\\" + s[3], "File");
+						semantic_viewSet.add(domainName + "\\" + s[2]
+								+ "\\" + s[3]);
+						// System.out.println("**********semantic_view表**********"+s[2]);
+					}
+					// sematic_context表
+					if (semantic_contextSet.isEmpty()) {
+						semantic_contextSet.add(domainName + "\\" + s[2]);
+						service.getPolicyDAO().addContextSemantic(domainName + "\\"
+								+ s[2], "host");
+						// System.out.println("**********sematic_context表**********"+s[1]);
+					}
+					if (!semantic_contextSet.contains(domainName + "\\"
+							+ s[2])) {
+						service.getPolicyDAO().addContextSemantic(domainName + "\\"
+								+ s[2], "host");
+						semantic_contextSet.add(domainName + "\\" + s[2]);
+						// System.out.println("**********sematic_context表**********"+s[1]);
+					}
+				}
+				if (str.equals("Authorization:")) {
+					authPFlag = 1;
+					inhePFlag = 0;
+					analysisInfo = "Parsing the authorization policy...";
+					service.getFrame().getMessageArea().append(analysisInfo + "\n");
+					// System.out.println("授权策略");
+				}
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("找不到指定文件");
+			JOptionPane.showMessageDialog(null, "File not Found Error",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			System.out.println("读取文件失败");
+			JOptionPane.showMessageDialog(null, "File read Error",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			try {
+				br.close();
+				isr.close();
+				fis.close();
+				// 关闭的时候最好按照先后顺序关闭最后开的先关闭所以先关s,再关n,最后关m
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		analysisInfo = "policy analysis success!";
+		service.getFrame().getMessageArea().append(analysisInfo + "\n");
+
+	}
+
+}
+

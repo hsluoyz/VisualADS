@@ -12,6 +12,7 @@ class ADShareFolder;
 class DLInterface
 {
 public:
+	BOOL bChineseOrEnglish;
 	int m_iMixOrShareOrNTFS;
 	BOOL m_bFileInterface;
 	DLRacerInterface *m_racerpro;

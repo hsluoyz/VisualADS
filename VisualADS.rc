@@ -128,8 +128,8 @@ IDB_RIBBON_ICONS        PNG     DISCARDABLE     "res\\ribbonicons.png"
 IDB_RIBBON_FILESMALL    PNG     DISCARDABLE     "res\\ribbonfilesmall.png"
 IDB_RIBBON_FILELARGE    PNG     DISCARDABLE     "res\\ribbonfilelarge.png"
 IDB_RIBBON_MAIN         PNG     DISCARDABLE     "res\\ribbonmain.png"
-IDB_RIBBON_HOMELARGE    PNG     DISCARDABLE     "res\\idb_ribb.bin"
 IDB_RIBBON_HOMESMALL    PNG     DISCARDABLE     "res\\ribbonhomesmall.png"
+IDB_RIBBON_HOMELARGE    PNG     DISCARDABLE     "res\\ribbonhomelarge.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //

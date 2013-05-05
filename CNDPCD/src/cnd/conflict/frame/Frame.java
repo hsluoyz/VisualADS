@@ -5,6 +5,15 @@ import java.awt.Dimension;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -12,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -23,6 +33,113 @@ import cnd.conflict.dao.PolicyDAO;
 import cnd.conflict.service.Service;
 import cnd.conflict.util.DataBaseConn;
 
+class HideWizard extends Thread {
+	
+	public Frame frame;
+	 
+    public HideWizard() {
+ 
+    }
+    
+    public HideWizard(Frame frame) {
+    	this.frame = frame;
+    }
+    
+    private boolean isFileExist(String filePath) {
+		File f = new File(filePath);
+		if (f.exists()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+    
+    public String initPolicyDir() {
+		String curDir = null;
+		String filePath = System.getProperty("user.dir");
+		if (isFileExist(filePath + "/resources")) {
+			curDir = filePath + "/resources/";
+		} else {
+			// 获得JAR包所在路径
+			filePath = new Cndpcd().getClass().getProtectionDomain()
+					.getCodeSource().getLocation().getFile();
+			try {
+				filePath = java.net.URLDecoder.decode(filePath, "UTF-8");
+			} catch (java.io.UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			java.io.File jarFile = new java.io.File(filePath);
+			java.io.File parent = jarFile.getParentFile();
+			java.io.File grandPa = parent.getParentFile();
+			if (grandPa != null) {
+				filePath = grandPa.getAbsolutePath();
+				try {
+					filePath = java.net.URLDecoder.decode(filePath, "UTF-8");
+				} catch (java.io.UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (isFileExist(filePath + "/policy")) {
+				curDir = filePath + "/policy/";
+			} else {
+				JOptionPane.showMessageDialog(null, "initPolicyDir Error",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		return curDir;
+	}
+ 
+    public void run() {
+    	while (true) {
+    		String PFilePath = initPolicyDir() + "needShow.txt";
+    		FileInputStream fis = null;
+    		InputStreamReader isr = null;
+    		BufferedReader br = null;
+    		String str = "";
+    		
+			try {
+				fis = new FileInputStream(PFilePath);
+				isr = new InputStreamReader(fis);// InputStreamReader
+				// 是字节流通向字符流的桥梁,
+				br = new BufferedReader(isr);// 从字符输入流中读取文件中的内容,封装了一个new
+				// InputStreamReader的对象
+
+				while ((str = br.readLine()) != null) {
+					if (str.equals("needShow=1")) {
+						frame.setVisible(true);
+						return;
+					}
+				}
+			} catch (FileNotFoundException e) {
+				//System.out.println("找不到指定文件");
+				//JOptionPane.showMessageDialog(null, "File not Found Error",
+				//		"Error", JOptionPane.ERROR_MESSAGE);
+				frame.setVisible(true);
+				return;
+			} catch (IOException e) {
+				System.out.println("读取文件失败");
+				JOptionPane.showMessageDialog(null, "File read Error",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				try {
+					if (br != null) br.close();
+					if (isr != null) isr.close();
+					if (fis != null) fis.close();
+					// 关闭的时候最好按照先后顺序关闭最后开的先关闭所以先关s,再关n,最后关m
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+    	}
+    }
+ 
+    public static void main(String[] args) {
+    	
+    }
+}
+
 /**
  * 主界面对象
  * 
@@ -31,6 +148,7 @@ public class Frame extends JFrame {
 
 	//private java.util.ResourceBundle resourceBundle;
 	private int chineseOrEnglish = 1;
+	private HideWizard hideWizard;
 	
 	private int width = 800;
 	private int height = 600;
@@ -74,6 +192,10 @@ public class Frame extends JFrame {
 		super();
 		// 初始化这个JFrame
 		init();
+		
+		setVisible(false);
+		hideWizard = new HideWizard(this);
+    	hideWizard.start();
 	}
 
 	/**

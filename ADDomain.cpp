@@ -734,21 +734,25 @@ void ADDomain::addToProperties()
 	Output_ConsoleList(_T("Adding properties to objects in domain: ") + dNSName + _T("..."));
 	for (int i = 0; i < g_users.size(); i ++)
 	{
+		g_users[i]->clearInfos();
 		g_users[i]->addToProperties();
 	}
 
 	for (i = 0; i < g_groups.size(); i ++)
 	{
+		g_groups[i]->clearInfos();
 		g_groups[i]->addToProperties();
 	}
 
 	for (i = 0; i < g_computers.size(); i ++)
 	{
+		g_computers[i]->clearInfos();
 		g_computers[i]->addToProperties();
 	}
 
 	for (i = 0; i < g_shareFolders.size(); i ++)
 	{
+		g_shareFolders[i]->clearInfos();
 		g_shareFolders[i]->addToProperties();
 	}
 	Output_ConsoleList(_T("Finished parsing domain: ") + dNSName + _T("."));

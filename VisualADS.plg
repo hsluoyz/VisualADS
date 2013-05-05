@@ -6,16 +6,8 @@
 --------------------Configuration: VisualADS - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B1.tmp" with contents
-[
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Fp"Debug/VisualADS.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Users\Administrator\Desktop\VisualADS\DLRacerInterface.cpp"
-"C:\Users\Administrator\Desktop\VisualADS\MyMessageBox.cpp"
-"C:\Users\Administrator\Desktop\VisualADS\VisualADS.cpp"
-"C:\Users\Administrator\Desktop\VisualADS\VisualADSDoc.cpp"
-]
-Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B1.tmp" 
-Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B2.tmp" with contents
+Creating command line "rc.exe /l 0x409 /fo"Debug/VisualADS.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\Administrator\Desktop\VisualADS\VisualADS.rc"" 
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP2D83.tmp" with contents
 [
 version.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/VisualADS.pdb" /debug /machine:I386 /out:"Debug/VisualADS.exe" /pdbtype:sept 
 .\Debug\ADCNDPGenerator.obj
@@ -45,6 +37,8 @@ version.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/VisualADS.pd
 .\Debug\MyShape.obj
 .\Debug\OutputBar.obj
 .\Debug\PropertiesViewBar.obj
+.\Debug\SocketComm.obj
+.\Debug\SocketManager.obj
 .\Debug\SplashWindow.obj
 .\Debug\StdAfx.obj
 .\Debug\VisualADS.obj
@@ -55,14 +49,9 @@ version.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/VisualADS.pd
 .\Debug\WorkspaceBar2.obj
 .\Debug\VisualADS.res
 ]
-Creating command line "link.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP89B2.tmp"
+Creating command line "link.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP2D83.tmp"
 <h3>Output Window</h3>
-Compiling...
-Skipping... (no relevant changes detected)
-DLRacerInterface.cpp
-MyMessageBox.cpp
-VisualADS.cpp
-VisualADSDoc.cpp
+Compiling resources...
 Linking...
 
 

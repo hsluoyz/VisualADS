@@ -4,9 +4,7 @@
 //
 #define IDD_ABOUTBOX                    99
 #define IDP_OLE_INIT_FAILED             100
-
 #define ID_BTN_LOGINFO_SEARCH           101
-
 #define ID_EDIT_DCNAME                  104
 #define ID_EDIT_USERNAME                105
 #define ID_EDIT_PASSWORD                106
@@ -14,8 +12,6 @@
 #define ID_EDIT_RACER_IP                108
 #define ID_BTN_LOGON                    109
 #define ID_CHECK_DESIGN                 113
-#define ID_CHECK_ENGLISH                220
-#define ID_CHECK_CHINESE                221
 #define ID_BTN_START_RACER              114
 #define ID_BTN_DETECT                   115
 #define ID_BTN_CLEAR                    116
@@ -63,13 +59,16 @@
 #define ID_BTN_ADDDOMAIN                209
 #define ID_BTN_CNDP_GEN                 210
 #define ID_BTN_CNDPCD_GEN               211
-#define ID_BTN_REMOVEDOMAIN             212
+#define ID_BTN_CNDPCD_STOP              212
+#define ID_BTN_REMOVEDOMAIN             213
 #define IDB_SPLASH_OLD                  217
 #define IDB_SPLASH                      219
+#define ID_CHECK_ENGLISH                220
+#define ID_CHECK_CHINESE                221
 #define ID_EDIT_DCNAME2                 305
 #define ID_EDIT_USERNAME2               306
 #define ID_EDIT_PASSWORD2               307
-#define WM_SOCKET						308
+#define WM_SOCKET                       308
 #define IDC_COMPANY_URL                 1041
 #define IDC_ABOUT_EDIT                  1047
 #define ID_VIEW_WORKSPACE2              32792
@@ -104,7 +103,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        220
+#define _APS_NEXT_RESOURCE_VALUE        221
 #define _APS_NEXT_COMMAND_VALUE         32864
 #define _APS_NEXT_CONTROL_VALUE         1048
 #define _APS_NEXT_SYMED_VALUE           112

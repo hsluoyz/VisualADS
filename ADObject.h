@@ -24,6 +24,7 @@ public:
 	void addPairToChildUserInfos(CString strKey, CString strValue);
 	void addPairToAccessInfos(CString strKey, CString strValue);
 	void addPairToNetworkInfos(CString strKey, CString strValue);
+	void clearInfos();
 	virtual void onButttonDown();
 	virtual void onButtonUp();
 };

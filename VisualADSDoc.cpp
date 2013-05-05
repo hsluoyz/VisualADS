@@ -30,7 +30,7 @@ END_MESSAGE_MAP()
 CVisualADSDoc::CVisualADSDoc()
 {
 	// TODO: add one-time construction code here
-
+	bChineseOrEnglish = Global_GetLanguage();
 }
 
 CVisualADSDoc::~CVisualADSDoc()
@@ -44,7 +44,14 @@ BOOL CVisualADSDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
-	SetTitle(_T("Windows域安全卫士"));
+	if (bChineseOrEnglish)
+	{
+		SetTitle(_T("Windows域安全卫士"));
+	}
+	else
+	{
+		SetTitle(_T("VISUAL Active Directory policy conflict detector System"));
+	}
 	return TRUE;
 }
 

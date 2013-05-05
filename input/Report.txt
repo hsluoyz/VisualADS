@@ -1,210 +1,210 @@
-第1条策略冲突：
-[组::level2]与[用户::ly]在操作[文件夹::just for test3]发生[Mix-读]继承冲突：[组::level2]对[文件夹::just for test3]不具有[Share::RWX]权限，而[用户::ly]对[文件夹::just for test3]具有[Share::RWX]权限。
-冲突原因：[用户::ly]继承[组::level2]。
+No. 1 Policy Conflict: 
+[GROUP::level2] and [USER::ly] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::just for test3]:[GROUP::level2] do not have the [Share::RWX] permission, while [USER::ly] have the [Share::RWX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
 
-第2条策略冲突：
-[用户::ly]与[用户::ly]在操作[文件夹::just for test3]发生[Mix-读]继承冲突：[用户::ly]对[文件夹::just for test3]具有[Share::RWX]权限，而[用户::ly]对[文件夹::just for test3]不具有[NTFS::RX]权限。
-冲突原因：两条策略具有同样的主体CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net。
+No. 2 Policy Conflict: 
+[USER::ly] and [USER::ly] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::just for test3]:[USER::ly] have the [Share::RWX] permission, while [USER::ly] do not have the [NTFS::RX] permission.
+Conflict Reason: Both policies share the same subject: CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net.
 
-第3条策略冲突：
-[用户::qx]与[组::level1]在操作[文件夹::sandbox]发生[Mix-读]继承冲突：[用户::qx]对[文件夹::sandbox]具有[Share::RX]权限，而[组::level1]对[文件夹::sandbox]不具有[NTFS::RX]权限。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 3 Policy Conflict: 
+[USER::qx] and [GROUP::level1] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::sandbox]:[USER::qx] have the [Share::RX] permission, while [GROUP::level1] do not have the [NTFS::RX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第4条策略冲突：
-[组::PTU]与[用户::lyz]在操作[文件夹::1]发生[Mix-读]继承冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[用户::lyz]对[文件夹::1]具有[Share::RWX]权限。
-冲突原因：[用户::lyz]继承[组::PTU]。
+No. 4 Policy Conflict: 
+[GROUP::PTU] and [USER::lyz] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [USER::lyz] have the [Share::RWX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::PTU].
 
-第5条策略冲突：
-[用户::lyz]与[组::level1]在操作[文件夹::1]发生[Mix-读]继承冲突：[用户::lyz]对[文件夹::1]具有[Share::RWX]权限，而[组::level1]对[文件夹::1]不具有[NTFS::RWX]权限。
-冲突原因：[用户::lyz]继承[组::level1]。
+No. 5 Policy Conflict: 
+[USER::lyz] and [GROUP::level1] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::1]:[USER::lyz] have the [Share::RWX] permission, while [GROUP::level1] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::level1].
 
-第6条策略冲突：
-[组::level2]与[用户::ly]在操作[文件夹::just for test3]发生[Mix-执行]继承冲突：[组::level2]对[文件夹::just for test3]不具有[Share::RWX]权限，而[用户::ly]对[文件夹::just for test3]具有[Share::RWX]权限。
-冲突原因：[用户::ly]继承[组::level2]。
+No. 6 Policy Conflict: 
+[GROUP::level2] and [USER::ly] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::just for test3]:[GROUP::level2] do not have the [Share::RWX] permission, while [USER::ly] have the [Share::RWX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
 
-第7条策略冲突：
-[用户::ly]与[用户::ly]在操作[文件夹::just for test3]发生[Mix-执行]继承冲突：[用户::ly]对[文件夹::just for test3]具有[Share::RWX]权限，而[用户::ly]对[文件夹::just for test3]不具有[NTFS::RX]权限。
-冲突原因：两条策略具有同样的主体CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net。
+No. 7 Policy Conflict: 
+[USER::ly] and [USER::ly] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::just for test3]:[USER::ly] have the [Share::RWX] permission, while [USER::ly] do not have the [NTFS::RX] permission.
+Conflict Reason: Both policies share the same subject: CN=ly,OU=NRDC1001,DC=tech,DC=adtest,DC=net.
 
-第8条策略冲突：
-[用户::qx]与[组::level1]在操作[文件夹::sandbox]发生[Mix-执行]继承冲突：[用户::qx]对[文件夹::sandbox]具有[Share::RX]权限，而[组::level1]对[文件夹::sandbox]不具有[NTFS::RX]权限。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 8 Policy Conflict: 
+[USER::qx] and [GROUP::level1] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::sandbox]:[USER::qx] have the [Share::RX] permission, while [GROUP::level1] do not have the [NTFS::RX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第9条策略冲突：
-[组::PTU]与[用户::lyz]在操作[文件夹::1]发生[Mix-执行]继承冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[用户::lyz]对[文件夹::1]具有[Share::RWX]权限。
-冲突原因：[用户::lyz]继承[组::PTU]。
+No. 9 Policy Conflict: 
+[GROUP::PTU] and [USER::lyz] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [USER::lyz] have the [Share::RWX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::PTU].
 
-第10条策略冲突：
-[用户::lyz]与[组::level1]在操作[文件夹::1]发生[Mix-执行]继承冲突：[用户::lyz]对[文件夹::1]具有[Share::RWX]权限，而[组::level1]对[文件夹::1]不具有[NTFS::RWX]权限。
-冲突原因：[用户::lyz]继承[组::level1]。
+No. 10 Policy Conflict: 
+[USER::lyz] and [GROUP::level1] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::1]:[USER::lyz] have the [Share::RWX] permission, while [GROUP::level1] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::level1].
 
-第11条策略冲突：
-[组::level2]与[用户::ly]在操作[文件夹::just for test3]发生[Mix-写]继承冲突：[组::level2]对[文件夹::just for test3]不具有[Share::RWX]权限，而[用户::ly]对[文件夹::just for test3]具有[Share::RWX]权限。
-冲突原因：[用户::ly]继承[组::level2]。
+No. 11 Policy Conflict: 
+[GROUP::level2] and [USER::ly] have [Mix-Write] Inheritance Conflict for access to [RESOURCE::just for test3]:[GROUP::level2] do not have the [Share::RWX] permission, while [USER::ly] have the [Share::RWX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
 
-第12条策略冲突：
-[组::PTU]与[用户::lyz]在操作[文件夹::1]发生[Mix-写]继承冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[用户::lyz]对[文件夹::1]具有[Share::RWX]权限。
-冲突原因：[用户::lyz]继承[组::PTU]。
+No. 12 Policy Conflict: 
+[GROUP::PTU] and [USER::lyz] have [Mix-Write] Inheritance Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [USER::lyz] have the [Share::RWX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::PTU].
 
-第13条策略冲突：
-[用户::lyz]与[组::level1]在操作[文件夹::1]发生[Mix-写]继承冲突：[用户::lyz]对[文件夹::1]具有[Share::RWX]权限，而[组::level1]对[文件夹::1]不具有[NTFS::RWX]权限。
-冲突原因：[用户::lyz]继承[组::level1]。
+No. 13 Policy Conflict: 
+[USER::lyz] and [GROUP::level1] have [Mix-Write] Inheritance Conflict for access to [RESOURCE::1]:[USER::lyz] have the [Share::RWX] permission, while [GROUP::level1] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::level1].
 
-第14条策略冲突：
-[组::level2]与[组::PTU]在操作[文件夹::component]发生[Mix-读]职责分离冲突：[组::level2]对[文件夹::component]不具有[Share::RX]权限，而[组::PTU]对[文件夹::component]具有[Share::RX]权限。
-冲突原因：[用户::ly]继承[组::level2]。
-冲突原因：[用户::ly]继承[组::PTU]。
+No. 14 Policy Conflict: 
+[GROUP::level2] and [GROUP::PTU] have [Mix-Read] Separation of Duty Conflict for access to [RESOURCE::component]:[GROUP::level2] do not have the [Share::RX] permission, while [GROUP::PTU] have the [Share::RX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
+Conflict Reason: [USER::ly] inherits [GROUP::PTU].
 
-第15条策略冲突：
-[组::PTU]与[组::level2]在操作[文件夹::1]发生[Mix-读]职责分离冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[组::level2]对[文件夹::1]具有[NTFS::RX]权限。
-冲突原因：[用户::ly]继承[组::PTU]。
-冲突原因：[用户::ly]继承[组::level2]。
+No. 15 Policy Conflict: 
+[GROUP::PTU] and [GROUP::level2] have [Mix-Read] Separation of Duty Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [GROUP::level2] have the [NTFS::RX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::PTU].
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
 
-第16条策略冲突：
-[组::PTU]与[组::level3]在操作[文件夹::1]发生[Mix-读]职责分离冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[组::level3]对[文件夹::1]具有[NTFS::RX]权限。
-冲突原因：[用户::lxy]继承[组::PTU]。
-冲突原因：[用户::lxy]继承[组::level3]。
+No. 16 Policy Conflict: 
+[GROUP::PTU] and [GROUP::level3] have [Mix-Read] Separation of Duty Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [GROUP::level3] have the [NTFS::RX] permission.
+Conflict Reason: [USER::lxy] inherits [GROUP::PTU].
+Conflict Reason: [USER::lxy] inherits [GROUP::level3].
 
-第17条策略冲突：
-[组::level2]与[组::PTU]在操作[文件夹::component]发生[Mix-执行]职责分离冲突：[组::level2]对[文件夹::component]不具有[Share::RX]权限，而[组::PTU]对[文件夹::component]具有[Share::RX]权限。
-冲突原因：[用户::ly]继承[组::level2]。
-冲突原因：[用户::ly]继承[组::PTU]。
+No. 17 Policy Conflict: 
+[GROUP::level2] and [GROUP::PTU] have [Mix-Execute] Separation of Duty Conflict for access to [RESOURCE::component]:[GROUP::level2] do not have the [Share::RX] permission, while [GROUP::PTU] have the [Share::RX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
+Conflict Reason: [USER::ly] inherits [GROUP::PTU].
 
-第18条策略冲突：
-[组::PTU]与[组::level2]在操作[文件夹::1]发生[Mix-执行]职责分离冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[组::level2]对[文件夹::1]具有[NTFS::RX]权限。
-冲突原因：[用户::ly]继承[组::PTU]。
-冲突原因：[用户::ly]继承[组::level2]。
+No. 18 Policy Conflict: 
+[GROUP::PTU] and [GROUP::level2] have [Mix-Execute] Separation of Duty Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [GROUP::level2] have the [NTFS::RX] permission.
+Conflict Reason: [USER::ly] inherits [GROUP::PTU].
+Conflict Reason: [USER::ly] inherits [GROUP::level2].
 
-第19条策略冲突：
-[组::PTU]与[组::level3]在操作[文件夹::1]发生[Mix-执行]职责分离冲突：[组::PTU]对[文件夹::1]不具有[Share::RWX]权限，而[组::level3]对[文件夹::1]具有[NTFS::RX]权限。
-冲突原因：[用户::lxy]继承[组::PTU]。
-冲突原因：[用户::lxy]继承[组::level3]。
+No. 19 Policy Conflict: 
+[GROUP::PTU] and [GROUP::level3] have [Mix-Execute] Separation of Duty Conflict for access to [RESOURCE::1]:[GROUP::PTU] do not have the [Share::RWX] permission, while [GROUP::level3] have the [NTFS::RX] permission.
+Conflict Reason: [USER::lxy] inherits [GROUP::PTU].
+Conflict Reason: [USER::lxy] inherits [GROUP::level3].
 
-域tech.adtest.net一共检测出19处混合策略冲突！
-第1条策略冲突：
-[用户::yanhz]与[用户::yanhz]在操作[文件夹::party_class]发生[Mix-读]继承冲突：[用户::yanhz]对[文件夹::party_class]具有[Share::RWX]权限，而[用户::yanhz]对[文件夹::party_class]不具有[NTFS::RX]权限。
-冲突原因：两条策略具有同样的主体CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net。
+VisualADS has detected 19 Mix Policy Conflicts in domain: tech.adtest.net
+No. 1 Policy Conflict: 
+[USER::yanhz] and [USER::yanhz] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::party_class]:[USER::yanhz] have the [Share::RWX] permission, while [USER::yanhz] do not have the [NTFS::RX] permission.
+Conflict Reason: Both policies share the same subject: CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net.
 
-第2条策略冲突：
-[组::level1]与[组::level1]在操作[文件夹::bike]发生[Mix-读]继承冲突：[组::level1]对[文件夹::bike]不具有[Share::RWX]权限，而[组::level1]对[文件夹::bike]具有[NTFS::RX]权限。
-冲突原因：两条策略具有同样的主体CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net。
+No. 2 Policy Conflict: 
+[GROUP::level1] and [GROUP::level1] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::bike]:[GROUP::level1] do not have the [Share::RWX] permission, while [GROUP::level1] have the [NTFS::RX] permission.
+Conflict Reason: Both policies share the same subject: CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net.
 
-第3条策略冲突：
-[用户::Kobe]与[组::ballplayer]在操作[文件夹::ChinaSports]发生[Mix-读]继承冲突：[用户::Kobe]对[文件夹::ChinaSports]不具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::ChinaSports]具有[NTFS::RX]权限。
-冲突原因：[用户::Kobe]继承[组::ballplayer]。
+No. 3 Policy Conflict: 
+[USER::Kobe] and [GROUP::ballplayer] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::ChinaSports]:[USER::Kobe] do not have the [Share::RWX] permission, while [GROUP::ballplayer] have the [NTFS::RX] permission.
+Conflict Reason: [USER::Kobe] inherits [GROUP::ballplayer].
 
-第4条策略冲突：
-[组::gamers]与[用户::lyz]在操作[文件夹::world of goo]发生[Mix-读]继承冲突：[组::gamers]对[文件夹::world of goo]具有[Share::RWX]权限，而[用户::lyz]对[文件夹::world of goo]不具有[NTFS::RX]权限。
-冲突原因：[用户::lyz]继承[组::gamers]。
+No. 4 Policy Conflict: 
+[GROUP::gamers] and [USER::lyz] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::world of goo]:[GROUP::gamers] have the [Share::RWX] permission, while [USER::lyz] do not have the [NTFS::RX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::gamers].
 
-第5条策略冲突：
-[用户::YiJianlian]与[用户::YiJianlian]在操作[文件夹::TFTP-Root]发生[Mix-读]继承冲突：[用户::YiJianlian]对[文件夹::TFTP-Root]具有[Share::RX]权限，而[用户::YiJianlian]对[文件夹::TFTP-Root]不具有[NTFS::RWX]权限。
-冲突原因：两条策略具有同样的主体CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net。
+No. 5 Policy Conflict: 
+[USER::YiJianlian] and [USER::YiJianlian] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::TFTP-Root]:[USER::YiJianlian] have the [Share::RX] permission, while [USER::YiJianlian] do not have the [NTFS::RWX] permission.
+Conflict Reason: Both policies share the same subject: CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net.
 
-第6条策略冲突：
-[用户::qx]与[组::level1]在操作[文件夹::usr]发生[Mix-读]继承冲突：[用户::qx]对[文件夹::usr]不具有[Share::RWX]权限，而[组::level1]对[文件夹::usr]具有[NTFS::RWX]权限。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 6 Policy Conflict: 
+[USER::qx] and [GROUP::level1] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::usr]:[USER::qx] do not have the [Share::RWX] permission, while [GROUP::level1] have the [NTFS::RWX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第7条策略冲突：
-[用户::YaoMing]与[组::ballplayer]在操作[文件夹::2]发生[Mix-读]继承冲突：[用户::YaoMing]对[文件夹::2]不具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::2]具有[NTFS::RX]权限。
-冲突原因：[用户::YaoMing]继承[组::ballplayer]。
+No. 7 Policy Conflict: 
+[USER::YaoMing] and [GROUP::ballplayer] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::2]:[USER::YaoMing] do not have the [Share::RWX] permission, while [GROUP::ballplayer] have the [NTFS::RX] permission.
+Conflict Reason: [USER::YaoMing] inherits [GROUP::ballplayer].
 
-第8条策略冲突：
-[用户::YaoMing]与[组::ballplayer]在操作[文件夹::EnvSet]发生[Mix-读]继承冲突：[用户::YaoMing]对[文件夹::EnvSet]具有[Share::RX]权限，而[组::ballplayer]对[文件夹::EnvSet]不具有[NTFS::RWX]权限。
-冲突原因：[用户::YaoMing]继承[组::ballplayer]。
+No. 8 Policy Conflict: 
+[USER::YaoMing] and [GROUP::ballplayer] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::EnvSet]:[USER::YaoMing] have the [Share::RX] permission, while [GROUP::ballplayer] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::YaoMing] inherits [GROUP::ballplayer].
 
-第9条策略冲突：
-[用户::YiJianlian]与[组::ballplayer]在操作[文件夹::EnvSet]发生[Mix-读]继承冲突：[用户::YiJianlian]对[文件夹::EnvSet]具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::EnvSet]不具有[NTFS::RWX]权限。
-冲突原因：[用户::YiJianlian]继承[组::ballplayer]。
+No. 9 Policy Conflict: 
+[USER::YiJianlian] and [GROUP::ballplayer] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::EnvSet]:[USER::YiJianlian] have the [Share::RWX] permission, while [GROUP::ballplayer] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::YiJianlian] inherits [GROUP::ballplayer].
 
-第10条策略冲突：
-[用户::hjs]与[组::kkk]在操作[文件夹::2]发生[Mix-读]继承冲突：[用户::hjs]对[文件夹::2]不具有[NTFS::RX]权限，而[组::kkk]对[文件夹::2]具有[NTFS::RX]权限。
-冲突原因：[用户::hjs]继承[组::kkk]。
+No. 10 Policy Conflict: 
+[USER::hjs] and [GROUP::kkk] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::2]:[USER::hjs] do not have the [NTFS::RX] permission, while [GROUP::kkk] have the [NTFS::RX] permission.
+Conflict Reason: [USER::hjs] inherits [GROUP::kkk].
 
-第11条策略冲突：
-[用户::YiJianlian]与[组::ballplayer]在操作[文件夹::AmericaSports]发生[Mix-读]继承冲突：[用户::YiJianlian]对[文件夹::AmericaSports]不具有[NTFS::RWX]权限，而[组::ballplayer]对[文件夹::AmericaSports]具有[NTFS::RX]权限。
-冲突原因：[用户::YiJianlian]继承[组::ballplayer]。
+No. 11 Policy Conflict: 
+[USER::YiJianlian] and [GROUP::ballplayer] have [Mix-Read] Inheritance Conflict for access to [RESOURCE::AmericaSports]:[USER::YiJianlian] do not have the [NTFS::RWX] permission, while [GROUP::ballplayer] have the [NTFS::RX] permission.
+Conflict Reason: [USER::YiJianlian] inherits [GROUP::ballplayer].
 
-第12条策略冲突：
-[用户::yanhz]与[用户::yanhz]在操作[文件夹::party_class]发生[Mix-执行]继承冲突：[用户::yanhz]对[文件夹::party_class]具有[Share::RWX]权限，而[用户::yanhz]对[文件夹::party_class]不具有[NTFS::RX]权限。
-冲突原因：两条策略具有同样的主体CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net。
+No. 12 Policy Conflict: 
+[USER::yanhz] and [USER::yanhz] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::party_class]:[USER::yanhz] have the [Share::RWX] permission, while [USER::yanhz] do not have the [NTFS::RX] permission.
+Conflict Reason: Both policies share the same subject: CN=yanhz,OU=BIT,DC=sales,DC=adtest,DC=net.
 
-第13条策略冲突：
-[组::level1]与[组::level1]在操作[文件夹::bike]发生[Mix-执行]继承冲突：[组::level1]对[文件夹::bike]不具有[Share::RWX]权限，而[组::level1]对[文件夹::bike]具有[NTFS::RX]权限。
-冲突原因：两条策略具有同样的主体CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net。
+No. 13 Policy Conflict: 
+[GROUP::level1] and [GROUP::level1] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::bike]:[GROUP::level1] do not have the [Share::RWX] permission, while [GROUP::level1] have the [NTFS::RX] permission.
+Conflict Reason: Both policies share the same subject: CN=level1,OU=NRDC1001,DC=tech,DC=adtest,DC=net.
 
-第14条策略冲突：
-[用户::Kobe]与[组::ballplayer]在操作[文件夹::ChinaSports]发生[Mix-执行]继承冲突：[用户::Kobe]对[文件夹::ChinaSports]不具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::ChinaSports]具有[NTFS::RX]权限。
-冲突原因：[用户::Kobe]继承[组::ballplayer]。
+No. 14 Policy Conflict: 
+[USER::Kobe] and [GROUP::ballplayer] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::ChinaSports]:[USER::Kobe] do not have the [Share::RWX] permission, while [GROUP::ballplayer] have the [NTFS::RX] permission.
+Conflict Reason: [USER::Kobe] inherits [GROUP::ballplayer].
 
-第15条策略冲突：
-[组::gamers]与[用户::lyz]在操作[文件夹::world of goo]发生[Mix-执行]继承冲突：[组::gamers]对[文件夹::world of goo]具有[Share::RWX]权限，而[用户::lyz]对[文件夹::world of goo]不具有[NTFS::RX]权限。
-冲突原因：[用户::lyz]继承[组::gamers]。
+No. 15 Policy Conflict: 
+[GROUP::gamers] and [USER::lyz] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::world of goo]:[GROUP::gamers] have the [Share::RWX] permission, while [USER::lyz] do not have the [NTFS::RX] permission.
+Conflict Reason: [USER::lyz] inherits [GROUP::gamers].
 
-第16条策略冲突：
-[用户::YiJianlian]与[用户::YiJianlian]在操作[文件夹::TFTP-Root]发生[Mix-执行]继承冲突：[用户::YiJianlian]对[文件夹::TFTP-Root]具有[Share::RX]权限，而[用户::YiJianlian]对[文件夹::TFTP-Root]不具有[NTFS::RWX]权限。
-冲突原因：两条策略具有同样的主体CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net。
+No. 16 Policy Conflict: 
+[USER::YiJianlian] and [USER::YiJianlian] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::TFTP-Root]:[USER::YiJianlian] have the [Share::RX] permission, while [USER::YiJianlian] do not have the [NTFS::RWX] permission.
+Conflict Reason: Both policies share the same subject: CN=YiJianlian,OU=CBA,DC=sales,DC=adtest,DC=net.
 
-第17条策略冲突：
-[用户::qx]与[组::level1]在操作[文件夹::usr]发生[Mix-执行]继承冲突：[用户::qx]对[文件夹::usr]不具有[Share::RWX]权限，而[组::level1]对[文件夹::usr]具有[NTFS::RWX]权限。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 17 Policy Conflict: 
+[USER::qx] and [GROUP::level1] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::usr]:[USER::qx] do not have the [Share::RWX] permission, while [GROUP::level1] have the [NTFS::RWX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第18条策略冲突：
-[用户::YaoMing]与[组::ballplayer]在操作[文件夹::2]发生[Mix-执行]继承冲突：[用户::YaoMing]对[文件夹::2]不具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::2]具有[NTFS::RX]权限。
-冲突原因：[用户::YaoMing]继承[组::ballplayer]。
+No. 18 Policy Conflict: 
+[USER::YaoMing] and [GROUP::ballplayer] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::2]:[USER::YaoMing] do not have the [Share::RWX] permission, while [GROUP::ballplayer] have the [NTFS::RX] permission.
+Conflict Reason: [USER::YaoMing] inherits [GROUP::ballplayer].
 
-第19条策略冲突：
-[用户::YaoMing]与[组::ballplayer]在操作[文件夹::EnvSet]发生[Mix-执行]继承冲突：[用户::YaoMing]对[文件夹::EnvSet]具有[Share::RX]权限，而[组::ballplayer]对[文件夹::EnvSet]不具有[NTFS::RWX]权限。
-冲突原因：[用户::YaoMing]继承[组::ballplayer]。
+No. 19 Policy Conflict: 
+[USER::YaoMing] and [GROUP::ballplayer] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::EnvSet]:[USER::YaoMing] have the [Share::RX] permission, while [GROUP::ballplayer] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::YaoMing] inherits [GROUP::ballplayer].
 
-第20条策略冲突：
-[用户::YiJianlian]与[组::ballplayer]在操作[文件夹::EnvSet]发生[Mix-执行]继承冲突：[用户::YiJianlian]对[文件夹::EnvSet]具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::EnvSet]不具有[NTFS::RWX]权限。
-冲突原因：[用户::YiJianlian]继承[组::ballplayer]。
+No. 20 Policy Conflict: 
+[USER::YiJianlian] and [GROUP::ballplayer] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::EnvSet]:[USER::YiJianlian] have the [Share::RWX] permission, while [GROUP::ballplayer] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::YiJianlian] inherits [GROUP::ballplayer].
 
-第21条策略冲突：
-[用户::hjs]与[组::kkk]在操作[文件夹::2]发生[Mix-执行]继承冲突：[用户::hjs]对[文件夹::2]不具有[NTFS::RX]权限，而[组::kkk]对[文件夹::2]具有[NTFS::RX]权限。
-冲突原因：[用户::hjs]继承[组::kkk]。
+No. 21 Policy Conflict: 
+[USER::hjs] and [GROUP::kkk] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::2]:[USER::hjs] do not have the [NTFS::RX] permission, while [GROUP::kkk] have the [NTFS::RX] permission.
+Conflict Reason: [USER::hjs] inherits [GROUP::kkk].
 
-第22条策略冲突：
-[用户::YiJianlian]与[组::ballplayer]在操作[文件夹::AmericaSports]发生[Mix-执行]继承冲突：[用户::YiJianlian]对[文件夹::AmericaSports]不具有[NTFS::RWX]权限，而[组::ballplayer]对[文件夹::AmericaSports]具有[NTFS::RX]权限。
-冲突原因：[用户::YiJianlian]继承[组::ballplayer]。
+No. 22 Policy Conflict: 
+[USER::YiJianlian] and [GROUP::ballplayer] have [Mix-Execute] Inheritance Conflict for access to [RESOURCE::AmericaSports]:[USER::YiJianlian] do not have the [NTFS::RWX] permission, while [GROUP::ballplayer] have the [NTFS::RX] permission.
+Conflict Reason: [USER::YiJianlian] inherits [GROUP::ballplayer].
 
-第23条策略冲突：
-[用户::qx]与[组::level1]在操作[文件夹::usr]发生[Mix-写]继承冲突：[用户::qx]对[文件夹::usr]不具有[Share::RWX]权限，而[组::level1]对[文件夹::usr]具有[NTFS::RWX]权限。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 23 Policy Conflict: 
+[USER::qx] and [GROUP::level1] have [Mix-Write] Inheritance Conflict for access to [RESOURCE::usr]:[USER::qx] do not have the [Share::RWX] permission, while [GROUP::level1] have the [NTFS::RWX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第24条策略冲突：
-[用户::YiJianlian]与[组::ballplayer]在操作[文件夹::EnvSet]发生[Mix-写]继承冲突：[用户::YiJianlian]对[文件夹::EnvSet]具有[Share::RWX]权限，而[组::ballplayer]对[文件夹::EnvSet]不具有[NTFS::RWX]权限。
-冲突原因：[用户::YiJianlian]继承[组::ballplayer]。
+No. 24 Policy Conflict: 
+[USER::YiJianlian] and [GROUP::ballplayer] have [Mix-Write] Inheritance Conflict for access to [RESOURCE::EnvSet]:[USER::YiJianlian] have the [Share::RWX] permission, while [GROUP::ballplayer] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::YiJianlian] inherits [GROUP::ballplayer].
 
-第25条策略冲突：
-[组::aaa]与[组::foreign]在操作[文件夹::car]发生[Mix-读]职责分离冲突：[组::aaa]对[文件夹::car]具有[Share::RX]权限，而[组::foreign]对[文件夹::car]不具有[NTFS::RWX]权限。
-冲突原因：[组::level2]继承[组::aaa]。
-冲突原因：[组::level2]继承[组::foreign]。
+No. 25 Policy Conflict: 
+[GROUP::aaa] and [GROUP::foreign] have [Mix-Read] Separation of Duty Conflict for access to [RESOURCE::car]:[GROUP::aaa] have the [Share::RX] permission, while [GROUP::foreign] do not have the [NTFS::RWX] permission.
+Conflict Reason: [GROUP::level2] inherits [GROUP::aaa].
+Conflict Reason: [GROUP::level2] inherits [GROUP::foreign].
 
-第26条策略冲突：
-[组::foreign]与[组::level1]在操作[文件夹::bike]发生[Mix-读]职责分离冲突：[组::foreign]对[文件夹::bike]不具有[NTFS::RWX]权限，而[组::level1]对[文件夹::bike]具有[NTFS::RX]权限。
-冲突原因：[用户::qx]继承[组::foreign]。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 26 Policy Conflict: 
+[GROUP::foreign] and [GROUP::level1] have [Mix-Read] Separation of Duty Conflict for access to [RESOURCE::bike]:[GROUP::foreign] do not have the [NTFS::RWX] permission, while [GROUP::level1] have the [NTFS::RX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::foreign].
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第27条策略冲突：
-[组::foreign]与[组::aaa]在操作[文件夹::car]发生[Mix-读]职责分离冲突：[组::foreign]对[文件夹::car]不具有[NTFS::RWX]权限，而[组::aaa]对[文件夹::car]具有[NTFS::RX]权限。
-冲突原因：[用户::qx]继承[组::foreign]。
-冲突原因：[用户::qx]继承[组::level1]，[组::level1]继承[组::aaa]。
+No. 27 Policy Conflict: 
+[GROUP::foreign] and [GROUP::aaa] have [Mix-Read] Separation of Duty Conflict for access to [RESOURCE::car]:[GROUP::foreign] do not have the [NTFS::RWX] permission, while [GROUP::aaa] have the [NTFS::RX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::foreign].
+Conflict Reason: [USER::qx] inherits [GROUP::level1], [GROUP::level1] inherits [GROUP::aaa].
 
-第28条策略冲突：
-[组::aaa]与[组::foreign]在操作[文件夹::car]发生[Mix-执行]职责分离冲突：[组::aaa]对[文件夹::car]具有[Share::RX]权限，而[组::foreign]对[文件夹::car]不具有[NTFS::RWX]权限。
-冲突原因：[用户::qx]继承[组::level1]，[组::level1]继承[组::aaa]。
-冲突原因：[用户::qx]继承[组::foreign]。
+No. 28 Policy Conflict: 
+[GROUP::aaa] and [GROUP::foreign] have [Mix-Execute] Separation of Duty Conflict for access to [RESOURCE::car]:[GROUP::aaa] have the [Share::RX] permission, while [GROUP::foreign] do not have the [NTFS::RWX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::level1], [GROUP::level1] inherits [GROUP::aaa].
+Conflict Reason: [USER::qx] inherits [GROUP::foreign].
 
-第29条策略冲突：
-[组::foreign]与[组::level1]在操作[文件夹::bike]发生[Mix-执行]职责分离冲突：[组::foreign]对[文件夹::bike]不具有[NTFS::RWX]权限，而[组::level1]对[文件夹::bike]具有[NTFS::RX]权限。
-冲突原因：[用户::qx]继承[组::foreign]。
-冲突原因：[用户::qx]继承[组::level1]。
+No. 29 Policy Conflict: 
+[GROUP::foreign] and [GROUP::level1] have [Mix-Execute] Separation of Duty Conflict for access to [RESOURCE::bike]:[GROUP::foreign] do not have the [NTFS::RWX] permission, while [GROUP::level1] have the [NTFS::RX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::foreign].
+Conflict Reason: [USER::qx] inherits [GROUP::level1].
 
-第30条策略冲突：
-[组::foreign]与[组::aaa]在操作[文件夹::car]发生[Mix-执行]职责分离冲突：[组::foreign]对[文件夹::car]不具有[NTFS::RWX]权限，而[组::aaa]对[文件夹::car]具有[NTFS::RX]权限。
-冲突原因：[用户::qx]继承[组::foreign]。
-冲突原因：[用户::qx]继承[组::level1]，[组::level1]继承[组::aaa]。
+No. 30 Policy Conflict: 
+[GROUP::foreign] and [GROUP::aaa] have [Mix-Execute] Separation of Duty Conflict for access to [RESOURCE::car]:[GROUP::foreign] do not have the [NTFS::RWX] permission, while [GROUP::aaa] have the [NTFS::RX] permission.
+Conflict Reason: [USER::qx] inherits [GROUP::foreign].
+Conflict Reason: [USER::qx] inherits [GROUP::level1], [GROUP::level1] inherits [GROUP::aaa].
 
-域sales.adtest.net一共检测出30处混合策略冲突！
+VisualADS has detected 30 Mix Policy Conflicts in domain: sales.adtest.net

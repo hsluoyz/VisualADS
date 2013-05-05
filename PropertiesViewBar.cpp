@@ -16,6 +16,7 @@ static char THIS_FILE[]=__FILE__;
 
 CPropertiesBar::CPropertiesBar()
 {
+	bChineseOrEnglish = Global_GetLanguage();
 	m_BorderColor = CBCGPColor::Orange;
 	m_FillBrush.SetColors(CBCGPColor::LightSteelBlue, CBCGPColor::White, CBCGPBrush::BCGP_GRADIENT_RADIAL_TOP_LEFT, 0.75);
 	m_TextBrush.SetColor(CBCGPColor::SteelBlue);
@@ -241,21 +242,42 @@ void CPropertiesBar::InitPropList ()
 	m_wndPropList.AddProperty (pGroup5);
 	*/
 
-	m_pBasicInfo = new CBCGPProp(_T("Active Directory基本信息"));
-	m_wndPropList.AddProperty(m_pBasicInfo);
-	m_pExtensiveInfo = new CBCGPProp(_T("Active Directory扩展信息"));
-	m_wndPropList.AddProperty(m_pExtensiveInfo);
-	m_pFatherInfo = new CBCGPProp(_T("所加入组信息"));
-	m_wndPropList.AddProperty(m_pFatherInfo);
-	m_pChildGroupInfo = new CBCGPProp(_T("成员组信息"));
-	m_wndPropList.AddProperty(m_pChildGroupInfo);
-	m_pChildUserInfo = new CBCGPProp(_T("成员用户信息"));
-	m_wndPropList.AddProperty(m_pChildUserInfo);
-	m_pAccessInfo = new CBCGPProp(_T("访问控制信息"));
-	m_wndPropList.AddProperty(m_pAccessInfo);
-	m_pNetworkInfo = new CBCGPProp(_T("网络信息"));
-	m_wndPropList.AddProperty(m_pNetworkInfo);
-	m_wndPropList.ExpandAll();
+	if (bChineseOrEnglish)
+	{
+		m_pBasicInfo = new CBCGPProp(_T("Active Directory基本信息"));
+		m_wndPropList.AddProperty(m_pBasicInfo);
+		m_pExtensiveInfo = new CBCGPProp(_T("Active Directory扩展信息"));
+		m_wndPropList.AddProperty(m_pExtensiveInfo);
+		m_pFatherInfo = new CBCGPProp(_T("所加入组信息"));
+		m_wndPropList.AddProperty(m_pFatherInfo);
+		m_pChildGroupInfo = new CBCGPProp(_T("成员组信息"));
+		m_wndPropList.AddProperty(m_pChildGroupInfo);
+		m_pChildUserInfo = new CBCGPProp(_T("成员用户信息"));
+		m_wndPropList.AddProperty(m_pChildUserInfo);
+		m_pAccessInfo = new CBCGPProp(_T("访问控制信息"));
+		m_wndPropList.AddProperty(m_pAccessInfo);
+		m_pNetworkInfo = new CBCGPProp(_T("网络信息"));
+		m_wndPropList.AddProperty(m_pNetworkInfo);
+		m_wndPropList.ExpandAll();
+	}
+	else
+	{
+		m_pBasicInfo = new CBCGPProp(_T("Active Directory Basic Info"));
+		m_wndPropList.AddProperty(m_pBasicInfo);
+		m_pExtensiveInfo = new CBCGPProp(_T("Active Directory Extended Info"));
+		m_wndPropList.AddProperty(m_pExtensiveInfo);
+		m_pFatherInfo = new CBCGPProp(_T("Parent Group Info"));
+		m_wndPropList.AddProperty(m_pFatherInfo);
+		m_pChildGroupInfo = new CBCGPProp(_T("Member Group Info"));
+		m_wndPropList.AddProperty(m_pChildGroupInfo);
+		m_pChildUserInfo = new CBCGPProp(_T("Member User Info"));
+		m_wndPropList.AddProperty(m_pChildUserInfo);
+		m_pAccessInfo = new CBCGPProp(_T("Access Control Info"));
+		m_wndPropList.AddProperty(m_pAccessInfo);
+		m_pNetworkInfo = new CBCGPProp(_T("Network Info"));
+		m_wndPropList.AddProperty(m_pNetworkInfo);
+		m_wndPropList.ExpandAll();
+	}
 }
 
 void CPropertiesBar::addBasicProperty(CString strKey, CString strValue)

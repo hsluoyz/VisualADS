@@ -127,12 +127,26 @@ void ADComputer::generateLink(ADDotReader *reader)
 
 void ADComputer::addToProperties()
 {
-	if (run)
+	if (Global_GetLanguage())
 	{
-		addPairToNetworkInfos(_T("IP地址"), ip);
+		if (run)
+		{
+			addPairToNetworkInfos(_T("IP地址"), ip);
+		}
+		else
+		{
+			addPairToNetworkInfos(_T("IP地址"), _T("未启动"));
+		}
 	}
 	else
 	{
-		addPairToNetworkInfos(_T("IP地址"), _T("未启动"));
+		if (run)
+		{
+			addPairToNetworkInfos(_T("IP Address"), ip);
+		}
+		else
+		{
+			addPairToNetworkInfos(_T("IP Address"), _T("Not Alive"));
+		}
 	}
 }

@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CMainFrame
+LastClass=CVisualADSView
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "VisualADS.h"
@@ -69,10 +69,10 @@ LastObject=CVisualADSView
 Type=0
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
-Filter=D
+Filter=T
 BaseClass=CBCGPFrameWnd
 VirtualFilter=fWC
-LastObject=ID_FILE_OPEN
+LastObject=CMainFrame
 
 
 

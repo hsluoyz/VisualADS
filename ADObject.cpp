@@ -135,6 +135,16 @@ void ADObject::addPairToNetworkInfos(CString strKey, CString strValue)
 	networkInfos.insert(pair<CString, CString>(strKey, strValue));
 }
 
+void ADObject::clearInfos()
+{
+	//infos.clear();
+	fatherInfos.clear();
+	childGroupInfos.clear();
+	childUserInfos.clear();
+	accessInfos.clear();
+	networkInfos.clear();
+}
+
 void ADObject::onButttonDown()
 {
 	

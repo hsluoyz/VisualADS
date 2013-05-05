@@ -19,7 +19,7 @@ protected:
 
 
 
-
+	BOOL m_bChineseOrEnglish;
 
 	CBCGPTabWnd	m_wndTabs;
 

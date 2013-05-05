@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "VisualADS.h"
 #include "OutputBar.h"
+#include "MainFrm.h"
+#include "MyMessageBox.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -29,7 +31,7 @@ END_MESSAGE_MAP()
 COutputBar::COutputBar()
 {
 	// TODO: add one-time construction code here
-	
+	m_bChineseOrEnglish = Global_GetLanguage();
 }
 
 COutputBar::~COutputBar()
@@ -60,9 +62,18 @@ void COutputBar::initConsoleList()
 	
 	m_listConsole.SetExtendedStyle(m_listConsole.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	
-	m_listConsole.InsertColumn(0, _T("时间序列"));
-	m_listConsole.InsertColumn(1, _T("控制台"));
-	m_listConsole.SetColumnWidth(0, 100);
+	if (m_bChineseOrEnglish)
+	{
+		m_listConsole.InsertColumn(0, _T("时间序列"));
+		m_listConsole.InsertColumn(1, _T("消息"));
+		m_listConsole.SetColumnWidth(0, 100);
+	}
+	else
+	{
+		m_listConsole.InsertColumn(0, _T("Timeline"));
+		m_listConsole.InsertColumn(1, _T("Message"));
+		m_listConsole.SetColumnWidth(0, 100);
+	}
 }
 
 void COutputBar::insert2ConsoleList(CString strNo, CString strContent)
@@ -97,10 +108,19 @@ void COutputBar::initReportList()
 	SetWindowLong(m_listReport.m_hWnd, GWL_STYLE, lStyle); //设置style
 
 	m_listReport.SetExtendedStyle(m_listReport.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	
-	m_listReport.InsertColumn(0, _T("序号"));
-	m_listReport.InsertColumn(1, _T("策略冲突"));
-	m_listReport.SetColumnWidth(0, 70);
+
+	if (m_bChineseOrEnglish)
+	{
+		m_listReport.InsertColumn(0, _T("序号"));
+		m_listReport.InsertColumn(1, _T("策略冲突"));
+		m_listReport.SetColumnWidth(0, 70);
+	}
+	else
+	{
+		m_listReport.InsertColumn(0, _T("No."));
+		m_listReport.InsertColumn(1, _T("Policy Conflict"));
+		m_listReport.SetColumnWidth(0, 70);
+	}
 }
 
 void COutputBar::insert2ReportList(CString strNo, CString strContent)
@@ -132,9 +152,18 @@ void COutputBar::initCacheList()
 
 	m_listRacerCache.SetExtendedStyle(m_listRacerCache.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	
-	m_listRacerCache.InsertColumn(0, _T("序号"));
-	m_listRacerCache.InsertColumn(1, _T("RacerPro缓存内容"));
-	m_listRacerCache.SetColumnWidth(0, 70);
+	if (m_bChineseOrEnglish)
+	{
+		m_listRacerCache.InsertColumn(0, _T("序号"));
+		m_listRacerCache.InsertColumn(1, _T("RacerPro缓存内容"));
+		m_listRacerCache.SetColumnWidth(0, 70);
+	}
+	else
+	{
+		m_listRacerCache.InsertColumn(0, _T("No."));
+		m_listRacerCache.InsertColumn(1, _T("RacerPro Cache"));
+		m_listRacerCache.SetColumnWidth(0, 70);
+	}
 }
 
 void COutputBar::insert2CacheList(CString strNo, CString strContent)
@@ -231,10 +260,20 @@ int COutputBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// Attach list windows to tab:
-	m_wndTabs.AddTab (&m_listConsole, _T("控制台输出"), -1);
-	m_wndTabs.AddTab (&m_listRacerCache, _T("RacerPro通信缓存"), -1);
-	m_wndTabs.AddTab (&m_listReport, _T("策略冲突检测结果"), -1);
-	m_wndTabs.AddTab (&m_listLogonInfo, _T("登陆信息查询"), -1);
+	if (m_bChineseOrEnglish)
+	{
+		m_wndTabs.AddTab (&m_listConsole, _T("控制台输出"), -1);
+		m_wndTabs.AddTab (&m_listRacerCache, _T("RacerPro通信缓存"), -1);
+		m_wndTabs.AddTab (&m_listReport, _T("策略冲突检测结果"), -1);
+		m_wndTabs.AddTab (&m_listLogonInfo, _T("登陆信息查询"), -1);
+	}
+	else
+	{
+		m_wndTabs.AddTab (&m_listConsole, _T("Console"), -1);
+		m_wndTabs.AddTab (&m_listRacerCache, _T("RacerPro TCP Cache"), -1);
+		m_wndTabs.AddTab (&m_listReport, _T("Conflict Detection Result"), -1);
+		m_wndTabs.AddTab (&m_listLogonInfo, _T("Logon Information Query"), -1);
+	}
 
 	//m_wndTabs.AddTab (&m_wndList2, _T("Output 2"), -1);
 	//m_wndTabs.AddTab (&m_wndList3, _T("Output 3"), -1);

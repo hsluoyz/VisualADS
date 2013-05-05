@@ -13,11 +13,15 @@
 #include "FOHyperLink.h"
 #include "FOPGDIPlusProxy.h"
 
+#include <WinSock2.h>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
+#define WSA_VERSION  MAKEWORD(2,0)
 
 /////////////////////////////////////////////////////////////////////////////
 // CVisualADSApp
@@ -48,11 +52,92 @@ CVisualADSApp::CVisualADSApp() :
 
 CVisualADSApp theApp;
 
+BOOL CVisualADSApp::FolderExist(CString strPath)
+{
+	WIN32_FIND_DATA wfd;
+	BOOL rValue = FALSE;
+	HANDLE hFind = FindFirstFile(strPath, &wfd);
+	if ((hFind != INVALID_HANDLE_VALUE) && (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+	{
+		rValue = TRUE;
+	}
+	FindClose(hFind);
+	return rValue;
+}
+
+void CVisualADSApp::initInputDir()
+{
+	CString cstrDir;
+	TCHAR cBuffer[260];
+	GetCurrentDirectory(MAX_PATH, cBuffer);
+	CString cstrPath(cBuffer);
+	if (FolderExist(cstrPath + _T("\\input")))
+	{
+		cstrDir = cstrPath;
+	}
+	else
+	{
+		int nCount = cstrPath.ReverseFind(_T('\\'));
+		cstrPath.Delete(nCount, cstrPath.GetLength() - nCount);
+		
+		if (FolderExist(cstrPath + _T("\\input")))
+		{
+			cstrDir = cstrPath;
+		}
+		else
+		{
+			MyMessageBox_Error(_T("initInputDir Error"), _T("Error"));
+			return;
+		}
+	}
+	cstrDir += _T("\\input\\");
+	m_strInputDir = cstrDir;
+}
+
+BOOL CVisualADSApp::getLanguage()
+{
+	CStdioFile pFile;
+	if (!pFile.Open(m_strInputDir + _T("\\Language.ini"), CFile::modeRead | CFile::typeText))
+	{
+		return TRUE;
+	}
+	
+	CString strText;
+	BOOL bChineseOrEnglish;
+	pFile.ReadString(strText);
+	if (strText == _T("1"))
+	{
+		bChineseOrEnglish = TRUE;
+	}
+	else
+	{
+		bChineseOrEnglish = FALSE;
+	}
+	
+	pFile.Close();
+	return bChineseOrEnglish;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CVisualADSApp initialization
 
 BOOL CVisualADSApp::InitInstance()
 {
+	initInputDir();
+	WSADATA WSAData = {0};
+	if (0 != WSAStartup(WSA_VERSION, &WSAData))
+	{
+		// Tell the user that we could not find a usable
+		// WinSock DLL.
+		if (LOBYTE(WSAData.wVersion) != LOBYTE(WSA_VERSION) || HIBYTE(WSAData.wVersion) != HIBYTE(WSA_VERSION))
+		{
+			::MessageBox(NULL, _T("Incorrect version of WS2_32.dll found"), _T("Error"), MB_OK);
+		}
+		
+		WSACleanup();
+		return FALSE;
+	}
+
 	CSplashWindow::ShowSplashScreen( NULL, "Starting VisualADS...", 3000);
 
 	// Initialize OLE libraries
@@ -141,7 +226,7 @@ BOOL CVisualADSApp::InitInstance()
 int CVisualADSApp::ExitInstance() 
 {
 	BCGCBProCleanUp();
-
+	WSACleanup();
 	return CWinApp::ExitInstance();
 }
 

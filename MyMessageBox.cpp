@@ -2,8 +2,9 @@
 #include "MyMessageBox.h"
 #include "MainFrm.h"
 #include "PropertiesViewBar.h"
+#include "VisualADS.h"
 #include "resource.h"
-#define ID_GUI_MESSAGE 0x2000
+#define ID_GUI_MESSAGE 0x2050
 
 CMainFrame *g_pMainFrame = NULL;
 
@@ -122,4 +123,30 @@ void ProgressBar_Stop()
 void Canvas_Invalidate()
 {
 	AfxGetApp()->m_pMainWnd->SendMessage(ID_GUI_MESSAGE + 9, NULL, NULL);
+}
+
+void Output_Update_Connection(UINT nEvent, void *pThis)
+{
+ 	CMainFrame *pMainWnd = (CMainFrame*) AfxGetApp()->m_pMainWnd;
+// 	PMParam *pParam = new PMParam(pThis, nEvent);
+// 	pMainWnd->PostMessage(ID_GUI_MESSAGE + 10, (WPARAM) pParam, NULL);
+	pMainWnd->PostMessage(ID_GUI_MESSAGE + 10, NULL, NULL);
+}
+
+BOOL bAlreadyCheckLanguage = FALSE;
+BOOL bChineseOrEnglish;
+
+BOOL Global_GetLanguage()
+{
+	if (bAlreadyCheckLanguage)
+	{
+		return bChineseOrEnglish;
+	}
+	else
+	{
+		bAlreadyCheckLanguage = TRUE;
+		CVisualADSApp *pApp = (CVisualADSApp *) AfxGetApp();
+		bChineseOrEnglish = pApp->getLanguage();
+		return bChineseOrEnglish;
+	}
 }

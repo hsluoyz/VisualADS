@@ -7,6 +7,7 @@
 #include "MainFrm.h"
 #include "VisualADSView.h"
 #include "MyMessageBox.h"
+#include "SocketManager.h"
 
 #include "DoWithAPIHook.h"
 
@@ -35,8 +36,9 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 #define TIMER_PROGRESSBAR 0
+#define TIMER_NOTOPMOST 1
 
-#define ID_GUI_MESSAGE 0x2000
+#define ID_GUI_MESSAGE 0x2050
 
 int aaa = 0;
 
@@ -51,6 +53,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 	ON_WM_CLOSE()
+	ON_WM_MOVE()
+	ON_WM_SIZE()
+	ON_WM_ACTIVATE()
 	//}}AFX_MSG_MAP
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_2000, ID_VIEW_APPLOOK_WIN7, OnAppLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_2000, ID_VIEW_APPLOOK_WIN7, OnUpdateAppLook)
@@ -75,6 +80,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
 	ON_COMMAND(ID_BTN_LOGON, OnBtnLogOn)
 	ON_COMMAND(ID_BTN_CNDP_GEN, OnBtnCNDPGenerate)
 	ON_COMMAND(ID_BTN_CNDPCD_GEN, OnBtnStartCNDPCD)
+	ON_COMMAND(ID_BTN_CNDPCD_STOP, OnBtnStopCNDPCD)
 	ON_COMMAND(ID_BTN_ADDDOMAIN, OnBtnAddDomain)
 	ON_COMMAND(ID_BTN_REMOVEDOMAIN, OnBtnRemoveDomain)
 	ON_COMMAND(ID_BTN_START_RACER, OnBtnStartRacer)
@@ -106,9 +112,14 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
 	ON_MESSAGE(ID_GUI_MESSAGE + 7, On_ProgressBar_Start)
 	ON_MESSAGE(ID_GUI_MESSAGE + 8, On_ProgressBar_Stop)
 	ON_MESSAGE(ID_GUI_MESSAGE + 9, On_Canvas_Invalidate)
+	ON_MESSAGE(ID_GUI_MESSAGE + 10, On_Output_Update_Connection)
 END_MESSAGE_MAP()
 
 HHOOK glhHook;
+HWND g_hWndJava = NULL;
+HWND g_hWndMainWindow = NULL;
+int a = 0;
+CMainFrame *pThis = NULL;
 
 LRESULT CALLBACK MouseProc(
 						   int nCode,      // hook code
@@ -118,6 +129,14 @@ LRESULT CALLBACK MouseProc(
 {
 	if(wParam==WM_LBUTTONDOWN)
     {
+		//SetActiveWindow(g_hWndJava);
+		if (g_hWndJava && g_hWndMainWindow)
+		{
+			//SetParent(g_hWndJava, g_hWndMainWindow);
+		}
+
+		//Output_ReportList(pThis->itos(a), pThis->itos(a ++));
+
 		POINT pt = ((MSLLHOOKSTRUCT*)(lParam))-> pt;
 		CRect rect;
 
@@ -161,6 +180,12 @@ CMainFrame::CMainFrame()
 {
 	m_nAppLook = theApp.GetInt (_T("ApplicationLook"), ID_VIEW_APPLOOK_2010_2);
 
+	pThis = this;
+
+	m_hWndJava = NULL;
+	iToken = 1;
+	iLastToken = 1;
+	iTry = 0;
 	///*
 	m_initDCName = _T("kira");
 	m_initUsername = _T("administrator");
@@ -174,6 +199,10 @@ CMainFrame::CMainFrame()
 	//m_initRacerIP = _T("");
 	m_bSelfStartRacer = FALSE;
 	g_bReboot = FALSE;
+
+	m_strServerIP = _T("127.0.0.1");
+	m_strPort = _T("53719");
+	m_pCurServer = NULL;
 
 	/*
 	m_initDCName = _T("klbnt");
@@ -193,13 +222,14 @@ CMainFrame::CMainFrame()
 	initPolicyDir();
 	initEXEDir();
 
-	m_bChineseOrEnglish = getLanguage();
+	m_bChineseOrEnglish = Global_GetLanguage();
 
 	doWithTheAPIHookStuff();
 }
 
 CMainFrame::~CMainFrame()
 {
+	stopServer();
 	UnhookWindowsHookEx(glhHook);
 }
 
@@ -208,11 +238,23 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CBCGPFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	if (!CreateRibbonBar ())
+	if (m_bChineseOrEnglish) 
 	{
-		TRACE0("Failed to create ribbon bar\n");
-		return -1;      // fail to create
+		if (!CreateRibbonBar_Chinese())
+		{
+			TRACE0("Failed to create ribbon bar\n");
+			return -1;      // fail to create
+		}
 	}
+	else
+	{
+		if (!CreateRibbonBar_English())
+		{
+			TRACE0("Failed to create ribbon bar\n");
+			return -1;      // fail to create
+		}
+	}
+	
 
 	if (!m_wndStatusBar.Create(this))
 	{
@@ -221,7 +263,20 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	initCNDPFilePathName();
+	if (m_bChineseOrEnglish) 
+	{
+		initUI_Chinese();
+	}
+	else
+	{
+		initUI_English();
+	}
+	OnAppLook (m_nAppLook);
+	return 0;
+}
 
+int CMainFrame::initUI_Chinese()
+{
 	// TODO: add your status bar panes here:
 	m_wndStatusBar.AddElement (new CBCGPRibbonStatusBarPane (
 		ID_STATUSBAR_PANE1, _T("北航·网络技术北京市重点实验室"), TRUE), _T("北航·网络技术北京市重点实验室"));
@@ -230,9 +285,89 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pProgress = new CBCGPRibbonProgressBar (1, 150);
 	m_pProgress->SetInfiniteMode(FALSE);
 	m_wndStatusBar.AddExtendedElement(m_pProgress, _T("进度指示器"), TRUE);
+	m_pStatusLabel = new CBCGPRibbonStatusBarPane(ID_STATUSBAR_PANE2, _T("正在运行"), TRUE);
+	m_pStatusLabel->SetText(_T("准备就绪"));
+	m_wndStatusBar.AddExtendedElement(m_pStatusLabel, _T("当前状态"));
+	///////////////////////进度条///////////////////////
+
+	// Load control bar icons:
+	CBCGPToolBarImages imagesWorkspace;
+	imagesWorkspace.SetImageSize (CSize (16, 16));
+	imagesWorkspace.SetTransparentColor (RGB (255, 0, 255));
+	imagesWorkspace.Load (IDB_WORKSPACE);
+	imagesWorkspace.SmoothResize(globalData.GetRibbonImageScale());
+
+	/*
+	if (!m_wndWorkSpace.Create (_T("View  1"), this, CRect (0, 0, 200, 200),
+		TRUE, ID_VIEW_WORKSPACE,
+		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Workspace bar\n");
+		return -1;      // fail to create
+	}
+
+	m_wndWorkSpace.SetIcon (imagesWorkspace.ExtractIcon (0), FALSE);
+
+	if (!m_wndWorkSpace2.Create (_T("View 2"), this, CRect (0, 0, 200, 200),
+		TRUE, ID_VIEW_WORKSPACE2,
+		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Workspace bar 2\n");
+		return -1;      // fail to create
+	}
+	
+
+	m_wndWorkSpace2.SetIcon (imagesWorkspace.ExtractIcon (1), FALSE);
+	*/
+	if (!m_wndOutput.Create (_T("输出"), this, CRect (0, 0, 150, 150),
+		TRUE /* Has gripper */, ID_VIEW_OUTPUT,
+		WS_CHILD | WS_VISIBLE | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create output bar\n");
+		return -1;      // fail to create
+	}
+
+	m_wndOutput.SetIcon (imagesWorkspace.ExtractIcon (2), FALSE);
+
+	if (!m_wndPropGrid.Create (_T("属性"), this, CRect (0, 0, 200, 200),
+		TRUE, 
+		ID_VIEW_PROPERTIES,
+		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create Properties Bar\n");
+		return -1;		// fail to create
+	}
+
+	m_wndPropGrid.SetIcon (imagesWorkspace.ExtractIcon (3), FALSE);
+	// TODO: Delete these three lines if you don't want the toolbar to
+	//  be dockable
+	//m_wndWorkSpace.EnableDocking(CBRS_ALIGN_ANY);
+	//m_wndWorkSpace2.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndPropGrid.EnableDocking(CBRS_ALIGN_ANY);
+	EnableDocking(CBRS_ALIGN_ANY);
+	EnableAutoHideBars(CBRS_ALIGN_ANY);
+	//DockControlBar (&m_wndWorkSpace);
+	//m_wndWorkSpace2.AttachToTabWnd (&m_wndWorkSpace, BCGP_DM_STANDARD, FALSE, NULL);
+	DockControlBar(&m_wndPropGrid);
+	DockControlBar(&m_wndOutput);
+
+	return 0;
+}
+
+int CMainFrame::initUI_English()
+{
+	// TODO: add your status bar panes here:
+	m_wndStatusBar.AddElement (new CBCGPRibbonStatusBarPane (
+		ID_STATUSBAR_PANE1, _T("Beihang University - Key Laboratory of Beijing Network Technology"), TRUE), _T("Beihang University - Key Laboratory of Beijing Network Technology"));
+
+	///////////////////////进度条////////////////////////
+	m_pProgress = new CBCGPRibbonProgressBar (1, 150);
+	m_pProgress->SetInfiniteMode(FALSE);
+	m_wndStatusBar.AddExtendedElement(m_pProgress, _T("Process Indicator"), TRUE);
 	m_pStatusLabel = new CBCGPRibbonStatusBarPane(ID_STATUSBAR_PANE2, _T("Running"), TRUE);
 	m_pStatusLabel->SetText(_T("Get Ready"));
-	m_wndStatusBar.AddExtendedElement(m_pStatusLabel, _T("当前状态"));
+	m_wndStatusBar.AddExtendedElement(m_pStatusLabel, _T("Current State"));
 	///////////////////////进度条///////////////////////
 
 	// Load control bar icons:
@@ -280,7 +415,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Failed to create Properties Bar\n");
-		return FALSE;		// fail to create
+		return -1;		// fail to create
 	}
 
 	m_wndPropGrid.SetIcon (imagesWorkspace.ExtractIcon (3), FALSE);
@@ -297,7 +432,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	DockControlBar(&m_wndPropGrid);
 	DockControlBar(&m_wndOutput);
 
-	OnAppLook (m_nAppLook);
 	return 0;
 }
 
@@ -307,6 +441,8 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
+
+	startServer();
 	
 	return TRUE;
 }
@@ -329,6 +465,13 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
+
+CString CMainFrame::itos(int i)
+{
+	CString strTemp;
+	strTemp.Format(_T("%d"), i);
+	return strTemp;
+}
 
 BOOL CMainFrame::FolderExist(CString strPath)
 {
@@ -398,7 +541,7 @@ void CMainFrame::initPolicyDir()
 		}
 	}
 	cstrDir += _T("\\policy\\");
-	m_strPolicyDirectory = cstrDir;
+	m_strPolicyDir = cstrDir;
 }
 
 void CMainFrame::initEXEDir()
@@ -420,7 +563,7 @@ void CMainFrame::initEXEDir()
 
 void CMainFrame::initCNDPFilePathName()
 {
-	CString strCNDPFilePathName = m_strPolicyDirectory + _T("CNDP.txt");
+	CString strCNDPFilePathName = m_strPolicyDir + _T("CNDP_FileService.txt");
 	m_pEditFilePathName->SetEditText(strCNDPFilePathName);
 }
 
@@ -465,9 +608,54 @@ void CMainFrame::setLanguage(BOOL bChineseOrEnglish)
 	{
 		pFile.WriteString(_T("0"));
 	}
-
+	
 	pFile.Close();
 }
+
+BOOL CMainFrame::deleteFile(CString strFilePathName)
+{
+	SHFILEOPSTRUCT FileOp={0};
+	FileOp.fFlags = FOF_ALLOWUNDO |   //允许放回回收站
+		FOF_NOCONFIRMATION; //不出现确认对话框
+	FileOp.pFrom = strFilePathName;
+	FileOp.pTo = NULL;      //一定要是NULL
+	FileOp.wFunc = FO_DELETE;    //删除操作
+	return SHFileOperation(&FileOp) == 0;
+}
+
+void CMainFrame::setCNDPCDVisible(BOOL bVisible)
+{
+	deleteFile(m_strPolicyDir + _T("needShow.txt"));
+	CStdioFile pFile;
+	TRY
+	{
+		pFile.Open(m_strPolicyDir + _T("needShow.txt"), CFile::modeCreate | CFile::modeWrite);
+	}
+	CATCH( CFileException, e )
+	{
+		int a = e->m_cause;
+		return;
+	}
+	END_CATCH
+
+
+// 	if (!pFile.Open(m_strPolicyDir + _T("needShow.txt"), CFile::modeCreate | CFile::modeWrite))
+// 	{
+// 		MyMessageBox_Error(_T("setCNDPCDVisible"));
+// 		return;
+// 	}
+	
+	if (bVisible)
+	{
+		pFile.WriteString(_T("needShow=1"));
+	}
+	else
+	{
+		pFile.WriteString(_T("needShow=0"));
+	}
+	pFile.Close();
+}
+
 
 void CMainFrame::OnAppLook(UINT id)
 {
@@ -650,7 +838,7 @@ CString CMainFrame::i18n(CString strText)
 	}
 }
 
-BOOL CMainFrame::CreateRibbonBar()
+BOOL CMainFrame::CreateRibbonBar_Chinese()
 {
 	if (!m_wndRibbonBar.Create(this))
 	{
@@ -768,7 +956,7 @@ BOOL CMainFrame::CreateRibbonBar()
 	m_pEditFilePathName = new CBCGPRibbonEdit(ID_EDIT_CNDP_FILE_PATH_NAME, 100, _T("CNDP文件路径:"));
 	m_pEditFilePathName->SetEditText(m_initFilePathName);
 	
-	CBCGPRibbonButton* pBtnCNDPGen = new CBCGPRibbonButton(ID_BTN_CNDP_GEN, _T("生成CNDP文件"), 7 + 6, 7);
+	CBCGPRibbonButton* pBtnCNDPGen = new CBCGPRibbonButton(ID_BTN_CNDP_GEN, _T("生成CNDP文件"), 7 + 8, 7);
 	
 	pPanelCNDP->Add(m_pEditFilePathName);
 	pPanelCNDP->Add(pBtnCNDPGen);
@@ -777,9 +965,11 @@ BOOL CMainFrame::CreateRibbonBar()
 	// Create "CNDP" panel:
 	CBCGPRibbonPanel* pPanelCNDPCD = pCategory->AddPanel(_T("CNDPCD工具"), m_PanelImages.ExtractIcon (2));
 	
-	CBCGPRibbonButton* pBtnCNDPCDGen = new CBCGPRibbonButton(ID_BTN_CNDPCD_GEN, _T("启动CNDPCD工具"), 7 + 6, 7);
+	CBCGPRibbonButton* pBtnCNDPCDGen = new CBCGPRibbonButton(ID_BTN_CNDPCD_GEN, _T("启动CNDPCD工具"), 7 + 9, 7);
+	CBCGPRibbonButton* pBtnCNDPCDStop = new CBCGPRibbonButton(ID_BTN_CNDPCD_STOP, _T("关闭CNDPCD工具"), 7 + 10, 7);
 	
 	pPanelCNDPCD->Add(pBtnCNDPCDGen);
+	pPanelCNDPCD->Add(pBtnCNDPCDStop);
 	pPanelCNDPCD->SetKeys (_T("zl"));
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Create "Detect" panel:
@@ -809,7 +999,7 @@ BOOL CMainFrame::CreateRibbonBar()
 	
 	//Create Logoninfo Searchingbutton
 	CBCGPRibbonPanel* pLogonInfoSearching = pCategory->AddPanel(_T("信息查询"));
-	CBCGPRibbonButton* pBtnInfoSearch = new CBCGPRibbonButton(ID_BTN_LOGINFO_SEARCH, _T("登陆信息查询\ns"), 1, 0);
+	CBCGPRibbonButton* pBtnInfoSearch = new CBCGPRibbonButton(ID_BTN_LOGINFO_SEARCH, _T("登陆信息查询\ns"), 7 + 11, 0);
 	pLogonInfoSearching->Add (pBtnInfoSearch);
 	pLogonInfoSearching->SetKeys (_T("zd"));
 
@@ -852,6 +1042,220 @@ BOOL CMainFrame::CreateRibbonBar()
 
 	// Add "Style" button to the right of tabs:
 	CBCGPRibbonButton* pStyleButton = new CBCGPRibbonButton (-1, _T("换肤\ns"), -1, -1);
+	pStyleButton->SetMenu (IDR_THEME_MENU, TRUE /* Right align */);
+
+	m_wndRibbonBar.AddToTabs (pStyleButton);
+
+	// Add "About" button to the right of tabs:
+	m_wndRibbonBar.AddToTabs (new CBCGPRibbonButton (ID_APP_ABOUT, _T("\na"), m_PanelImages.ExtractIcon (0)));
+
+	return TRUE;
+}
+
+BOOL CMainFrame::CreateRibbonBar_English()
+{
+	if (!m_wndRibbonBar.Create(this))
+	{
+		return FALSE;
+	}
+
+	// Load panel images:
+	m_PanelImages.SetImageSize (CSize (16, 16));
+	m_PanelImages.Load (IDB_RIBBON_ICONS);
+
+	// Init main button:
+	m_MainButton.SetImage (IDB_RIBBON_MAIN);
+	m_MainButton.SetToolTipText (_T("File"));
+	m_MainButton.SetText (_T("\nf"));
+
+	m_wndRibbonBar.SetMainButton (&m_MainButton, CSize (45, 45));
+
+	CBCGPRibbonMainPanel* pMainPanel = m_wndRibbonBar.AddMainCategory (
+		_T("File"), IDB_RIBBON_FILESMALL, IDB_RIBBON_FILELARGE);
+
+	pMainPanel->Add (new CBCGPRibbonButton (ID_FILE_NEW, _T("New(&N)"), 0, 0));
+	pMainPanel->Add (new CBCGPRibbonButton (ID_FILE_OPEN, _T("Open(&O)"), 1, 1));
+
+	pMainPanel->Add (new CBCGPRibbonButton (ID_FILE_SAVE, _T("Save(&S)"), 2, 2));
+
+	pMainPanel->Add (new CBCGPRibbonButton (ID_FILE_SAVE_AS, _T("Save As(&A)"), 3, 3));
+
+	CBCGPRibbonButton* pBtnPrint = new CBCGPRibbonButton (ID_FILE_PRINT, _T("Print(&P)"), 4, 4);
+
+	pBtnPrint->AddSubItem (new CBCGPRibbonLabel (_T("Preview and Print")));
+	pBtnPrint->AddSubItem (new CBCGPRibbonButton (ID_FILE_PRINT, _T("Print(&P)"), 4, 4, TRUE));
+	pBtnPrint->AddSubItem (new CBCGPRibbonButton (ID_FILE_PRINT_DIRECT, _T("Quick Print(&Q)"), 7, 7, TRUE));
+	pBtnPrint->AddSubItem (new CBCGPRibbonButton (ID_FILE_PRINT_PREVIEW, _T("Preview(&V)"), 6, 6, TRUE));
+
+	pBtnPrint->SetKeys (_T("p"), _T("w"));
+
+	pMainPanel->Add (pBtnPrint);
+
+	pMainPanel->AddRecentFilesList (_T("Last Views"), 300, TRUE /* Show Pins */);
+
+	pMainPanel->AddToBottom (new CBCGPRibbonMainPanelButton (ID_TOOLS_OPTIONS, _T("Options(&I)"), 9));
+	pMainPanel->AddToBottom (new CBCGPRibbonMainPanelButton (ID_APP_EXIT, _T("Exit(&X)"), 8));
+
+	// Add "Home" category with "Clipboard" panel:
+	CBCGPRibbonCategory* pCategory = m_wndRibbonBar.AddCategory (
+		_T("&Basic"),
+		IDB_RIBBON_HOMESMALL,
+		IDB_RIBBON_HOMELARGE);
+	m_pCategory1 = pCategory;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "Clipboard" panel:
+
+	CBCGPRibbonPanel* pPanelClipboard = pCategory->AddPanel(_T("Clipboard"), m_PanelImages.ExtractIcon (1));
+	CBCGPRibbonButton* pBtnPaste = new CBCGPRibbonButton (ID_EDIT_PASTE, _T("Paste\nv"), 0, 0);
+	pBtnPaste->SetMenu (IDR_PASTE_MENU, TRUE);
+	pPanelClipboard->Add (pBtnPaste);
+	pPanelClipboard->Add (new CBCGPRibbonButton (ID_EDIT_CUT, _T("Cut\nx"), 1));
+	pPanelClipboard->Add (new CBCGPRibbonButton (ID_EDIT_COPY, _T("Copy\nc"), 2));
+	pPanelClipboard->Add (new CBCGPRibbonButton (ID_EDIT_CLEAR, _T("Clear\nr"), 3));
+
+	pPanelClipboard->SetKeys (_T("zc"));
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "Window" panel:
+
+	CBCGPRibbonPanel* pPanelWindow = pCategory->AddPanel(_T("Sidebars"), m_PanelImages.ExtractIcon (2));
+	//pPanelWindow->Add (new CBCGPRibbonCheckBox (ID_VIEW_WORKSPACE, _T("导航栏1\n1")));
+	//pPanelWindow->Add (new CBCGPRibbonCheckBox (ID_VIEW_WORKSPACE2, _T("导航栏2\n2")));
+	pPanelWindow->Add (new CBCGPRibbonCheckBox (ID_VIEW_OUTPUT, _T("Output\no")));
+	pPanelWindow->Add (new CBCGPRibbonCheckBox (ID_VIEW_PROPERTIES, _T("Properties\ng")));
+	pPanelWindow->Add (new CBCGPRibbonCheckBox (ID_VIEW_STATUS_BAR, _T("Status\ns")));
+	pPanelWindow->SetKeys (_T("zw"));
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "LogOn" panel:
+	m_pPanelLogOn = pCategory->AddPanel(_T("Domain-Admin Logon"));
+	m_pEditDCName = new CBCGPRibbonEdit(ID_EDIT_DCNAME, 100, _T("DC Host or IP :"));
+	m_pEditDCName->SetEditText(m_initDCName);
+	m_pEditUsername = new CBCGPRibbonEdit(ID_EDIT_USERNAME, 100, _T("Admin Username:"));
+	m_pEditUsername->SetEditText(m_initUsername);
+	m_pEditPassword = new CMyRibbonEdit(ID_EDIT_PASSWORD, 100, _T("Admin Password:"));
+	m_pEditPassword->SetEditText(m_initPassword);
+	CBCGPRibbonButton* pBtnAddDomain = new CBCGPRibbonButton(ID_BTN_ADDDOMAIN, _T("Add Domain"), 7 + 6, 7);
+	CBCGPRibbonButton* pBtnRemoveDomain = new CBCGPRibbonButton(ID_BTN_REMOVEDOMAIN, _T("Remove Domain"), 8 + 6, 8);
+	CBCGPRibbonButton* pBtnLogOn = new CBCGPRibbonButton(ID_BTN_LOGON, _T("Log on\nl"), 3 + 6, 3);
+
+	m_npEditDCNames.push_back(m_pEditDCName);
+	m_npEditUsernames.push_back(m_pEditUsername);
+	m_npEditPasswords.push_back(m_pEditPassword);
+
+	m_pPanelLogOn->Add (m_pEditDCName);
+	m_pPanelLogOn->Add (m_pEditUsername);
+	m_pPanelLogOn->Add (m_pEditPassword);
+	/*
+	for (int i = 0; i < m_npEditDCNames.size(); i ++)
+	{
+		CBCGPRibbonEdit *pEditDCName = m_npEditDCNames[i];
+		CBCGPRibbonEdit *pEditUsername = m_npEditUsernames[i];
+		CBCGPRibbonEdit *pEditPassword = m_npEditPasswords[i];
+		m_pPanelLogOn->Add(pEditPassword);
+		m_pPanelLogOn->Add(pEditUsername);
+		m_pPanelLogOn->Add(pEditDCName);
+		m_pPanelLogOn->AddSeparator();
+	}
+	*/
+
+	m_pPanelLogOn->Add (pBtnAddDomain);
+	m_pPanelLogOn->Add (pBtnRemoveDomain);
+	m_pPanelLogOn->Add (pBtnLogOn);
+	m_pPanelLogOn->SetKeys (_T("zl"));
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "CNDPFileGenerate" panel:
+	CBCGPRibbonPanel* pPanelCNDP = pCategory->AddPanel(_T("CNDP Generation"), m_PanelImages.ExtractIcon (2));
+	
+	m_pEditFilePathName = new CBCGPRibbonEdit(ID_EDIT_CNDP_FILE_PATH_NAME, 100, _T("CNDP File Path:"));
+	m_pEditFilePathName->SetEditText(m_initFilePathName);
+	
+	CBCGPRibbonButton* pBtnCNDPGen = new CBCGPRibbonButton(ID_BTN_CNDP_GEN, _T("Generate"), 9 + 6, 9);
+	
+	pPanelCNDP->Add(m_pEditFilePathName);
+	pPanelCNDP->Add(pBtnCNDPGen);
+	pPanelCNDP->SetKeys (_T("zl"));
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "CNDP" panel:
+	CBCGPRibbonPanel* pPanelCNDPCD = pCategory->AddPanel(_T("CNDPCD Tool"), m_PanelImages.ExtractIcon (2));
+	
+	CBCGPRibbonButton* pBtnCNDPCDGen = new CBCGPRibbonButton(ID_BTN_CNDPCD_GEN, _T("Start"), 10 + 6, 10);
+	CBCGPRibbonButton* pBtnCNDPCDStop = new CBCGPRibbonButton(ID_BTN_CNDPCD_STOP, _T("Stop"), 11 + 6, 11);
+	
+	pPanelCNDPCD->Add(pBtnCNDPCDGen);
+	pPanelCNDPCD->Add(pBtnCNDPCDStop);
+	pPanelCNDPCD->SetKeys (_T("zl"));
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "Detect" panel:
+	CBCGPRibbonPanel* pPanelDetect = pCategory->AddPanel(_T("Conflict Detection"));
+	m_pEditRacerIP = new CBCGPRibbonEdit(ID_EDIT_RACER_IP, 100, _T("RacerPro IP:"));
+	m_pEditRacerIP->SetEditText(m_initRacerIP);
+	CBCGPRibbonButton* pBtnStartRacer = new CBCGPRibbonButton(ID_BTN_START_RACER, _T("Start RacerPro\ns"), 4 + 6, 4);
+	CBCGPRibbonButton* pBtnDetect = new CBCGPRibbonButton(ID_BTN_DETECT, _T("Detect\nd"), 5 + 6, 5);
+	CBCGPRibbonButton* pBtnClear = new CBCGPRibbonButton(ID_BTN_CLEAR, _T("Clear Cache\nc"), 6 + 6, 6);
+
+	pPanelDetect->Add (m_pEditRacerIP);
+	pPanelDetect->Add (pBtnStartRacer);
+	pPanelDetect->Add (pBtnDetect);
+	pPanelDetect->Add (pBtnClear);
+	pPanelDetect->SetKeys (_T("zd"));
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "Design" panel:
+	m_pCheckBoxChinese = new CBCGPRibbonCheckBox (ID_CHECK_CHINESE, _T("Chinese UI\nd"));
+	//m_pCheckBoxEnglish = new CBCGPRibbonCheckBox (ID_CHECK_ENGLISH, _T("英文用户界面\nd"));
+	CBCGPRibbonPanel* pPanelDesign = pCategory->AddPanel(_T("Design Mode"));
+	pPanelDesign->Add (new CBCGPRibbonCheckBox (ID_CHECK_DESIGN, _T("Edit Figure\nd")));
+	pPanelDesign->Add (m_pCheckBoxChinese);
+	//pPanelDesign->Add (m_pCheckBoxEnglish);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	
+	//Create Logoninfo Searchingbutton
+	CBCGPRibbonPanel* pLogonInfoSearching = pCategory->AddPanel(_T("Query Information"));
+	CBCGPRibbonButton* pBtnInfoSearch = new CBCGPRibbonButton(ID_BTN_LOGINFO_SEARCH, _T("Logon Infomation Query\ns"), 12 + 6, 12);
+	pLogonInfoSearching->Add (pBtnInfoSearch);
+	pLogonInfoSearching->SetKeys (_T("zd"));
+
+	// Add some hidden (non-ribbon) elements:
+	CBCGPRibbonUndoButton* pUndo = new CBCGPRibbonUndoButton (ID_EDIT_UNDO, _T("Undo"), 4);
+
+	pUndo->AddUndoAction (_T("Undo Item 1"));
+	pUndo->AddUndoAction (_T("Undo Item 2"));
+	pUndo->AddUndoAction (_T("Undo Item 3"));
+	pUndo->AddUndoAction (_T("Undo Item 4"));
+	pUndo->AddUndoAction (_T("Undo Item 5"));
+
+	pCategory->AddHidden (pUndo);
+
+	// Add "<TODO>" category with "Clipboard" panel:
+	CBCGPRibbonCategory* pTODOCategory = m_wndRibbonBar.AddCategory (
+		_T("&About"), 
+		0 /* TODO: ID-category small images */, 
+		0 /* TODO: ID-category large images */);
+	m_pCategory2 = pTODOCategory;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create "Help" panel:
+	CBCGPRibbonPanel* pPanelHelp = pTODOCategory->AddPanel(_T("About and Help"), m_PanelImages.ExtractIcon (1));
+	pPanelHelp->Add(new CBCGPRibbonLabel (_T("VisualADS v1.0.0 is developed by C++, BCGControlBar and Graphviz.")));
+	pPanelHelp->Add(new CBCGPRibbonLabel (_T("使用过程中如果出现360关于HOSTS修改的提示，请允许。")));
+	pPanelHelp->Add(new CBCGPRibbonLabel (_T("技术支持请联系：veotax@sae.buaa.edu.cn")));
+
+	// Add quick access toolbar commands:
+	CBCGPRibbonQATDefaultState qatState;
+
+	qatState.AddCommand (ID_FILE_NEW, FALSE);
+	qatState.AddCommand (ID_FILE_OPEN, FALSE);
+	qatState.AddCommand (ID_FILE_SAVE);
+	qatState.AddCommand (ID_FILE_PRINT_DIRECT);
+	qatState.AddCommand (ID_FILE_PRINT_PREVIEW, FALSE);
+	qatState.AddCommand (ID_EDIT_UNDO);
+
+	m_wndRibbonBar.SetQuickAccessDefaultState (qatState);
+
+	// Add "Style" button to the right of tabs:
+	CBCGPRibbonButton* pStyleButton = new CBCGPRibbonButton (-1, _T("Change Skin\ns"), -1, -1);
 	pStyleButton->SetMenu (IDR_THEME_MENU, TRUE /* Right align */);
 
 	m_wndRibbonBar.AddToTabs (pStyleButton);
@@ -1067,6 +1471,7 @@ void CMainFrame::OnBtnCNDPGenerate()
 // 	DWORD pid = FindProcessByName(ss);
 
 CString g_strTitle;
+int g_flag = 0;
 
 typedef struct tagWNDINFO 
 { 
@@ -1096,92 +1501,58 @@ HWND CMainFrame::GetGlobalHandleByTitle(CString strTitle)
 	WNDINFO wi;
 	wi.hWnd = NULL; 
 	EnumWindows(YourEnumProc, (LPARAM)&wi); 
+    //确定程序已启动
+	g_flag = 1;
 	return wi.hWnd; 
-} 
+}
+
+void CMainFrame::executeWithHide(CString strPathName)
+{
+	TCHAR szDesktop[256] = _T("MyDesktop");
+    HDESK hDesk = CreateDesktop(szDesktop, NULL, NULL, 0, GENERIC_ALL|DESKTOP_CREATEWINDOW, NULL);
+    if (hDesk)
+    {        
+        STARTUPINFO si = {sizeof(si)};
+        //si.dwFlags = STARTF_USESHOWWINDOW;
+        //si.wShowWindow = SW_HIDE;
+		memset(&si, 0, sizeof(STARTUPINFO));
+        si.lpDesktop = szDesktop;
+		si.cb = sizeof(STARTUPINFO);
+        PROCESS_INFORMATION pi = {0};
+        TCHAR szApp[255];
+		//strPathName = "java.exe -jar " + strPathName;
+		strPathName = "E:\\软件\\crack tools\\华夏2010新年巨献\\Data\\System Defense\\文件分析\\hashcalc\\HashCalc.exe";
+		_tcscpy(szApp, strPathName);
+        if (CreateProcess(NULL, szApp, NULL, NULL, FALSE, 0, NULL,NULL, &si, &pi))
+        {
+            CloseHandle(pi.hThread);
+            CloseHandle(pi.hProcess);
+        }
+        else
+        {
+			DWORD aaa = GetLastError();
+            AfxMessageBox(_T("Failed."));
+        }
+        CloseDesktop(hDesk);
+    }
+}
 
 void CMainFrame::OnBtnStartCNDPCD()
 {
-
-	TCHAR cBuffer[260];
-    GetCurrentDirectory(MAX_PATH, cBuffer);
-	CString cstrPath(cBuffer);
-    CString strCNDPCDPath = cstrPath + _T("\\input\\CNDPCD.jar");
-	
-
-	HWND hWnd = GetGlobalHandleByTitle("计算机网络防御策略冲突检测工具");
-
-	if (!hWnd)
+	HANDLE hCNDPCDThread = CreateThread(NULL, 0, CNDPCDThread, this, 0, NULL);
+	if (hCNDPCDThread == NULL)
 	{
-	    ShellExecute(NULL,NULL,strCNDPCDPath,NULL,NULL,SW_SHOWNORMAL);
-	 
-	    int iTry = 0;
-    do
+		MyMessageBox_Error(_T("OnBtnStartCNDPCD"));
+	}
+	else
 	{
-	    hWnd = GetGlobalHandleByTitle("计算机网络防御策略冲突检测工具");
-	    iTry++;
-	    if(iTry == 20){
-	        MyMessageBox_Error(_T("程序未启动"), _T("错误提示信息"));
-        	return;
-		}
-	    Sleep(500);
+		CloseHandle(hCNDPCDThread);
 	}
-    while(hWnd == NULL);
+}
 
-	//::SetWindowPos(hWnd, HWND_TOPMOST, 400, 400, 100, 100, SWP_SHOWWINDOW);
-	
-
-	CView *pView = (CView *)GetActiveView();
-	
-	RECT rect;
-
-	pView->GetClientRect(&rect);
-
-    pView->ClientToScreen (&rect);
-
-
-	::MoveWindow(hWnd,  rect.left, rect.top, rect.right- rect.left, rect.bottom-rect.top, TRUE);
-	//::MoveWindow(hWnd, ,rect.left, rect.top, rect.right, rect.bottom, TRUE);
-	}
-// 	TCHAR cBuffer[260];
-// 	GetCurrentDirectory(MAX_PATH, cBuffer);
-// 	CString cstrPath(cBuffer);
-// 	CString strCNDPCDPath = cstrPath + _T("\\input\\CNDPCD.jar");
-// 	
-//     
-//     HWND  hJWnd;
-//     hJWnd = (HWND)FindWindow(NULL,"计算机网络防御策略冲突检测工具");
-// 	if (!hJWnd)
-// 	{
-// 		ShellExecute(NULL,NULL,strCNDPCDPath,NULL,NULL,SW_SHOWNORMAL);
-// 
-// 		int iTry = 0;
-// 		do
-// 		{
-// 			hJWnd = (HWND)FindWindow(NULL,"计算机网络防御策略冲突检测工具");
-// 			iTry++;
-// 			if(iTry == 10){
-// 				MyMessageBox_Error(_T("程序未启动"), _T("错误提示信息"));
-// 				return;
-// 			}
-// 			Sleep(500);
-// 		}
-// 		while(hJWnd == NULL);
-// 
-//         RECT rect;
-// 
-// 		::GetClientRect(NULL, &rect);
-// 
-// 		::MoveWindow(hJWnd,  rect.left, rect.top, rect.right, rect.bottom, TRUE);
-// 	}
-// 
-// 	long style = GetWindowLong(hJWnd, GWL_STYLE);
-//     style &= ~(WS_CAPTION);
-//     SetWindowLong(hJWnd, GWL_STYLE, style);
-// 	RECT r;
-//     ::GetWindowRect(hJWnd, &r);
-//     r.bottom++;
-//     ::MoveWindow(hJWnd, r.left + 1000, r.top, r.right - r.left, r.bottom - r.top + 1000, TRUE);
-	
+void CMainFrame::OnBtnStopCNDPCD()
+{
+	::SendMessage(m_hWndJava, WM_CLOSE, NULL, NULL);
 }
 
 void CMainFrame::OnBtnLoad()
@@ -1320,6 +1691,20 @@ void CMainFrame::OnBtnDetect()
 	}
 }
 
+void CMainFrame::OnBtnSocket()
+{
+	CNDPCDThread(NULL);
+// 	HANDLE hSocketThread = CreateThread(NULL, 0, SocketThread, this, 0, NULL);
+// 	if (hSocketThread == NULL)
+// 	{
+// 		MyMessageBox_Error(_T("OnBtnSocket"));
+// 	}
+// 	else
+// 	{
+// 		CloseHandle(hSocketThread);
+// 	}
+}
+
 void CMainFrame::OnBtnClear()
 {
 	CVisualADSDoc *pDoc = (CVisualADSDoc *) GetActiveDocument();
@@ -1411,6 +1796,25 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		if (m_iProgress > 100)
 			m_iProgress -= 150;
 		m_pProgress->SetPos(m_iProgress);
+	}
+	else if (nIDEvent == TIMER_NOTOPMOST)
+	{
+		if (m_hWndJava)
+		{
+			//::SetParent(m_hWndJava, m_hWnd);
+		}
+// 		if (!m_hWndJava)
+// 		{
+// 			
+// 			return;
+// 		}
+// 		HWND hWndTop = ::GetForegroundWindow();
+// 		if (hWndTop != m_hWnd)
+// 		{
+// 			::SetWindowPos(m_hWndJava, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+// 			::SetWindowPos(m_hWndJava, hWndTop, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+// 			//Output_ReportList(itos(a), itos(a ++));
+// 		}
 	}
 
 	CBCGPFrameWnd::OnTimer(nIDEvent);
@@ -1645,6 +2049,13 @@ LRESULT CMainFrame::On_Canvas_Invalidate(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+LRESULT CMainFrame::On_Output_Update_Connection(WPARAM wParam, LPARAM lParam)
+{
+	updateServer();
+
+	return 0;
+}
+
 #include <Wbemidl.h>
 #include "ADPermissionSearch.h"
 
@@ -1793,7 +2204,6 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		pThis->globalDomains[i]->setGlobalDomains(pThis->globalDomains);
 		
 		//pThis->globalDomains[i]->refreshAllShareFolderInfos();
-		//pThis->globalDomains[i]->addToProperties();
 	}
 
 	for (i = 0; i < pThis->globalDomains.size(); i ++)
@@ -1802,6 +2212,12 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		pThis->globalDomains[i]->refreshAllGroupMembers_LoadMode(FALSE);
 		Output_ConsoleList(_T("Finished parsing domain: ") + pThis->globalDomains[i]->dNSName + _T("."));
 	}
+	
+	for (i = 0; i < pThis->globalDomains.size(); i ++)
+	{
+		pThis->globalDomains[i]->addToProperties();
+	}
+
 	Output_ConsoleList(_T("Cache restoring finished!"));
 
 	ADGraphGenerator* graphGenerator = new ADGraphGenerator(pThis->globalDomains, _T("ADDomain_Buffer"));
@@ -1978,6 +2394,11 @@ void CMainFrame::OnClose()
 	if (m_bSelfStartRacer)
 	{
 		DLInterface::endEngine();
+	}
+
+	if (m_hWndJava)
+	{
+		::SendMessage(m_hWndJava, WM_CLOSE, 0, 0);
 	}
 
 	if (g_bReboot)
@@ -2746,5 +3167,213 @@ DWORD WINAPI LogOnSearchThread(LPVOID lpParameter)
 		
 	}
 	return 1;
+}
+
+DWORD WINAPI CNDPCDThread(LPVOID lpParameter)
+{
+	CMainFrame *pThis = (CMainFrame *) lpParameter;
+	ProgressBar_Start();
+
+	CString strJavaPathName = pThis->m_strInputDir + _T("CNDPCD.jar");
+	CString strJavaTitle = _T("计算机网络防御策略冲突检测工具");
+	// 	CString strJavaPathName = _T("C:\\Windows\\System32\\mspaint.exe");
+	// 	CString strJavaTitle = _T("Untitled - Paint");
+	
+	HWND hWnd = pThis->GetGlobalHandleByTitle(strJavaTitle);
+	if (!hWnd)
+	{
+		ShellExecute(NULL, NULL, strJavaPathName, NULL, NULL, SW_SHOWNORMAL);
+		pThis->setCNDPCDVisible(FALSE);
+		//executeWithHide(strCNDPCDPath);
+	}
+	
+	int iTry = 0;
+    do
+	{
+		hWnd = pThis->GetGlobalHandleByTitle(strJavaTitle);
+		iTry ++;
+		if (iTry == 50)
+		{
+			MyMessageBox_Error(_T("程序未启动"), _T("错误提示信息"));
+			ProgressBar_Stop();
+			return 0;
+		}
+		Sleep(300);
+	}
+    while (hWnd == NULL);
+	
+	
+	
+	//::SetWindowPos(hWnd, HWND_TOPMOST, 400, 400, 100, 100, SWP_SHOWWINDOW);
+	::SetParent(hWnd, pThis->m_hWnd);
+	
+	pThis->m_hWndJava = hWnd;
+	g_hWndJava = hWnd;
+	g_hWndMainWindow = pThis->m_hWnd;
+	CView *pView = (CView *) pThis->GetActiveView();
+	RECT rect, rect2;
+	pView->GetClientRect(&rect);
+    pView->ClientToScreen (&rect);
+	pThis->GetWindowRect(&rect2);
+	rect.left = rect.left - rect2.left - 8;
+	rect.bottom = rect.bottom - rect2.top + 0;
+	rect.right = rect.right - rect2.left - 8;
+	rect.top = rect.top - rect2.top + 0;
+	int nWidht = GetSystemMetrics(SM_CXVSCROLL);
+	int nHeight = GetSystemMetrics(SM_CYVSCROLL);
+	//::SetWindowPos(hWnd, HWND_TOPMOST, rect.left, rect.top, rect.right - rect.left + nWidht, rect.bottom - rect.top + nHeight, SWP_SHOWWINDOW);
+	//::SetWindowPos(hWnd, NULL, rect.left, rect.top, rect.right - rect.left + nWidht, rect.bottom - rect.top + nHeight, SWP_SHOWWINDOW);
+	::MoveWindow(hWnd, rect.left, rect.top, rect.right - rect.left + nWidht, rect.bottom - rect.top + nHeight, TRUE);
+	SetWindowLong(hWnd, GWL_STYLE,WS_CHILD);
+	// 	DWORD Style = ::GetWindowLong(hWnd,GWL_EXSTYLE);
+	// 	Style = WS_EX_TOOLWINDOW;
+	// 	::ShowWindow(hWnd, FALSE);
+	// 	::SetWindowLong(hWnd, GWL_EXSTYLE,Style);
+	// 	::ShowWindow(hWnd, TRUE);
+	// 
+	//SetTimer(TIMER_NOTOPMOST, 100, NULL);
+	pThis->setCNDPCDVisible(TRUE);
+	//::SetForegroundWindow(hWnd);
+	//::SetActiveWindow(hWnd);
+	::SetParent(hWnd, pThis->m_hWnd);
+	ProgressBar_Stop();
+
+	return 1;
+}
+
+BOOL CMainFrame::startServer()
+{
+	if (m_pCurServer == NULL)
+	{
+		m_pCurServer = new CSocketManager(0);
+		//CVisualADSView *pView = (CVisualADSView*) pThis->GetActiveView();
+		//pSocketManager->SetMessageWindow(&(pThis->pView->m_editConsole));
+		m_pCurServer->SetServerState(TRUE);
+	}
+
+	BOOL bSuccess = FALSE;
+
+	if (m_pCurServer != NULL)
+	{
+		// no smart addressing - we use connection oriented
+		m_pCurServer->SetSmartAddressing(FALSE);
+		bSuccess = m_pCurServer->CreateSocket(m_strServerIP, m_strPort, AF_INET, SOCK_STREAM, 0); // TCP
+		
+		if (bSuccess && m_pCurServer->WatchComm())
+		{
+			/*
+			GetDlgItem(IDC_BTN_SEND)->EnableWindow( TRUE );
+			GetDlgItem(IDC_BTN_STOP)->EnableWindow( TRUE );
+			NextDlgCtrl();
+			GetDlgItem(IDC_BTN_START)->EnableWindow( FALSE );
+			GetDlgItem(IDC_TCP)->EnableWindow( FALSE );
+			GetDlgItem(IDC_UDP)->EnableWindow( FALSE );
+			*/
+// 			CString strServer, strAddr;
+// 			m_pCurServer->GetLocalName(strServer.GetBuffer(256), 256);
+// 			strServer.ReleaseBuffer();
+// 			if (m_pCurServer->strSelfIP == _T(""))
+// 			{
+// 				m_pCurServer->GetLocalAddress(strAddr.GetBuffer(256), 256);
+// 				strAddr.ReleaseBuffer();
+// 			}
+// 			else
+// 			{
+// 				strAddr = m_pCurServer->strSelfIP;
+// 			}
+// 			CString strMsg = _T("Server: ") + strServer;
+// 			strMsg += _T(", No. ") + itos(m_pCurServer->m_iIndex);
+// 			strMsg += _T(", @Address: ") + strAddr;
+// 			strMsg += _T(" is running on port ") + m_strPort + CString("\r\n");
+// 			m_pCurServer->AppendMessage(strMsg);
+		}
+	}
+	
+	return bSuccess;
+}
+
+void CMainFrame::stopServer()
+{
+	m_pCurServer->StopComm();
+	delete m_pCurServer;
+	m_pCurServer = NULL;
+}
+
+void CMainFrame::updateServer()
+{
+	stopServer();
+	startServer();
+}
+
+void CMainFrame::OnMove(int x, int y) 
+{
+	CBCGPFrameWnd::OnMove(x, y);
+	return;
+// 	if (m_hWndJava)
+// 	{
+// 		CView *pView = (CView *) GetActiveView();
+// 		RECT rect, rect2;
+// 		pView->GetClientRect(&rect);
+// 		pView->ClientToScreen (&rect);
+// 		GetWindowRect(&rect2);
+// 		rect.left = rect.left - rect2.left - 8;
+// 		rect.bottom = rect.bottom - rect2.top + 0;
+// 		rect.right = rect.right - rect2.left - 8;
+// 		rect.top = rect.top - rect2.top + 0;
+// 		int nWidht = GetSystemMetrics(SM_CXVSCROLL);
+// 		int nHeight = GetSystemMetrics(SM_CYVSCROLL);
+// 		::MoveWindow(m_hWndJava, rect.left, rect.top, rect.right - rect.left + nWidht, rect.bottom - rect.top + nHeight, TRUE);
+// 		//::SetWindowPos(m_hWndJava, m_hWnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_SHOWWINDOW);
+// 	}
+}
+
+void CMainFrame::OnSize(UINT nType, int cx, int cy) 
+{
+	CBCGPFrameWnd::OnSize(nType, cx, cy);
+	if (m_hWndJava)
+	{
+		CView *pView = (CView *) GetActiveView();
+		RECT rect, rect2;
+		pView->GetClientRect(&rect);
+		pView->ClientToScreen (&rect);
+		GetWindowRect(&rect2);
+		rect.left = rect.left - rect2.left - 8;
+		rect.bottom = rect.bottom - rect2.top + 0;
+		rect.right = rect.right - rect2.left - 8;
+		rect.top = rect.top - rect2.top + 0;
+		int nWidht = GetSystemMetrics(SM_CXVSCROLL);
+		int nHeight = GetSystemMetrics(SM_CYVSCROLL);
+		::MoveWindow(m_hWndJava, rect.left, rect.top, rect.right - rect.left + nWidht, rect.bottom - rect.top + nHeight, TRUE);
+		//::SetWindowPos(m_hWndJava, NULL, rect.left, rect.top, rect.right - rect.left + nWidht, rect.bottom - rect.top + nHeight, SWP_SHOWWINDOW | SWP_NOACTIVATE);
+	}
+}
+
+void CMainFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized) 
+{
+	CBCGPFrameWnd::OnActivate(nState, pWndOther, bMinimized);
+	if (!m_hWndJava)
+	{
+		return;
+	}
+	return;
+
+// 	if (WA_ACTIVE == nState || WA_CLICKACTIVE == nState)
+// 	{
+// 		::SetWindowPos(m_hWndJava, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+// 		::SetActiveWindow(m_hWnd);
+// 		iLastToken = iToken;
+// 		iToken = 1;
+// 	}
+// 	else if (WA_INACTIVE == nState)
+// 	{
+// 		::SetWindowPos(m_hWndJava, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+// 		::SetActiveWindow(m_hWnd);
+// 		iLastToken = iToken;
+// 		iToken = 0;
+// 	}
+// 	else
+// 	{
+// 		
+// 	}
 }
 

@@ -9,6 +9,7 @@ class PMParam
 public:
 	CString strParam1;
 	CString strParam2;
+
 public:
 	PMParam(CString strParam1);
 	PMParam(CString strParam1, CString strParam2);
@@ -37,3 +38,6 @@ void ProgressBar_Start();
 void ProgressBar_Stop();
 
 void Canvas_Invalidate();
+
+void Output_Update_Connection(UINT nEvent, void *pThis);
+BOOL Global_GetLanguage();

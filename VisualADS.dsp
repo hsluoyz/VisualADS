@@ -200,6 +200,14 @@ SOURCE=.\PropertiesViewBar.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\SocketComm.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\SocketManager.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\SplashWindow.cpp
 # End Source File
 # Begin Source File
@@ -368,6 +376,14 @@ SOURCE="D:\Program Files\Microsoft SDK\include\PropIdl.h"
 # Begin Source File
 
 SOURCE=.\Resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SocketComm.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SocketManager.h
 # End Source File
 # Begin Source File
 
